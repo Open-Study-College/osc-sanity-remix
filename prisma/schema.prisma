@@ -14,7 +14,7 @@ model User {
   email String @unique
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+  updatedAt DateTime @updatedAt @default(now()) // updated
 
   password Password?
 }
