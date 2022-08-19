@@ -1,0 +1,45 @@
+{
+  "name": "shopify---openstudydev",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "package.json",
+  "author": "Steven Bister <steve.bister@openstudycollege.com>",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "sanity start",
+    "build": "sanity build",
+    "graphql": "sanity graphql deploy"
+  },
+  "keywords": [
+    "sanity"
+  ],
+  "dependencies": {
+    "@sanity/base": "^2.30.5",
+    "@sanity/color-input": "^2.30.5",
+    "@sanity/core": "^2.30.5",
+    "@sanity/dashboard": "^2.30.5",
+    "@sanity/default-layout": "^2.30.5",
+    "@sanity/default-login": "^2.30.5",
+    "@sanity/desk-tool": "^2.30.5",
+    "@sanity/eslint-config-studio": "^2.0.0",
+    "@sanity/uuid": "^3.0.1",
+    "@sanity/vision": "^2.30.5",
+    "eslint": "^8.6.0",
+    "lodash.get": "^4.4.2",
+    "pluralize": "^8.0.0",
+    "prop-types": "^15.7",
+    "react": "^17.0",
+    "react-dom": "^17.0",
+    "sanity-plugin-dashboard-widget-shopify": "^0.1.8",
+    "sanity-plugin-hotspot-array": "^0.0.8",
+    "sanity-plugin-media": "^1.4.10",
+    "slug": "^5.3.0",
+    "styled-components": "^5.2.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Open-Study-College/osc-sanity-remix.git"
+  }
+}
