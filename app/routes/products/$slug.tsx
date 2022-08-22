@@ -1,4 +1,4 @@
-import type { LoaderArgs } from '@remix-run/node';
+import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { queryProductsBySlug } from '~/models/sanity.server';
@@ -17,9 +17,23 @@ export async function loader({ params }: LoaderArgs) {
     return json({ product });
 }
 
+export const meta: MetaFunction = ({ data }) => {
+    const { title } = data.product?.seo ? data.product?.seo : data.product.store;
+
+    return {
+        title: `${title} | OSC Stack`,
+        description: data.product?.seo?.description,
+        image: data.product?.seo?.image?.url,
+        'og:description': data.product?.seo?.description,
+        'og:image': data.product?.seo?.image?.url
+    };
+};
+
 export default function Product() {
     const { product } = useLoaderData<typeof loader>();
     const { title } = product.store;
+
+    console.log(product);
 
     return (
         <main className="mx-auto max-w-4xl">

@@ -1,5 +1,5 @@
-import type { LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
+import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
 import { queryCollectionsBySlug } from '~/models/sanity.server';
 import { getProductsFromCollection } from '~/models/shopify.server';
@@ -19,6 +19,18 @@ export async function loader({ params }: LoaderArgs) {
 
     return json({ collection, products });
 }
+
+export const meta: MetaFunction = ({ data }) => {
+    const { title } = data.collection?.seo ? data.collection?.seo : data.collection.store;
+
+    return {
+        title: `${title} | OSC Stack`,
+        description: data.collection?.seo?.description,
+        image: data.collection?.seo?.image?.url,
+        'og:description': data.collection?.seo?.description,
+        'og:image': data.collection?.seo?.image?.url
+    };
+};
 
 export default function Collection() {
     const { collection, products } = useLoaderData<typeof loader>();

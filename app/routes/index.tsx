@@ -1,14 +1,34 @@
 import { Form } from '@remix-run/react';
 import { useLoaderData, useLocation, useSubmit } from '@remix-run/react';
+import { json } from '@remix-run/node';
+import type { MetaFunction } from '@remix-run/node';
 
 import { getColorScheme } from '~/cookie';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import FormToggle from '~/components/FormToggle';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import { queryHomePage } from '~/models/sanity.server';
 
 export const loader: LoaderFunction = async ({ request }) => {
     const colorScheme = await getColorScheme(request);
-    return { colorScheme };
+
+    const queryHome = await queryHomePage('home');
+
+    const home = queryHome.Home;
+
+    return json({ colorScheme, home });
+};
+
+export const meta: MetaFunction = ({ data }) => {
+    const { title } = data.home?.seo ? data.home?.seo : data.home.store;
+
+    return {
+        title: `${title} | OSC Stack`,
+        description: data.home?.seo?.description,
+        image: data.home?.seo?.image?.url,
+        'og:description': data.home?.seo?.description,
+        'og:image': data.home?.seo?.image?.url
+    };
 };
 
 export default function Index() {
