@@ -2166,47 +2166,58 @@ h6 {
   color: var(--colour-yellow);
 }
 
-[data-bg-colour=primary] {
+[data-bg-colour=primary],
+.u-bg-primary {
   background-color: var(--colour-pink);
 }
 
-[data-bg-colour=secondary] {
+[data-bg-colour=secondary],
+.u-bg-secondary {
   background-color: var(--colour-navy);
 }
 
-[data-bg-colour=tertiary] {
+[data-bg-colour=tertiary],
+.u-bg-tertiary {
   background-color: var(--colour-white);
 }
 
-[data-bg-colour=quaternary] {
+[data-bg-colour=quaternary],
+.u-bg-quaternary {
   background-color: var(--colour-mint);
 }
 
-[data-bg-colour=quinary] {
+[data-bg-colour=quinary],
+.u-bg-quinary {
   background-color: var(--colour-grey);
 }
 
-[data-bg-colour=senary] {
+[data-bg-colour=senary],
+.u-bg-senary {
   background-color: var(--colour-black);
 }
 
-[data-bg-colour=septenary] {
+[data-bg-colour=septenary],
+.u-bg-septenary {
   background-color: var(--colour-light-pink);
 }
 
-[data-bg-colour=octonary] {
+[data-bg-colour=octonary],
+.u-bg-octonary {
   background-color: var(--colour-light-blue);
 }
 
-[data-bg-colour=nonary] {
+[data-bg-colour=nonary],
+.u-bg-nonary {
   background-color: var(--colour-mid-blue);
 }
 
-[data-bg-colour=denary] {
+[data-bg-colour=denary],
+.u-bg-denary {
   background-color: var(--colour-red);
 }
 
-[data-bg-colour=duodenary] {
+[data-bg-colour=duodenary],
+.u-bg-duodenary {
   background-color: var(--colour-yellow);
 }
 
