@@ -1,6 +1,6 @@
-import { useMatches } from '@remix-run/react';
-import { Flex } from '@chakra-ui/react';
-import { NavLink } from '@remix-run/react';
+import { NavLink, useMatches } from '@remix-run/react';
+import { HStack, Link as ChakraLink } from '@chakra-ui/react';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 import type { SanityMenuItem } from '~/types';
 
 type Props = {
@@ -20,25 +20,36 @@ export default function Navigation({ menuItemsName }: Props) {
                 : match.data.footerMenuItems
         );
 
+    const activeStyle = {
+        textDecoration: 'underline'
+    };
+
     return (
         <nav>
-            <Flex as="ul">
+            <HStack as="ul" spacing={4}>
                 {menuItems[0].map((menuItem: SanityMenuItem) => (
-                    <li key={menuItem._key}>
+                    <li className="" key={menuItem._key}>
                         {menuItem.__typename === 'LinkExternal' ? (
-                            <a
+                            <ChakraLink
                                 href={menuItem.url}
-                                target={menuItem.newWindow ? '_blank' : ''}
+                                isExternal={menuItem.newWindow}
                                 rel="noreferrer"
                             >
                                 {menuItem.title}
-                            </a>
+                                {menuItem.newWindow ? <ExternalLinkIcon mx={2} /> : null}
+                            </ChakraLink>
                         ) : (
-                            <NavLink to={menuItem.url}>{menuItem.title}</NavLink>
+                            <ChakraLink
+                                as={NavLink}
+                                to={menuItem.url}
+                                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                            >
+                                {menuItem.title}
+                            </ChakraLink>
                         )}
                     </li>
                 ))}
-            </Flex>
+            </HStack>
         </nav>
     );
 }
