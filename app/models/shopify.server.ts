@@ -1,4 +1,4 @@
-import { shopifyConnector } from '~/lib/graphqlConnectors';
+import { shopifyConnector } from '~/lib/graphqlConnectors.server';
 
 export const getProductsFromCollection = async (slug = '') => {
     if (!slug) console.error('⚠️ Slug is missing or incorrect');

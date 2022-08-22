@@ -1,4 +1,4 @@
-import { sanityConnector } from '~/lib/graphqlConnectors';
+import { sanityConnector } from '~/lib/graphqlConnectors.server';
 
 export const queryCollectionsBySlug = async (slug = '') => {
     if (!slug) console.error('⚠️ Slug is missing or incorrect');
