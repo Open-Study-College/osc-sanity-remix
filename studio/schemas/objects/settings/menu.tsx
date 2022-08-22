@@ -10,7 +10,7 @@ export default {
             name: 'links',
             title: 'Links',
             type: 'array',
-            of: [{ type: 'collectionGroup' }, { type: 'linkInternal' }, { type: 'linkExternal' }]
+            of: [{ type: 'linkInternal' }, { type: 'linkExternal' }]
         }
     ]
 };

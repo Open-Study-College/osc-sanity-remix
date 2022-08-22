@@ -25,7 +25,6 @@ import body from './blocks/body';
 // Object types
 import collectionRule from './objects/collectionRule';
 // import imageWithProductHotspots from './objects/imageWithProductHotspots';
-import collectionGroup from './objects/collectionGroup';
 import linkExternal from './objects/linkExternal';
 import linkInternal from './objects/linkInternal';
 import heroCollection from './objects/hero/collection';
@@ -87,7 +86,6 @@ export default createSchema({
         heroHome,
         heroPage,
         // imageWithProductHotspots,
-        collectionGroup,
         linkExternal,
         linkInternal,
         // moduleAccordion,
