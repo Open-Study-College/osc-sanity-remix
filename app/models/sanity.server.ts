@@ -82,9 +82,7 @@ export const queryPagesBySlug = async (slug = '') => {
     }
 };
 
-export const queryHomePage = async (id = '') => {
-    if (!id) console.error('⚠️ ID is missing or incorrect');
-
+export const queryHomePage = async () => {
     try {
         const page = await sanityConnector({
             // can't query on the single Product as you have to pass the ID to select it
@@ -98,11 +96,78 @@ export const queryHomePage = async (id = '') => {
         }`,
 
             variables: {
-                id
+                id: 'home'
             }
         });
 
         return page;
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+export const querySiteSettings = async () => {
+    try {
+        const settings = await sanityConnector({
+            query: `
+        query settings($id: ID!) {
+            Settings(id: $id) {
+                menu {
+                    links {
+                        __typename
+                        ... on LinkInternal {
+                            _key
+                            title
+                            reference {
+                                __typename
+                                ... on Collection {
+                                    store {
+                                        title
+                                        slug {
+                                            current
+                                        }
+                                    }
+                                }
+                                ... on Home {
+                                    _key
+                                    _id
+                                }
+                                ... on Page {
+                                    _key
+                                    title
+                                    slug {
+                                        current
+                                    }
+                                }
+                            ... on Product {
+                                _key
+                                store {
+                                    title
+                                    slug {
+                                        current
+                                    }
+                                    }
+                                }
+                            }
+                        }
+
+                        ... on LinkExternal {
+                            _key
+                            title
+                            url
+                            newWindow
+                        }
+                    }
+                }
+            }
+        }
+        `,
+            variables: {
+                id: 'settings'
+            }
+        });
+
+        return settings;
     } catch (err) {
         console.error(err);
     }
