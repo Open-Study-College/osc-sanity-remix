@@ -115,49 +115,18 @@ export const querySiteSettings = async () => {
                 menu {
                     links {
                         __typename
-                        ... on LinkInternal {
-                            _key
-                            title
-                            reference {
-                                __typename
-                                ... on Collection {
-                                    store {
-                                        title
-                                        slug {
-                                            current
-                                        }
-                                    }
-                                }
-                                ... on Home {
-                                    _key
-                                    _id
-                                }
-                                ... on Page {
-                                    _key
-                                    title
-                                    slug {
-                                        current
-                                    }
-                                }
-                            ... on Product {
-                                _key
-                                store {
-                                    title
-                                    slug {
-                                        current
-                                    }
-                                    }
-                                }
-                            }
-                        }
-
-                        ... on LinkExternal {
-                            _key
-                            title
-                            url
-                            newWindow
-                        }
+                        ${linkInternal}
+                        ${LinkExternal}
                     }
+                }
+
+                footer {
+                    links {
+                        __typename
+                        ${linkInternal}
+                        ${LinkExternal}
+                    }
+                    textRaw
                 }
             }
         }
@@ -182,4 +151,45 @@ seo {
       url
     }
   }
+}`;
+
+const linkInternal = `
+... on LinkInternal {
+    _key
+    title
+    reference {
+        __typename
+        ... on Collection {
+            store {
+                title
+                slug {
+                    current
+                }
+            }
+        }
+        ... on Page {
+            _key
+            title
+            slug {
+                current
+            }
+        }
+    ... on Product {
+        _key
+        store {
+            title
+            slug {
+                current
+            }
+            }
+        }
+    }
+}`;
+
+const LinkExternal = `
+... on LinkExternal {
+    _key
+    title
+    url
+    newWindow
 }`;
