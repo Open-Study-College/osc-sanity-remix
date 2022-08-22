@@ -26,6 +26,8 @@ import { getUser } from './session.server';
 import { checkConnectivity } from '~/utils/client/pwa-utils.client';
 import { querySiteSettings } from '~/models/sanity.server';
 import buildMenuItems from './utils/server/buildMenuItems.server';
+import Header from './components/header/Header';
+import Footer from './components/footer/Footer';
 import type { SanityMenuItem } from '~/types';
 // push notifications not working at present, due to wrong sender ID
 // import { PushNotification } from '~/utils/server/pwa-utils.server';
@@ -67,6 +69,7 @@ type LoaderData = {
     googleTagManagerId: string | undefined;
     nodeEnv: string;
     headerMenuItems: SanityMenuItem[] | undefined;
+    footerMenuItems: SanityMenuItem[] | undefined;
 };
 
 export const headers: HeadersFunction = () => ({
@@ -75,7 +78,10 @@ export const headers: HeadersFunction = () => ({
 export const loader: LoaderFunction = async ({ request }) => {
     const siteSettings = await querySiteSettings();
 
-    const headerMenuItems = buildMenuItems(siteSettings.Settings);
+    const headerMenuItems = buildMenuItems(siteSettings.Settings.menu);
+    console.log(siteSettings.Settings);
+
+    const footerMenuItems = buildMenuItems(siteSettings.Settings.footer);
 
     return json<LoaderData>({
         user: await getUser(request),
@@ -85,7 +91,8 @@ export const loader: LoaderFunction = async ({ request }) => {
         googleTagManagerId:
             process.env.NODE_ENV === 'production' ? process.env.GTM_TRACKING_ID : undefined,
         nodeEnv: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-        headerMenuItems
+        headerMenuItems,
+        footerMenuItems
     });
 };
 interface DocumentProps {
@@ -221,8 +228,9 @@ export default function App() {
     return (
         <Document>
             <ChakraProvider theme={colorScheme === 'light' ? lightTheme : darkTheme}>
+                <Header />
                 <Outlet />
-                <h1> tester </h1>
+                <Footer />
             </ChakraProvider>
         </Document>
     );

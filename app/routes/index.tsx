@@ -4,7 +4,6 @@ import type { MetaFunction } from '@remix-run/node';
 import { getColorScheme } from '~/cookie';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import { queryHomePage } from '~/models/sanity.server';
-import Header from '~/components/header/Header';
 
 export const loader: LoaderFunction = async ({ request }) => {
     const colorScheme = await getColorScheme(request);
@@ -29,9 +28,5 @@ export const meta: MetaFunction = ({ data }) => {
 };
 
 export default function Index() {
-    return (
-        <>
-            <Header />
-        </>
-    );
+    return <>index page</>;
 }
