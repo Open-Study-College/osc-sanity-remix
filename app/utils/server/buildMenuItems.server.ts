@@ -1,5 +1,5 @@
 export default function buildMenuItems(data) {
-    const { links } = data.menu;
+    const { links } = data;
 
     const menuItems = links.map((link) => {
         switch (link.__typename) {

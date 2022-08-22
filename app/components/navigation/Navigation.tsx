@@ -3,14 +3,22 @@ import { Flex } from '@chakra-ui/react';
 import { NavLink } from '@remix-run/react';
 import type { SanityMenuItem } from '~/types';
 
-export default function Navigation() {
+type Props = {
+    menuItemsName: 'headerMenuItems' | 'footerMenuItems';
+};
+
+export default function Navigation({ menuItemsName }: Props) {
     // The useMatches hook allows us to target parent routes and pull the data loaded into them
     // https://remix.run/docs/en/v1/api/remix#usematches
     const matches = useMatches();
 
     const menuItems = matches
         .filter((match) => match.id === 'root')
-        .map((match) => match.data.headerMenuItems);
+        .map((match) =>
+            menuItemsName === 'headerMenuItems'
+                ? match.data.headerMenuItems
+                : match.data.footerMenuItems
+        );
 
     return (
         <nav>
