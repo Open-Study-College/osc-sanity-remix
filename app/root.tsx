@@ -24,6 +24,9 @@ import styles from 'app/styles/dest/main.css';
 import * as gtag from '~/utils/gtags.client';
 import { getUser } from './session.server';
 import { checkConnectivity } from '~/utils/client/pwa-utils.client';
+import { querySiteSettings } from '~/models/sanity.server';
+import buildMenuItems from './utils/server/buildMenuItems.server';
+import type { SanityMenuItem } from '~/types';
 // push notifications not working at present, due to wrong sender ID
 // import { PushNotification } from '~/utils/server/pwa-utils.server';
 
@@ -63,11 +66,17 @@ type LoaderData = {
     gaTrackingId: string | undefined;
     googleTagManagerId: string | undefined;
     nodeEnv: string;
+    headerMenuItems: SanityMenuItem[] | undefined;
 };
+
 export const headers: HeadersFunction = () => ({
     'Accept-CH': 'Sec-CH-Prefers-Color-Scheme'
 });
 export const loader: LoaderFunction = async ({ request }) => {
+    const siteSettings = await querySiteSettings();
+
+    const headerMenuItems = buildMenuItems(siteSettings.Settings);
+
     return json<LoaderData>({
         user: await getUser(request),
         colorScheme: await getColorScheme(request),
@@ -75,7 +84,8 @@ export const loader: LoaderFunction = async ({ request }) => {
             process.env.NODE_ENV === 'production' ? process.env.GA_TRACKING_ID : undefined,
         googleTagManagerId:
             process.env.NODE_ENV === 'production' ? process.env.GTM_TRACKING_ID : undefined,
-        nodeEnv: process.env.NODE_ENV === 'production' ? 'production' : 'development'
+        nodeEnv: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+        headerMenuItems
     });
 };
 interface DocumentProps {
