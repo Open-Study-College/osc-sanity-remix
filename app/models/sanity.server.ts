@@ -1,10 +1,10 @@
-import querySanity from '~/lib/querySanity';
+import { sanityConnector } from '~/lib/graphqlConnectors';
 
 export const queryCollectionsBySlug = async (slug = '') => {
     if (!slug) console.error('⚠️ Slug is missing or incorrect');
 
     try {
-        const collection = await querySanity({
+        const collection = await sanityConnector({
             // can't query on the single Product as you have to pass the ID to select it
             // We want to filter by the slug so have to use allProduct and this nasty looking query
             query: `
@@ -31,7 +31,7 @@ export const queryProductsBySlug = async (slug = '') => {
     if (!slug) console.error('⚠️ Slug is missing or incorrect');
 
     try {
-        const product = await querySanity({
+        const product = await sanityConnector({
             // can't query on the single Product as you have to pass the ID to select it
             // We want to filter by the slug so have to use allProduct and this nasty looking query
             query: `
@@ -58,7 +58,7 @@ export const queryPagesBySlug = async (slug = '') => {
     if (!slug) console.error('⚠️ Slug is missing or incorrect');
 
     try {
-        const page = await querySanity({
+        const page = await sanityConnector({
             // can't query on the single Product as you have to pass the ID to select it
             // We want to filter by the slug so have to use allProduct and this nasty looking query
             query: `
