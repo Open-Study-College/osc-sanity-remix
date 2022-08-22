@@ -70,6 +70,7 @@ type LoaderData = {
     nodeEnv: string;
     headerMenuItems: SanityMenuItem[] | undefined;
     footerMenuItems: SanityMenuItem[] | undefined;
+    footerText: object[] | undefined;
 };
 
 export const headers: HeadersFunction = () => ({
@@ -79,8 +80,6 @@ export const loader: LoaderFunction = async ({ request }) => {
     const siteSettings = await querySiteSettings();
 
     const headerMenuItems = buildMenuItems(siteSettings.Settings.menu);
-    console.log(siteSettings.Settings);
-
     const footerMenuItems = buildMenuItems(siteSettings.Settings.footer);
 
     return json<LoaderData>({
@@ -92,7 +91,8 @@ export const loader: LoaderFunction = async ({ request }) => {
             process.env.NODE_ENV === 'production' ? process.env.GTM_TRACKING_ID : undefined,
         nodeEnv: process.env.NODE_ENV === 'production' ? 'production' : 'development',
         headerMenuItems,
-        footerMenuItems
+        footerMenuItems,
+        footerText: siteSettings.Settings.footer.textRaw
     });
 };
 interface DocumentProps {
