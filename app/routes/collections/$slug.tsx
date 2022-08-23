@@ -3,7 +3,7 @@ import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
 import { queryCollectionsBySlug } from '~/models/sanity.server';
 import { getProductsFromCollection } from '~/models/shopify.server';
-import Header from '~/components/header/Header';
+import Hero from '~/components/hero/Hero';
 
 export async function loader({ params }: LoaderArgs) {
     if (!params.slug) throw new Error('Missing slug');
@@ -36,11 +36,16 @@ export const meta: MetaFunction = ({ data }) => {
 export default function Collection() {
     const { collection, products } = useLoaderData<typeof loader>();
     const { title } = collection.store;
+    console.log(collection);
 
     return (
         <>
             <main className="mx-auto max-w-4xl">
-                <h1 className="my-6 border-b-2 text-center text-3xl">{title}</h1>
+                {collection.showHero ? (
+                    <Hero settings={collection.hero} />
+                ) : (
+                    <h1 className="my-6 border-b-2 text-center text-3xl">{title}</h1>
+                )}
 
                 {products.length > 0 ? (
                     <ul>

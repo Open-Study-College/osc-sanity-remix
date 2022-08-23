@@ -2,7 +2,7 @@ import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { queryPagesBySlug } from '~/models/sanity.server';
-import Header from '~/components/header/Header';
+import Hero from '~/components/hero/Hero';
 
 export async function loader({ params }: LoaderArgs) {
     if (!params.slug) throw new Error('Missing slug');
@@ -33,12 +33,16 @@ export const meta: MetaFunction = ({ data }) => {
 export default function Page() {
     const { page } = useLoaderData<typeof loader>();
 
-    const { title } = page;
+    console.log(page);
 
     return (
         <>
             <main className="mx-auto max-w-4xl">
-                <h1 className="my-6 border-b-2 text-center text-3xl">{title}</h1>
+                {page.showHero ? (
+                    <Hero settings={page.hero} />
+                ) : (
+                    <h1 className="my-6 border-b-2 text-center text-3xl">{page.title}</h1>
+                )}
             </main>
         </>
     );

@@ -13,6 +13,7 @@ export const queryCollectionsBySlug = async (slug = '') => {
             store {
               title
             }
+            ${hero}
             ${seo}
           }
         }`,
@@ -67,6 +68,7 @@ export const queryPagesBySlug = async (slug = '') => {
         query pageBySlug($slug: String) {
           allPage(where: { slug: { current: { eq: $slug } } } ) {
             title
+            ${hero}
             ${seo}
           }
         }`,
