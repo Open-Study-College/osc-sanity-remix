@@ -36,14 +36,6 @@ export default {
             options: { source: 'title' },
             validation: validateSlug
         },
-        // Color theme
-        // {
-        //     name: 'colorTheme',
-        //     title: 'Color theme',
-        //     type: 'reference',
-        //     to: [{ type: 'colorTheme' }],
-        //     group: 'theme'
-        // },
         // Show hero
         {
             name: 'showHero',
@@ -57,7 +49,7 @@ export default {
         {
             name: 'hero',
             title: 'Hero',
-            type: 'hero.page',
+            type: 'hero',
             hidden: ({ document }) => !document?.showHero,
             group: 'editorial'
         },
