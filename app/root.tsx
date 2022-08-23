@@ -28,7 +28,7 @@ import { querySiteSettings } from '~/models/sanity.server';
 import buildLinkItems from './utils/buildLinkItems';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
-import type { SanityMenuItem } from '~/types';
+import type { SanityLinkItem } from '~/types';
 // push notifications not working at present, due to wrong sender ID
 // import { PushNotification } from '~/utils/server/pwa-utils.server';
 
@@ -68,8 +68,8 @@ type LoaderData = {
     gaTrackingId: string | undefined;
     googleTagManagerId: string | undefined;
     nodeEnv: string;
-    headerMenuItems: SanityMenuItem[] | undefined;
-    footerMenuItems: SanityMenuItem[] | undefined;
+    headerMenuItems: SanityLinkItem[] | undefined;
+    footerMenuItems: SanityLinkItem[] | undefined;
     footerText: object[] | undefined;
 };
 
