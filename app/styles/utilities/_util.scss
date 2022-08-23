@@ -167,7 +167,8 @@ s.$prop-config: t.deep-map-merge(
 
 // Backgrounds
 @each $class, $bg-color in s.$colours {
-    [data-bg-colour="#{$class}"] {
+    [data-bg-colour="#{$class}"],
+    .u-bg-#{$class} {
         background-color: #{$bg-color};
     }
 }
