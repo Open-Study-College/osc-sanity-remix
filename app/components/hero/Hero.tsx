@@ -1,5 +1,7 @@
 import type { PortableTextBlock } from '@portabletext/types';
+import type { PortableTextComponents } from '@portabletext/react';
 import { PortableText } from '@portabletext/react';
+import { SimpleGrid, Heading, Stack, Text } from '@chakra-ui/react';
 import ButtonGroup from '../buttongroup/ButtonGroup';
 import type { SanityRawLinkItem } from '~/types';
 
@@ -16,17 +18,41 @@ interface Props {
     };
 }
 
+// Pass ChakraUI components into the portable text items
+const portableTextComponents: PortableTextComponents = {
+    block: {
+        h1: ({ children }) => <Heading as="h1">{children}</Heading>,
+        h2: ({ children }) => <Heading as="h2">{children}</Heading>,
+        h3: ({ children }) => <Heading as="h3">{children}</Heading>,
+        normal: ({ children }) => <Text>{children}</Text>
+    }
+};
+
 export default function Hero({ settings }: Props) {
     return (
         <>
-            <header>
-                {settings.image ? (
-                    <img src={settings.image.asset.url} alt={settings.image.asset.altText} />
-                ) : null}
+            <header className="u-bg-secondary">
+                <SimpleGrid columns={2} spacing={10} minChildWidth="340px">
+                    <Stack p={12} spacing={6} color="white">
+                        {settings.bodyRaw ? (
+                            <PortableText
+                                value={settings.bodyRaw}
+                                components={portableTextComponents}
+                            />
+                        ) : null}
 
-                {settings.bodyRaw ? <PortableText value={settings.bodyRaw} /> : null}
+                        {settings.links?.length > 0 ? <ButtonGroup links={settings.links} /> : null}
+                    </Stack>
 
-                {settings.links?.length > 0 ? <ButtonGroup links={settings.links} /> : null}
+                    <div>
+                        {settings.image ? (
+                            <img
+                                src={settings.image.asset.url}
+                                alt={settings.image.asset.altText}
+                            />
+                        ) : null}
+                    </div>
+                </SimpleGrid>
             </header>
         </>
     );
