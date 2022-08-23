@@ -25,7 +25,7 @@ import * as gtag from '~/utils/gtags.client';
 import { getUser } from './session.server';
 import { checkConnectivity } from '~/utils/client/pwa-utils.client';
 import { querySiteSettings } from '~/models/sanity.server';
-import buildMenuItems from './utils/server/buildMenuItems.server';
+import buildLinkItems from './utils/buildLinkItems';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import type { SanityMenuItem } from '~/types';
@@ -79,8 +79,8 @@ export const headers: HeadersFunction = () => ({
 export const loader: LoaderFunction = async ({ request }) => {
     const siteSettings = await querySiteSettings();
 
-    const headerMenuItems = buildMenuItems(siteSettings.Settings.menu);
-    const footerMenuItems = buildMenuItems(siteSettings.Settings.footer);
+    const headerMenuItems = buildLinkItems(siteSettings.Settings.menu);
+    const footerMenuItems = buildLinkItems(siteSettings.Settings.footer);
 
     return json<LoaderData>({
         user: await getUser(request),
