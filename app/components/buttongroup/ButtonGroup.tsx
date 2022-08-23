@@ -15,7 +15,7 @@ export default function ButtonGroup({ links }: Props) {
         <ChakraButtonGroup size="lg" spacing={4}>
             {linksArray.map((link: SanityLinkItem) =>
                 link.__typename === 'LinkInternal' ? (
-                    <Button key={link._key} as={Link} to={link.url}>
+                    <Button key={link._key} as={Link} to={link.url} className="u-bg-primary">
                         {link.title}
                     </Button>
                 ) : (
@@ -25,6 +25,7 @@ export default function ButtonGroup({ links }: Props) {
                         href={link.url}
                         isExternal={link.newWindow}
                         rel="noreferrer"
+                        className="u-bg-primary"
                     >
                         {link.title}
                         {link.newWindow ? <ExternalLinkIcon mx={2} /> : null}
