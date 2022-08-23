@@ -91,6 +91,7 @@ export const queryHomePage = async () => {
         query homePage($id: ID!) {
           Home(id: $id) {
             _id
+            ${hero}
             ${seo}
           }
         }`,
@@ -193,3 +194,21 @@ const LinkExternal = `
     url
     newWindow
 }`;
+
+const hero = `
+showHero
+hero {
+    image {
+        asset {
+          url
+          altText
+        }
+      }
+    bodyRaw
+    links {
+        __typename
+        ${linkInternal}
+        ${LinkExternal}
+    }
+}
+`;
