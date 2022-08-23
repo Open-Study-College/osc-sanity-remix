@@ -109,6 +109,7 @@
     "postcss": "^8.4.14",
     "prettier": "2.6.2",
     "prisma": "^3.14.0",
+    "react-router-dom": "^6.3.0",
     "sass": "^1.53.0",
     "start-server-and-test": "^1.14.0",
     "stylelint": "^14.8.2",
