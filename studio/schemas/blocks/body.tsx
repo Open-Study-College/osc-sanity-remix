@@ -12,11 +12,6 @@ export default {
             ],
             marks: {
                 annotations: [
-                    // Product
-                    {
-                        name: 'annotationProduct',
-                        type: 'annotationProduct'
-                    },
                     // Email
                     {
                         name: 'annotationLinkEmail',
@@ -49,40 +44,33 @@ export default {
                 {
                     blockEditor: {
                         render: ({ children }) => (
+                            <div style={{ fontSize: '1.5rem', lineHeight: 1.2 }}>{children}</div>
+                        )
+                    },
+                    title: 'Heading 1',
+                    value: 'h1'
+                },
+                {
+                    blockEditor: {
+                        render: ({ children }) => (
                             <div style={{ fontSize: '1.25rem', lineHeight: 1.25 }}>{children}</div>
                         )
                     },
-                    title: 'Heading',
+                    title: 'Heading 2',
                     value: 'h2'
+                },
+                {
+                    blockEditor: {
+                        render: ({ children }) => (
+                            <div style={{ fontSize: '1.2rem', lineHeight: 1.25 }}>{children}</div>
+                        )
+                    },
+                    title: 'Heading 3',
+                    value: 'h3'
                 }
             ],
             // Paragraphs
             type: 'block'
         }
-        // Custom blocks
-        // {
-        //   name: "blockAccordion",
-        //   type: "module.accordion",
-        // },
-        // {
-        //   name: "blockCallout",
-        //   type: "module.callout",
-        // },
-        // {
-        //   name: "blockGrid",
-        //   type: "module.grid",
-        // },
-        // {
-        //   name: "blockImages",
-        //   type: "module.images",
-        // },
-        // {
-        //   name: "blockInstagram",
-        //   type: "module.instagram",
-        // },
-        // {
-        //   name: "blockProducts",
-        //   type: "module.products",
-        // },
     ]
 };

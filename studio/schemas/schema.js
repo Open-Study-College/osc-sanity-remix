@@ -27,9 +27,7 @@ import collectionRule from './objects/collectionRule';
 // import imageWithProductHotspots from './objects/imageWithProductHotspots';
 import linkExternal from './objects/linkExternal';
 import linkInternal from './objects/linkInternal';
-import heroCollection from './objects/hero/collection';
-import heroHome from './objects/hero/home';
-import heroPage from './objects/hero/page';
+import hero from './objects/hero';
 // import moduleAccordion from "./objects/module/accordion";
 import moduleCallout from './objects/module/callout';
 import moduleCallToAction from './objects/module/callToAction';
@@ -82,9 +80,7 @@ export default createSchema({
         body,
         // Objects
         collectionRule,
-        heroCollection,
-        heroHome,
-        heroPage,
+        hero,
         // imageWithProductHotspots,
         linkExternal,
         linkInternal,

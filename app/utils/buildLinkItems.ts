@@ -1,7 +1,7 @@
-export default function buildMenuItems(data) {
+export default function buildLinkItems(data) {
     const { links } = data;
 
-    const menuItems = links.map((link) => {
+    const linkItems = links.map((link) => {
         switch (link.__typename) {
             case 'LinkInternal':
                 let url;
@@ -39,5 +39,5 @@ export default function buildMenuItems(data) {
         }
     });
 
-    return menuItems;
+    return linkItems;
 }

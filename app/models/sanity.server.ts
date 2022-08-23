@@ -13,6 +13,7 @@ export const queryCollectionsBySlug = async (slug = '') => {
             store {
               title
             }
+            ${hero}
             ${seo}
           }
         }`,
@@ -67,6 +68,7 @@ export const queryPagesBySlug = async (slug = '') => {
         query pageBySlug($slug: String) {
           allPage(where: { slug: { current: { eq: $slug } } } ) {
             title
+            ${hero}
             ${seo}
           }
         }`,
@@ -91,6 +93,7 @@ export const queryHomePage = async () => {
         query homePage($id: ID!) {
           Home(id: $id) {
             _id
+            ${hero}
             ${seo}
           }
         }`,
@@ -193,3 +196,21 @@ const LinkExternal = `
     url
     newWindow
 }`;
+
+const hero = `
+showHero
+hero {
+    image {
+        asset {
+          url
+          altText
+        }
+      }
+    bodyRaw
+    links {
+        __typename
+        ${linkInternal}
+        ${LinkExternal}
+    }
+}
+`;

@@ -1,4 +1,20 @@
-export interface SanityMenuItem {
+export interface SanityRawLinkItem {
+    __typename: string;
+    _key: string;
+    title: string;
+    newWindow?: boolean;
+    url?: string;
+    reference?: {
+        slug: {
+            current: string;
+        };
+        title: string;
+        __typename: string;
+        _key: string | null;
+    };
+}
+
+export interface SanityLinkItem {
     __typename: string;
     _key: string;
     title: string;

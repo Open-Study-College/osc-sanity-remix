@@ -1,7 +1,7 @@
 import { NavLink, useMatches } from '@remix-run/react';
 import { HStack, Link as ChakraLink } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
-import type { SanityMenuItem } from '~/types';
+import type { SanityLinkItem } from '~/types';
 
 type Props = {
     menuItemsName: 'headerMenuItems' | 'footerMenuItems';
@@ -27,7 +27,7 @@ export default function Navigation({ menuItemsName }: Props) {
     return (
         <nav>
             <HStack as="ul" spacing={4}>
-                {menuItems[0].map((menuItem: SanityMenuItem) => (
+                {menuItems[0].map((menuItem: SanityLinkItem) => (
                     <li className="" key={menuItem._key}>
                         {menuItem.__typename === 'LinkExternal' ? (
                             <ChakraLink

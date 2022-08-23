@@ -1,11 +1,12 @@
 import { json } from '@remix-run/node';
-import type { MetaFunction } from '@remix-run/node';
-
+import type { LoaderArgs, MetaFunction } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
 import { getColorScheme } from '~/cookie';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import { queryHomePage } from '~/models/sanity.server';
+import Hero from '~/components/hero/Hero';
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
     const colorScheme = await getColorScheme(request);
 
     const queryHome = await queryHomePage();
@@ -28,5 +29,8 @@ export const meta: MetaFunction = ({ data }) => {
 };
 
 export default function Index() {
-    return <>index page</>;
+    const { home } = useLoaderData<typeof loader>();
+    console.log(home);
+
+    return <>{home.showHero ? <Hero settings={home.hero} /> : null}</>;
 }

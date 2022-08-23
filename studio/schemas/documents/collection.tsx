@@ -103,7 +103,7 @@ export default {
         {
             name: 'hero',
             title: 'Hero',
-            type: 'hero.collection',
+            type: 'hero',
             hidden: ({ document }) => !document?.showHero,
             group: 'editorial'
         },
