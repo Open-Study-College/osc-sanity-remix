@@ -6,6 +6,7 @@ import { queryPagesBySlug, queryInternalUrl } from '~/models/sanity.server';
 import { Container } from '@chakra-ui/react';
 import Hero from '~/components/hero/Hero';
 import Module from '~/components/module';
+import getReference from '~/utils/getReferenceFromModules';
 
 export async function loader({ params }: LoaderArgs) {
     if (!params.slug) throw new Error('Missing slug');
@@ -18,29 +19,8 @@ export async function loader({ params }: LoaderArgs) {
 
     const page = queryPage.allPage[0];
 
-    //   This lovely piece of code allows us to loop through the bodyRaw output from the content block in Sanity (Big 0 be damned O.o)
-    //   We can then query the reference on the internal link annotaion and assign a new property containing the slug
-    const getReference = async () => {
-        for (const module of page.modules) {
-            if (module._type === 'module.content') {
-                const moduleMarkDefs = module.bodyRaw.filter((body) =>
-                    body.markDefs?.length > 0 ? body.markDefs : null
-                );
-
-                for (const value of moduleMarkDefs) {
-                    const internal = value.markDefs.filter((mark) =>
-                        mark._type === 'annotationLinkInternal' ? mark : null
-                    );
-
-                    for (const mark of internal) {
-                        const reference = await queryInternalUrl(mark.reference._ref);
-                        Object.assign(mark, reference);
-                    }
-                }
-            }
-        }
-    };
-    if (page.modules) await getReference();
+    // Add the reference slug to the returned response
+    if (page.modules) await getReference(page, queryInternalUrl);
 
     return json({ page });
 }
