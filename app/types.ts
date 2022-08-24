@@ -1,3 +1,5 @@
+import type { PortableTextBlock } from '@portabletext/types';
+
 export interface SanityRawLinkItem {
     __typename: string;
     _key: string;
@@ -20,4 +22,10 @@ export interface SanityLinkItem {
     title: string;
     url: string;
     newWindow?: boolean;
+}
+
+export interface module {
+    _type: string;
+    _key: string;
+    bodyRaw?: PortableTextBlock;
 }
