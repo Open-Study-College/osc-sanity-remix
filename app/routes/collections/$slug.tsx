@@ -1,9 +1,12 @@
 import { json } from '@remix-run/node';
 import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
-import { queryCollectionsBySlug } from '~/models/sanity.server';
+import { queryCollectionsBySlug, queryInternalUrl } from '~/models/sanity.server';
 import { getProductsFromCollection } from '~/models/shopify.server';
 import Hero from '~/components/hero/Hero';
+import Module from '~/components/module';
+import getReference from '~/utils/getReferenceFromModules';
+import { Container } from '@chakra-ui/react';
 
 export async function loader({ params }: LoaderArgs) {
     if (!params.slug) throw new Error('Missing slug');
@@ -17,6 +20,9 @@ export async function loader({ params }: LoaderArgs) {
 
     const collection = queryCollection?.allCollection[0];
     const products = queryProducts?.collection?.products?.edges;
+
+    // Add the reference slug to the returned response
+    if (collection.modules) await getReference(collection, queryInternalUrl);
 
     return json({ collection, products });
 }
@@ -57,6 +63,14 @@ export default function Collection() {
                             </li>
                         ))}
                     </ul>
+                ) : null}
+
+                {collection.modules && collection.modules.length > 0 ? (
+                    <Container maxW="container.md">
+                        {collection.modules.map((module: module) => (
+                            <Module key={module._key} module={module} />
+                        ))}
+                    </Container>
                 ) : null}
             </main>
         </>
