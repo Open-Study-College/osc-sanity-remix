@@ -36,14 +36,6 @@ export default {
             options: { source: 'title' },
             validation: validateSlug
         },
-        // Color theme
-        // {
-        //     name: 'colorTheme',
-        //     title: 'Color theme',
-        //     type: 'reference',
-        //     to: [{ type: 'colorTheme' }],
-        //     group: 'theme'
-        // },
         // Show hero
         {
             name: 'showHero',
@@ -57,15 +49,23 @@ export default {
         {
             name: 'hero',
             title: 'Hero',
-            type: 'hero.page',
+            type: 'hero',
             hidden: ({ document }) => !document?.showHero,
             group: 'editorial'
         },
-        // Body
+        // Modules
         {
-            name: 'body',
-            title: 'Body',
-            type: 'body',
+            name: 'modules',
+            title: 'Modules',
+            type: 'array',
+            of: [
+                { type: 'module.callToAction' },
+                { type: 'module.content' }
+                // { type: "module.collection" },
+                // { type: "module.image" },
+                // { type: "module.instagram" },
+                // { type: "module.product" },
+            ],
             group: 'editorial'
         },
         // SEO

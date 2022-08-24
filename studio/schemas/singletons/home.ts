@@ -21,9 +21,18 @@ export default {
     fields: [
         // Hero
         {
+            name: 'showHero',
+            title: 'Show hero',
+            type: 'boolean',
+            description: 'If disabled, page title will be displayed instead',
+            initialValue: false,
+            group: 'editorial'
+        },
+        {
             name: 'hero',
             title: 'Hero',
-            type: 'hero.home',
+            type: 'hero',
+            hidden: ({ document }) => !document?.showHero,
             group: 'editorial'
         },
         // Modules

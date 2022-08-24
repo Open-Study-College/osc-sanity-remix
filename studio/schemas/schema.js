@@ -25,16 +25,14 @@ import body from './blocks/body';
 // Object types
 import collectionRule from './objects/collectionRule';
 // import imageWithProductHotspots from './objects/imageWithProductHotspots';
-import collectionGroup from './objects/collectionGroup';
 import linkExternal from './objects/linkExternal';
 import linkInternal from './objects/linkInternal';
-import heroCollection from './objects/hero/collection';
-import heroHome from './objects/hero/home';
-import heroPage from './objects/hero/page';
+import hero from './objects/hero';
 // import moduleAccordion from "./objects/module/accordion";
 import moduleCallout from './objects/module/callout';
 import moduleCallToAction from './objects/module/callToAction';
 import moduleCollection from './objects/module/collection';
+import moduleContent from './objects/module/content';
 import moduleGrid from './objects/module/grid';
 import moduleImage from './objects/module/image';
 import moduleImages from './objects/module/images';
@@ -83,17 +81,15 @@ export default createSchema({
         body,
         // Objects
         collectionRule,
-        heroCollection,
-        heroHome,
-        heroPage,
+        hero,
         // imageWithProductHotspots,
-        collectionGroup,
         linkExternal,
         linkInternal,
         // moduleAccordion,
         moduleCallout,
         moduleCallToAction,
         moduleCollection,
+        moduleContent,
         // moduleGrid,
         moduleImage,
         moduleImages,
