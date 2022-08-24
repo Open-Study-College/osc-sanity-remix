@@ -197,9 +197,27 @@ export const queryInternalUrl = async (ref = '') => {
             }
         });
 
-        console.log(slug);
-
         return slug;
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+export const queryAsset = async (ref = '') => {
+    try {
+        const asset = await sanityConnector({
+            query: `query Asset($id: ID!) {
+            SanityFileAsset(id:$id) {
+                url
+                altText
+            }
+          }`,
+            variables: {
+                id: ref
+            }
+        });
+
+        return asset;
     } catch (err) {
         console.error(err);
     }

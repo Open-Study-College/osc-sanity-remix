@@ -1,9 +1,9 @@
 import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { queryProductsBySlug, queryInternalUrl } from '~/models/sanity.server';
+import { queryProductsBySlug, queryInternalUrl, queryAsset } from '~/models/sanity.server';
 import Module from '~/components/module';
-import getReference from '~/utils/getReferenceFromModules';
+import { getSlugFromReference, getAssetFromReference } from '~/utils/getReferenceFromModules';
 import { Container } from '@chakra-ui/react';
 
 export async function loader({ params }: LoaderArgs) {
@@ -18,7 +18,10 @@ export async function loader({ params }: LoaderArgs) {
     const product = queryProduct.allProduct[0];
 
     // Add the reference slug to the returned response
-    if (product.modules) await getReference(product, queryInternalUrl);
+    if (product.modules) {
+        await getSlugFromReference(product, queryInternalUrl);
+        await getAssetFromReference(product, queryAsset);
+    }
 
     return json({ product });
 }

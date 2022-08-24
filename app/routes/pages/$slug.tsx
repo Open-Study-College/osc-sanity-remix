@@ -2,11 +2,11 @@ import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import type { module } from '~/types';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { queryPagesBySlug, queryInternalUrl } from '~/models/sanity.server';
+import { queryPagesBySlug, queryInternalUrl, queryAsset } from '~/models/sanity.server';
 import { Container } from '@chakra-ui/react';
 import Hero from '~/components/hero/Hero';
 import Module from '~/components/module';
-import getReference from '~/utils/getReferenceFromModules';
+import { getSlugFromReference, getAssetFromReference } from '~/utils/getReferenceFromModules';
 
 export async function loader({ params }: LoaderArgs) {
     if (!params.slug) throw new Error('Missing slug');
@@ -20,7 +20,10 @@ export async function loader({ params }: LoaderArgs) {
     const page = queryPage.allPage[0];
 
     // Add the reference slug to the returned response
-    if (page.modules) await getReference(page, queryInternalUrl);
+    if (page.modules) {
+        await getSlugFromReference(page, queryInternalUrl);
+        await getAssetFromReference(page, queryAsset);
+    }
 
     return json({ page });
 }

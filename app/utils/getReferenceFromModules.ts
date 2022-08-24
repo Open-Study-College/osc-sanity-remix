@@ -10,7 +10,7 @@ interface page {
     store?: object;
 }
 
-export default async function getReference(page: page, queryfn: Function) {
+export async function getSlugFromReference(page: page, queryfn: Function) {
     if (!page.modules) return;
 
     for (const module of page.modules) {
@@ -28,6 +28,23 @@ export default async function getReference(page: page, queryfn: Function) {
                     const reference = await queryfn(mark.reference._ref);
                     Object.assign(mark, reference);
                 }
+            }
+        }
+    }
+}
+
+export async function getAssetFromReference(page: page, queryfn: Function) {
+    if (!page.modules) return;
+
+    for (const module of page.modules) {
+        if (module._type === 'module.content') {
+            const moduleImages = module.bodyRaw?.filter((body) =>
+                body._type === 'image' ? body : null
+            );
+
+            for (const image of moduleImages) {
+                const reference = await queryfn(image.asset._ref);
+                Object.assign(image, reference);
             }
         }
     }

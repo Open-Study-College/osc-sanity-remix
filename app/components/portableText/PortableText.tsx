@@ -89,6 +89,11 @@ const portableTextComponents: PortableTextComponents = {
                 </ChakraLink>
             );
         }
+    },
+    types: {
+        image: ({ value }) => (
+            <img src={value.SanityFileAsset.url} alt={value.SanityFileAsset.altText} />
+        )
     }
 };
 
