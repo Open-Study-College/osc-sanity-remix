@@ -58,19 +58,13 @@ export default {
             type: 'proxyString',
             options: { field: 'store.slug.current' }
         },
-        // Color theme
-        // {
-        //     name: 'colorTheme',
-        //     title: 'Color theme',
-        //     type: 'reference',
-        //     to: [{ type: 'colorTheme' }],
-        //     group: 'editorial'
-        // },
-        // Body
+        // Modules
         {
-            name: 'body',
-            title: 'Body',
-            type: 'body',
+            name: 'modules',
+            title: 'Modules',
+            type: 'array',
+            description: 'Editorial modules to associate with this product',
+            of: [{ type: 'module.content' }],
             group: 'editorial'
         },
         // Shopify product

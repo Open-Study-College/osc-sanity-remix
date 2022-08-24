@@ -32,6 +32,7 @@ import hero from './objects/hero';
 import moduleCallout from './objects/module/callout';
 import moduleCallToAction from './objects/module/callToAction';
 import moduleCollection from './objects/module/collection';
+import moduleContent from './objects/module/content';
 import moduleGrid from './objects/module/grid';
 import moduleImage from './objects/module/image';
 import moduleImages from './objects/module/images';
@@ -88,6 +89,7 @@ export default createSchema({
         moduleCallout,
         moduleCallToAction,
         moduleCollection,
+        moduleContent,
         // moduleGrid,
         moduleImage,
         moduleImages,

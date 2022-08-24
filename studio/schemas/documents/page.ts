@@ -53,11 +53,19 @@ export default {
             hidden: ({ document }) => !document?.showHero,
             group: 'editorial'
         },
-        // Body
+        // Modules
         {
-            name: 'body',
-            title: 'Body',
-            type: 'body',
+            name: 'modules',
+            title: 'Modules',
+            type: 'array',
+            of: [
+                { type: 'module.callToAction' },
+                { type: 'module.content' }
+                // { type: "module.collection" },
+                // { type: "module.image" },
+                // { type: "module.instagram" },
+                // { type: "module.product" },
+            ],
             group: 'editorial'
         },
         // SEO

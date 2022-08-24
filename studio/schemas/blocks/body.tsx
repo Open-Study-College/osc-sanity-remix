@@ -2,7 +2,7 @@ import React from 'react';
 
 export default {
     name: 'body',
-    title: 'Body',
+    title: 'Rich Text',
     type: 'array',
     of: [
         {
@@ -67,10 +67,15 @@ export default {
                     },
                     title: 'Heading 3',
                     value: 'h3'
-                }
+                },
+                { title: 'Quote', value: 'blockquote' }
             ],
             // Paragraphs
             type: 'block'
+        },
+        {
+            type: 'image'
+            //   Could add alignment maybe?
         }
     ]
 };

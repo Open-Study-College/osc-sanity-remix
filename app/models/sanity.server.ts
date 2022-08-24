@@ -14,6 +14,7 @@ export const queryCollectionsBySlug = async (slug = '') => {
               title
             }
             ${hero}
+            ${modules}
             ${seo}
           }
         }`,
@@ -42,6 +43,7 @@ export const queryProductsBySlug = async (slug = '') => {
             store {
               title
             }
+            ${modules}
             ${seo}
           }
         }`,
@@ -69,6 +71,7 @@ export const queryPagesBySlug = async (slug = '') => {
           allPage(where: { slug: { current: { eq: $slug } } } ) {
             title
             ${hero}
+            ${modules}
             ${seo}
           }
         }`,
@@ -145,6 +148,81 @@ export const querySiteSettings = async () => {
     }
 };
 
+export const queryInternalUrl = async (ref = '') => {
+    try {
+        let query = '';
+        const isShopifyProduct = ref.includes('shopifyProduct');
+        const isShopifyCollection = ref.includes('shopifyCollection');
+
+        if (isShopifyProduct) {
+            query = `
+                query product($id: ID!) {
+                    Product(id: $id) {
+                        store {
+                            slug {
+                                current
+                            }
+                        }
+                    }
+                }
+            `;
+        } else if (isShopifyCollection) {
+            query = `
+        query collection($id: ID!) {
+                    Collection(id: $id) {
+                        store {
+                            slug {
+                                current
+                            }
+                        }
+                    }
+                }
+        `;
+        } else {
+            query = `
+            query page($id: ID!) {
+                Page(id: $id) {
+                    slug {
+                        current
+                    }
+                }
+            }
+        `;
+        }
+
+        const slug = await sanityConnector({
+            query,
+            variables: {
+                id: ref
+            }
+        });
+
+        return slug;
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+export const queryAsset = async (ref = '') => {
+    try {
+        const asset = await sanityConnector({
+            query: `query Asset($id: ID!) {
+            SanityFileAsset(id:$id) {
+                url
+                altText
+            }
+          }`,
+            variables: {
+                id: ref
+            }
+        });
+
+        return asset;
+    } catch (err) {
+        console.error(err);
+    }
+};
+
 const seo = `
 seo {
   title
@@ -213,4 +291,14 @@ hero {
         ${LinkExternal}
     }
 }
+`;
+
+const modules = `
+    modules {
+			... on ModuleContent {
+         _type
+        _key
+        bodyRaw
+      }
+    }
 `;
