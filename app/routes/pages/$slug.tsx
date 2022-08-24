@@ -18,6 +18,30 @@ export async function loader({ params }: LoaderArgs) {
 
     const page = queryPage.allPage[0];
 
+    //   This lovely piece of code allows us to loop through the bodyRaw output from the content block in Sanity (Big 0 be damned O.o)
+    //   We can then query the reference on the internal link annotaion and assign a new property containing the slug
+    const getReference = async () => {
+        for (const module of page.modules) {
+            if (module._type === 'module.content') {
+                const moduleMarkDefs = module.bodyRaw.filter((body) =>
+                    body.markDefs?.length > 0 ? body.markDefs : null
+                );
+
+                for (const value of moduleMarkDefs) {
+                    const internal = value.markDefs.filter((mark) =>
+                        mark._type === 'annotationLinkInternal' ? mark : null
+                    );
+
+                    for (const mark of internal) {
+                        const reference = await queryInternalUrl(mark.reference._ref);
+                        Object.assign(mark, reference);
+                    }
+                }
+            }
+        }
+    };
+    if (page.modules) await getReference();
+
     return json({ page });
 }
 
