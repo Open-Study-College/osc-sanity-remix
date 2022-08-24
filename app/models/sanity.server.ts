@@ -14,6 +14,7 @@ export const queryCollectionsBySlug = async (slug = '') => {
               title
             }
             ${hero}
+            ${modules}
             ${seo}
           }
         }`,
@@ -42,6 +43,7 @@ export const queryProductsBySlug = async (slug = '') => {
             store {
               title
             }
+            ${modules}
             ${seo}
           }
         }`,
