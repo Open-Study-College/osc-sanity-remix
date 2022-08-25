@@ -54,9 +54,9 @@ export default function Page() {
 
                 {page.modules && page.modules.length > 0 ? (
                     <Container maxW="container.md">
-                        {page.modules.map((module: module) => (
-                            <Module key={module._key} module={module} />
-                        ))}
+                        {page.modules.map((module: module) =>
+                            module ? <Module key={module._key} module={module} /> : null
+                        )}
                     </Container>
                 ) : null}
             </main>

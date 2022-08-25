@@ -70,9 +70,9 @@ export default function Collection() {
 
                 {collection.modules && collection.modules.length > 0 ? (
                     <Container maxW="container.md">
-                        {collection.modules.map((module: module) => (
-                            <Module key={module._key} module={module} />
-                        ))}
+                        {collection.modules.map((module: module) =>
+                            module ? <Module key={module._key} module={module} /> : null
+                        )}
                     </Container>
                 ) : null}
             </main>

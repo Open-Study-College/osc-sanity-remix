@@ -49,9 +49,9 @@ export default function Product() {
 
                 {product.modules && product.modules.length > 0 ? (
                     <Container maxW="container.md">
-                        {product.modules.map((module: module) => (
-                            <Module key={module._key} module={module} />
-                        ))}
+                        {product.modules.map((module: module) =>
+                            module ? <Module key={module._key} module={module} /> : null
+                        )}
                     </Container>
                 ) : null}
             </main>
