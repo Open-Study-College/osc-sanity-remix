@@ -42,11 +42,11 @@ export default {
             type: 'array',
             of: [
                 { type: 'module.callout' },
-                { type: 'module.callToAction' },
-                { type: 'module.collection' },
-                { type: 'module.image' },
-                { type: 'module.instagram' },
-                { type: 'module.product' }
+                { type: 'module.mediaText' }
+                // { type: 'module.collection' },
+                // { type: 'module.image' },
+                // { type: 'module.instagram' },
+                // { type: 'module.product' }
             ],
             group: 'editorial'
         },

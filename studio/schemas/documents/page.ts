@@ -59,7 +59,7 @@ export default {
             title: 'Modules',
             type: 'array',
             of: [
-                { type: 'module.callToAction' },
+                { type: 'module.mediaText' },
                 { type: 'module.content' }
                 // { type: "module.collection" },
                 // { type: "module.image" },
