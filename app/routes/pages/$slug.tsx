@@ -3,7 +3,7 @@ import type { module } from '~/types';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { queryPagesBySlug, queryInternalUrl, queryAsset } from '~/models/sanity.server';
-import { Container } from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
 import Hero from '~/components/hero/Hero';
 import Module from '~/components/module';
 import { getSlugFromReference, getAssetFromReference } from '~/utils/getReferenceFromModules';
@@ -53,11 +53,11 @@ export default function Page() {
                 )}
 
                 {page.modules && page.modules.length > 0 ? (
-                    <Container maxW="container.md">
+                    <VStack spacing={16}>
                         {page.modules.map((module: module) =>
                             module ? <Module key={module._key} module={module} /> : null
                         )}
-                    </Container>
+                    </VStack>
                 ) : null}
             </main>
         </>
