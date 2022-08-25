@@ -13,7 +13,7 @@ export default function MediaTextModule({ module }: { module: mediaTextModule })
             spacing={10}
             minChildWidth="340px"
             mx="auto"
-            className="o-container"
+            className="o-container media-text-module"
         >
             {layout === 'media-left' && media ? (
                 <Box>
