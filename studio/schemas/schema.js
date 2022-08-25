@@ -30,15 +30,15 @@ import linkInternal from './objects/linkInternal';
 import hero from './objects/hero';
 // import moduleAccordion from "./objects/module/accordion";
 import moduleCallout from './objects/module/callout';
-import moduleCallToAction from './objects/module/callToAction';
-import moduleCollection from './objects/module/collection';
+import moduleMediaText from './objects/module/mediaText';
+// import moduleCollection from './objects/module/collection';
 import moduleContent from './objects/module/content';
 import moduleGrid from './objects/module/grid';
-import moduleImage from './objects/module/image';
-import moduleImages from './objects/module/images';
-import moduleInstagram from './objects/module/instagram';
-import moduleProduct from './objects/module/product';
-import moduleProducts from './objects/module/products';
+// import moduleImage from './objects/module/image';
+// import moduleImages from './objects/module/images';
+// import moduleInstagram from './objects/module/instagram';
+// import moduleProduct from './objects/module/product';
+// import moduleProducts from './objects/module/products';
 import settingsMenu from './objects/settings/menu';
 import settingsFooter from './objects/settings/footer';
 import settingsNotFoundPage from './objects/settings/notFoundPage';
@@ -87,15 +87,15 @@ export default createSchema({
         linkInternal,
         // moduleAccordion,
         moduleCallout,
-        moduleCallToAction,
-        moduleCollection,
+        moduleMediaText,
+        // moduleCollection,
         moduleContent,
         // moduleGrid,
-        moduleImage,
-        moduleImages,
-        moduleInstagram,
-        moduleProduct,
-        moduleProducts,
+        // moduleImage,
+        // moduleImages,
+        // moduleInstagram,
+        // moduleProduct,
+        // moduleProducts,
         placeholderString,
         // productHotspots,
         productInventory,
