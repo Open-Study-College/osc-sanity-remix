@@ -39,3 +39,31 @@ export interface mediaTextModule extends module {
     }[];
     links: SanityRawLinkItem[];
 }
+
+export interface shopifyProduct {
+    id: string;
+    title: string;
+    handle: string;
+    featuredImage: {
+        altText: string;
+        height: number;
+        width: number;
+        url: string;
+    };
+    compareAtPriceRange: {
+        minVariantPrice: {
+            amount: string;
+            currencyCode: string;
+        };
+    };
+    priceRange: {
+        minVariantPrice: {
+            amount: string;
+            currencyCode: string;
+        };
+    };
+    options: {
+        values: string[];
+        name: string;
+    }[];
+}
