@@ -14,7 +14,7 @@ export async function getSlugFromReference(page: page, queryfn: Function) {
     if (!page.modules) return;
 
     for (const module of page.modules) {
-        if (module?._type === 'module.content') {
+        if (module?.bodyRaw) {
             const moduleMarkDefs = module.bodyRaw?.filter((body: { markDefs: object[] }) =>
                 body.markDefs?.length > 0 ? body.markDefs : null
             );
@@ -37,7 +37,7 @@ export async function getAssetFromReference(page: page, queryfn: Function) {
     if (!page.modules) return;
 
     for (const module of page.modules) {
-        if (module?._type === 'module.content') {
+        if (module?.bodyRaw) {
             const moduleImages = module.bodyRaw?.filter((body) =>
                 body._type === 'image' ? body : null
             );
