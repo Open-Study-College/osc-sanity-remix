@@ -1,13 +1,14 @@
 import { json } from '@remix-run/node';
 import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import type { module } from '~/types';
-import { Link, useLoaderData } from '@remix-run/react';
+import { useLoaderData } from '@remix-run/react';
 import { queryCollectionsBySlug, queryInternalUrl, queryAsset } from '~/models/sanity.server';
 import { getProductsFromCollection } from '~/models/shopify.server';
 import Hero from '~/components/hero/Hero';
 import Module from '~/components/module';
 import { getSlugFromReference, getAssetFromReference } from '~/utils/getReferenceFromModules';
 import { VStack } from '@chakra-ui/react';
+import ProductGrid from '~/components/collections/ProdutGrid';
 
 export async function loader({ params }: LoaderArgs) {
     if (!params.slug) throw new Error('Missing slug');
@@ -20,7 +21,7 @@ export async function loader({ params }: LoaderArgs) {
     const queryProducts = await getProductsFromCollection(params.slug);
 
     const collection = queryCollection?.allCollection[0];
-    const products = queryProducts?.collection?.products?.edges;
+    const { products } = queryProducts?.collection;
 
     // Add the reference slug to the returned response
     if (collection.modules) {
@@ -46,7 +47,6 @@ export const meta: MetaFunction = ({ data }) => {
 export default function Collection() {
     const { collection, products } = useLoaderData<typeof loader>();
     const { title } = collection.store;
-    console.log(collection);
 
     return (
         <>
@@ -57,17 +57,9 @@ export default function Collection() {
                     <h1 className="my-6 border-b-2 text-center text-3xl">{title}</h1>
                 )}
 
-                {products.length > 0 ? (
-                    <ul>
-                        {products.map((product) => (
-                            <li key={product.node.id}>
-                                <Link to={`/products/${product.node.handle}`}>
-                                    {product.node.title}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                ) : null}
+                {products.nodes.length === 0 ? <p>No products.</p> : null}
+
+                {products.nodes.length > 0 ? <ProductGrid products={products.nodes} /> : null}
 
                 {collection.modules && collection.modules.length > 0 ? (
                     <VStack spacing={16}>
