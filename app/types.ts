@@ -29,3 +29,13 @@ export interface module {
     _key: string;
     bodyRaw?: PortableTextBlock;
 }
+
+export interface mediaTextModule extends module {
+    media?: {
+        asset: {
+            url: string;
+            altText: string | null;
+        };
+    }[];
+    links: SanityRawLinkItem[];
+}

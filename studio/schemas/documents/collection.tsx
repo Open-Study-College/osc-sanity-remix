@@ -113,7 +113,7 @@ export default {
             title: 'Modules',
             type: 'array',
             description: 'Editorial modules to associate with this collection',
-            of: [{ type: 'module.content' }],
+            of: [{ type: 'module.mediaText' }, { type: 'module.content' }],
             group: 'editorial'
         },
         // Shopify collection

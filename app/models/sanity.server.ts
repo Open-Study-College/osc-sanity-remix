@@ -300,5 +300,22 @@ const modules = `
         _key
         bodyRaw
       }
+      ... on ModuleMediaText {
+				_type
+        _key
+        layout
+        bodyRaw
+        links {
+        __typename
+            ${linkInternal}
+            ${LinkExternal}
+        }
+        media {
+          asset {
+            url
+            altText
+          }
+        }
+      }
     }
 `;

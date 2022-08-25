@@ -31,7 +31,7 @@ export const sanityConnector = async ({
     variables: object;
 }) => {
     const data = await graphqlConnector({
-        url: `https://${process.env.SANITY_STUDIO_API_PROJECT_ID}.api.sanity.io/v1/graphql/${process.env.SANITY_STUDIO_API_DATASET}/default`,
+        url: `https://${process.env.SANITY_STUDIO_API_PROJECT_ID}.apicdn.sanity.io/v1/graphql/${process.env.SANITY_STUDIO_API_DATASET}/default`,
         headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${process.env.SANITY_STUDIO_API_TOKEN}`
