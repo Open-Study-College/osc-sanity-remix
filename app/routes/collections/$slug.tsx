@@ -57,9 +57,7 @@ export default function Collection() {
                     <h1 className="my-6 border-b-2 text-center text-3xl">{title}</h1>
                 )}
 
-                {products.nodes.length === 0 ? <p>No products.</p> : null}
-
-                {products.nodes.length > 0 ? <ProductGrid products={products.nodes} /> : null}
+                {products ? <ProductGrid products={products.nodes} /> : <p>No products</p>}
 
                 {collection.modules && collection.modules.length > 0 ? (
                     <VStack spacing={16}>

@@ -7,6 +7,8 @@ interface Props {
 }
 
 export default function ProductGrid({ products }: Props) {
+    if (products.length === 0) return <p>No products</p>;
+
     return (
         <SimpleGrid as="ul" minChildWidth="450px" columns={3} spacing={12} className="o-container">
             {products.map((product: shopifyProduct) => (
