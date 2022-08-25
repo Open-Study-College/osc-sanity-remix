@@ -17,7 +17,7 @@ export default function ProductCard({ product }: Props) {
         .flat();
 
     return (
-        <Box as="li">
+        <Box as="li" className="product-card">
             {featuredImage ? (
                 <Img
                     src={featuredImage.url}
