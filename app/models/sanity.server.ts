@@ -99,8 +99,8 @@ export const queryHomePage = async () => {
             // can't query on the single Product as you have to pass the ID to select it
             // We want to filter by the slug so have to use allProduct and this nasty looking query
             query: `
-        query homePage($id: ID!) {
-          Home(id: $id) {
+        {
+          allHome {
             _id
             _rev
             ${hero}
@@ -108,9 +108,7 @@ export const queryHomePage = async () => {
           }
         }`,
 
-            variables: {
-                id: 'home'
-            }
+            variables: {}
         });
 
         return page;
