@@ -5,26 +5,21 @@ import { useLoaderData } from '@remix-run/react';
 import { queryProductsBySlug, queryInternalUrl, queryAsset } from '~/models/sanity.server';
 import Module from '~/components/module';
 import { getSlugFromReference, getAssetFromReference } from '~/utils/getReferenceFromModules';
-import { VStack } from '@chakra-ui/react';
+import { Center, VStack } from '@chakra-ui/react';
+import buildPageData from '~/utils/buildPageData.server';
 
-export async function loader({ params }: LoaderArgs) {
+export async function loader({ request, params }: LoaderArgs) {
     if (!params.slug) throw new Error('Missing slug');
 
-    const queryProduct = await queryProductsBySlug(params.slug);
+    const data = await buildPageData({
+        request,
+        params,
+        type: 'product'
+    });
 
-    if (queryProduct.allProduct.length === 0) {
-        throw new Response('Not Found', { status: 404 });
-    }
+    const { page: product, isPreview } = data;
 
-    const product = queryProduct.allProduct[0];
-
-    // Add the reference slug to the returned response
-    if (product.modules) {
-        await getSlugFromReference(product, queryInternalUrl);
-        await getAssetFromReference(product, queryAsset);
-    }
-
-    return json({ product });
+    return json({ product, isPreview });
 }
 
 export const meta: MetaFunction = ({ data }) => {

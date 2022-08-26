@@ -2,34 +2,29 @@ import { json } from '@remix-run/node';
 import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import type { module } from '~/types';
 import { useLoaderData } from '@remix-run/react';
-import { queryCollectionsBySlug, queryInternalUrl, queryAsset } from '~/models/sanity.server';
 import { getProductsFromCollection } from '~/models/shopify.server';
 import Hero from '~/components/hero/Hero';
 import Module from '~/components/module';
-import { getSlugFromReference, getAssetFromReference } from '~/utils/getReferenceFromModules';
-import { VStack } from '@chakra-ui/react';
+import { Center, VStack } from '@chakra-ui/react';
 import ProductGrid from '~/components/collections/ProdutGrid';
+import buildPageData from '~/utils/buildPageData.server';
 
-export async function loader({ params }: LoaderArgs) {
+export async function loader({ request, params }: LoaderArgs) {
     if (!params.slug) throw new Error('Missing slug');
 
-    const queryCollection = await queryCollectionsBySlug(params.slug);
-    if (queryCollection.allCollection.length === 0) {
-        throw new Response('Not Found', { status: 404 });
-    }
+    const data = await buildPageData({
+        request,
+        params,
+        type: 'collection'
+    });
+
+    const { page: collection, isPreview } = data;
 
     const queryProducts = await getProductsFromCollection(params.slug);
 
-    const collection = queryCollection?.allCollection[0];
     const { products } = queryProducts?.collection;
 
-    // Add the reference slug to the returned response
-    if (collection.modules) {
-        await getSlugFromReference(collection, queryInternalUrl);
-        await getAssetFromReference(collection, queryAsset);
-    }
-
-    return json({ collection, products });
+    return json({ collection, products, isPreview });
 }
 
 export const meta: MetaFunction = ({ data }) => {
