@@ -1,4 +1,3 @@
-import type { Request } from '@remix-run/node';
 import type { Params } from 'react-router-dom';
 import {
     queryPagesBySlug,
