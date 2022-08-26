@@ -21,21 +21,43 @@ export default async function buildPageData({ request, params, type }: Args) {
     let query;
     let data;
 
+    // Prepare the preview url param
+    const requestUrl = new URL(request?.url);
+
+    // We're simply checking if the url has a preview param to decide whether to use the cdn or not.
+    // This will allow people viewing the preview not to have to wait for the cdn to update
+    // https://www.sanity.io/docs/preview-content-on-site
+    // Could be a better way to do this?
+    const isPreviewUrl = requestUrl?.searchParams?.get('preview') ? true : false;
+    const shouldUseCdn = isPreviewUrl ? false : true;
+
     switch (type) {
         case 'page':
-            query = await queryPagesBySlug(params.slug);
+            query = await queryPagesBySlug({
+                slug: params.slug,
+                useCdn: shouldUseCdn
+            });
             data = query.allPage;
             break;
         case 'collection':
-            query = await queryCollectionsBySlug(params.slug);
+            query = await queryCollectionsBySlug({
+                slug: params.slug,
+                useCdn: shouldUseCdn
+            });
             data = query.allCollection;
             break;
         case 'product':
-            query = await queryProductsBySlug(params.slug);
+            query = await queryProductsBySlug({
+                slug: params.slug,
+                useCdn: shouldUseCdn
+            });
             data = query.allProduct;
             break;
         default:
-            query = await queryHomePage();
+            query = await queryHomePage({
+                slug: undefined,
+                useCdn: shouldUseCdn
+            });
             data = query.allHome;
             break;
     }
@@ -48,8 +70,7 @@ export default async function buildPageData({ request, params, type }: Args) {
         page._id.includes('drafts')
     )[0];
 
-    // Prepare the preview url param
-    const requestUrl = new URL(request?.url);
+    // Check if we're on an available preview page
     const isPreview =
         requestUrl?.searchParams?.get('preview') === previewPageData?._rev ? true : false;
 

@@ -1,6 +1,11 @@
 import { sanityConnector } from '~/lib/graphqlConnectors.server';
 
-export const queryCollectionsBySlug = async (slug = '') => {
+interface Args {
+    slug: string | undefined;
+    useCdn?: boolean;
+}
+
+export const queryCollectionsBySlug = async ({ slug, useCdn }: Args) => {
     if (!slug) console.error('⚠️ Slug is missing or incorrect');
 
     try {
@@ -23,7 +28,8 @@ export const queryCollectionsBySlug = async (slug = '') => {
 
             variables: {
                 slug
-            }
+            },
+            useCdn
         });
 
         return collection;
@@ -32,7 +38,7 @@ export const queryCollectionsBySlug = async (slug = '') => {
     }
 };
 
-export const queryProductsBySlug = async (slug = '') => {
+export const queryProductsBySlug = async ({ slug, useCdn }: Args) => {
     if (!slug) console.error('⚠️ Slug is missing or incorrect');
 
     try {
@@ -54,7 +60,8 @@ export const queryProductsBySlug = async (slug = '') => {
 
             variables: {
                 slug
-            }
+            },
+            useCdn
         });
 
         return product;
@@ -63,8 +70,8 @@ export const queryProductsBySlug = async (slug = '') => {
     }
 };
 
-export const queryPagesBySlug = async (slug = '') => {
-    if (!slug) console.error('⚠️ Slug is missing or incorrect');
+export const queryPagesBySlug = async ({ slug, useCdn }: Args) => {
+    if (!slug) throw new Error('⚠️ Slug is missing or incorrect');
 
     try {
         const page = await sanityConnector({
@@ -84,7 +91,8 @@ export const queryPagesBySlug = async (slug = '') => {
 
             variables: {
                 slug
-            }
+            },
+            useCdn
         });
 
         return page;
@@ -93,7 +101,7 @@ export const queryPagesBySlug = async (slug = '') => {
     }
 };
 
-export const queryHomePage = async () => {
+export const queryHomePage = async ({ useCdn }: Args) => {
     try {
         const page = await sanityConnector({
             // can't query on the single Product as you have to pass the ID to select it
@@ -109,7 +117,8 @@ export const queryHomePage = async () => {
           }
         }`,
 
-            variables: {}
+            variables: {},
+            useCdn
         });
 
         return page;
@@ -145,7 +154,8 @@ export const querySiteSettings = async () => {
         `,
             variables: {
                 id: 'settings'
-            }
+            },
+            useCdn: true
         });
 
         return settings;
@@ -200,7 +210,8 @@ export const queryInternalUrl = async (ref = '') => {
             query,
             variables: {
                 id: ref
-            }
+            },
+            useCdn: true
         });
 
         return slug;
@@ -220,7 +231,8 @@ export const queryAsset = async (ref = '') => {
           }`,
             variables: {
                 id: ref
-            }
+            },
+            useCdn: true
         });
 
         return asset;
