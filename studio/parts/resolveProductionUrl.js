@@ -12,6 +12,9 @@ export default function resolveProductionUrl(document) {
         case 'product':
             path = `/products/${document.store.slug.current}`;
             break;
+        default:
+            path = '/';
+            break;
     }
 
     const previewUrl = `${siteUrl}${path}?preview=${document._rev}`;

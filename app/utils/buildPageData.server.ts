@@ -5,7 +5,8 @@ import {
     queryCollectionsBySlug,
     queryProductsBySlug,
     queryInternalUrl,
-    queryAsset
+    queryAsset,
+    queryHomePage
 } from '~/models/sanity.server';
 import type { SanityCollectionPage, SanityPage } from '~/types';
 import { getSlugFromReference, getAssetFromReference } from '~/utils/getReferenceFromModules';
@@ -35,6 +36,8 @@ export default async function buildPageData({ request, params, type }: Args) {
             data = query.allProduct;
             break;
         default:
+            query = await queryHomePage();
+            data = query.allHome;
             break;
     }
 
