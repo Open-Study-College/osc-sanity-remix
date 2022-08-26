@@ -2,9 +2,7 @@ import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import type { module } from '~/types';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { queryProductsBySlug, queryInternalUrl, queryAsset } from '~/models/sanity.server';
 import Module from '~/components/module';
-import { getSlugFromReference, getAssetFromReference } from '~/utils/getReferenceFromModules';
 import { Center, VStack } from '@chakra-ui/react';
 import buildPageData from '~/utils/buildPageData.server';
 

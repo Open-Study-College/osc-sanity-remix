@@ -1,51 +1,29 @@
-import { shopifyConnector } from '~/lib/graphqlConnectors.server';
+import { GraphQLClient } from 'graphql-request';
+import productsQuery from '~/graphql/shopify/products.query';
 
-export const getProductsFromCollection = async (slug = '') => {
+// https://www.npmjs.com/package/graphql-request
+const graphcms = new GraphQLClient(
+    `https://${process.env.SHOPIFY_STORE_URL}/api/2022-07/graphql.json` || '',
+    {
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Shopify-Storefront-Access-Token': `${process.env.SHOPIFY_STOREFRONT_API_ACCESS_TOKEN}`
+        }
+    }
+);
+
+interface Args {
+    slug: string | undefined;
+}
+
+export async function getProducts({ slug }: Args) {
     if (!slug) console.error('⚠️ Slug is missing or incorrect');
 
-    try {
-        const products = await shopifyConnector({
-            query: `
-      query collectionBySlug($slug: String) {
-        collection(handle:$slug) {
-          products(first:12) {
-              nodes {
-                id
-                title
-                handle
-                featuredImage {
-                    altText
-                    height
-                    width
-                    url
-                }
-                options(first: 10) {
-                    values
-                    name
-                }
-                compareAtPriceRange {
-                    minVariantPrice {
-                        amount
-                        currencyCode
-                    }
-                }
-                priceRange {
-                    minVariantPrice {
-                        amount
-                        currencyCode
-                    }
-                }
-              }
-          }
-        }
-      }`,
-            variables: {
-                slug
-            }
-        });
+    const variables = {
+        slug
+    };
 
-        return products;
-    } catch (err) {
-        console.error({ error: err });
-    }
-};
+    const products = await graphcms.request(productsQuery, variables);
+
+    return products;
+}

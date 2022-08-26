@@ -8,9 +8,12 @@ import buildPageData from '~/utils/buildPageData.server';
 import { Center, VStack } from '@chakra-ui/react';
 import Module from '~/components/module';
 import type { module } from '~/types';
+import { getHome } from '~/models/sanity.server';
 
 export const loader: LoaderFunction = async ({ request, params }: LoaderArgs) => {
     const colorScheme = await getColorScheme(request);
+
+    getHome();
 
     const data = await buildPageData({
         request,

@@ -1,11 +1,11 @@
 import type { Params } from 'react-router-dom';
 import {
-    queryPagesBySlug,
-    queryCollectionsBySlug,
-    queryProductsBySlug,
-    queryInternalUrl,
-    queryAsset,
-    queryHomePage
+    getCollection,
+    getHome,
+    getPage,
+    getProduct,
+    getInteralUrl,
+    getAsset
 } from '~/models/sanity.server';
 import type { SanityCollectionPage, SanityPage } from '~/types';
 import { getSlugFromReference, getAssetFromReference } from '~/utils/getReferenceFromModules';
@@ -19,7 +19,6 @@ interface Args {
 export default async function buildPageData({ request, params, type }: Args) {
     // Query our data from graphql endpoint
     let query;
-    let data;
 
     // Prepare the preview url param
     const requestUrl = new URL(request?.url);
@@ -33,40 +32,30 @@ export default async function buildPageData({ request, params, type }: Args) {
 
     switch (type) {
         case 'page':
-            query = await queryPagesBySlug({
-                slug: params.slug,
-                useCdn: shouldUseCdn
-            });
-            data = query.allPage;
+            // query = await queryPagesBySlug({
+            //     slug: params.slug,
+            //     useCdn: shouldUseCdn
+            // });
+
+            query = await getPage({ slug: params.slug });
             break;
         case 'collection':
-            query = await queryCollectionsBySlug({
-                slug: params.slug,
-                useCdn: shouldUseCdn
-            });
-            data = query.allCollection;
+            query = await getCollection({ slug: params.slug });
             break;
+
         case 'product':
-            query = await queryProductsBySlug({
-                slug: params.slug,
-                useCdn: shouldUseCdn
-            });
-            data = query.allProduct;
+            query = await getProduct({ slug: params.slug });
             break;
         default:
-            query = await queryHomePage({
-                slug: undefined,
-                useCdn: shouldUseCdn
-            });
-            data = query.allHome;
+            query = await getHome();
             break;
     }
 
     // Filter our queried data into live and preview datasets
-    const livePageData = data.filter(
+    const livePageData = query.filter(
         (page: SanityPage | SanityCollectionPage) => !page._id.includes('drafts')
     )[0];
-    const previewPageData = data.filter((page: SanityPage | SanityCollectionPage) =>
+    const previewPageData = query.filter((page: SanityPage | SanityCollectionPage) =>
         page._id.includes('drafts')
     )[0];
 
@@ -83,8 +72,8 @@ export default async function buildPageData({ request, params, type }: Args) {
 
     // Add the reference slug to the returned response
     if (page.modules) {
-        await getSlugFromReference(page, queryInternalUrl);
-        await getAssetFromReference(page, queryAsset);
+        await getSlugFromReference(page, getInteralUrl);
+        await getAssetFromReference(page, getAsset);
     }
 
     return { page, isPreview };
