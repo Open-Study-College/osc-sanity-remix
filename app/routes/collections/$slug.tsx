@@ -35,16 +35,22 @@ export const meta: MetaFunction = ({ data }) => {
         description: data.collection?.seo?.description,
         image: data.collection?.seo?.image?.url,
         'og:description': data.collection?.seo?.description,
-        'og:image': data.collection?.seo?.image?.url
+        'og:image': data.collection?.seo?.image?.url,
+        robots: data.isPreview ? 'noindex' : null // noindex preview urls
     };
 };
 
 export default function Collection() {
-    const { collection, products } = useLoaderData<typeof loader>();
+    const { collection, products, isPreview } = useLoaderData<typeof loader>();
     const { title } = collection.store;
 
     return (
         <>
+            {isPreview ? (
+                <Center p={4} className="u-bg-tertiary">
+                    Preview Mode
+                </Center>
+            ) : null}
             <main className="mx-auto max-w-4xl">
                 {collection.showHero ? (
                     <Hero settings={collection.hero} />

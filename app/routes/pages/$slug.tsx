@@ -29,15 +29,22 @@ export const meta: MetaFunction = ({ data }) => {
         description: data.page?.seo?.description,
         image: data.page?.seo?.image?.url,
         'og:description': data.page?.seo?.description,
-        'og:image': data.page?.seo?.image?.url
+        'og:image': data.page?.seo?.image?.url,
+        robots: data.isPreview ? 'noindex' : null // noindex preview urls
     };
 };
 
 export default function Page() {
-    const { page } = useLoaderData<typeof loader>();
+    const { page, isPreview } = useLoaderData<typeof loader>();
 
     return (
         <>
+            {isPreview ? (
+                <Center p={4} className="u-bg-tertiary">
+                    Preview Mode
+                </Center>
+            ) : null}
+
             <main className="mx-auto max-w-4xl">
                 {page.showHero ? (
                     <Hero settings={page.hero} />
