@@ -30,7 +30,6 @@ export const meta: MetaFunction = ({ data }) => {
 
 export default function Index() {
     const { home } = useLoaderData<typeof loader>();
-    console.log(home);
 
     return <>{home.showHero ? <Hero settings={home.hero} /> : null}</>;
 }
