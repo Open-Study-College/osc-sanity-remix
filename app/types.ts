@@ -40,6 +40,41 @@ export interface mediaTextModule extends module {
     links: SanityRawLinkItem[];
 }
 
+export interface SanityImage {
+    asset: {
+        url: string;
+        altText: string;
+    };
+}
+
+export interface SanityHero {
+    image?: SanityImage;
+    bodyRaw: PortableTextBlock;
+    links?: SanityRawLinkItem[] | null;
+}
+
+export interface SanitySEO {
+    title: string;
+    desciprion: string | null;
+    image: SanityImage | null;
+}
+
+export interface SanityPage {
+    _id: string;
+    _rev: string;
+    title?: string;
+    seo: SanitySEO;
+    hero: SanityHero;
+    showHero: boolean;
+    modules: module[] | mediaTextModule[];
+}
+
+export interface SanityCollectionPage extends SanityPage {
+    store: {
+        title: string;
+    };
+}
+
 export interface shopifyProduct {
     id: string;
     title: string;
