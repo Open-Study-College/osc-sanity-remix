@@ -10,6 +10,8 @@ export const queryCollectionsBySlug = async (slug = '') => {
             query: `
         query collectionBySlug($slug: String) {
           allCollection(where: { store: { slug: { current: { eq: $slug } } } }) {
+            _id
+            _rev
             store {
               title
             }
@@ -40,6 +42,8 @@ export const queryProductsBySlug = async (slug = '') => {
             query: `
         query productBySlug($slug: String) {
           allProduct(where: { store: { slug: { current: { eq: $slug } } } }) {
+            _id
+            _rev
             store {
               title
             }
@@ -69,6 +73,8 @@ export const queryPagesBySlug = async (slug = '') => {
             query: `
         query pageBySlug($slug: String) {
           allPage(where: { slug: { current: { eq: $slug } } } ) {
+            _id
+            _rev
             title
             ${hero}
             ${modules}
@@ -96,6 +102,7 @@ export const queryHomePage = async () => {
         query homePage($id: ID!) {
           Home(id: $id) {
             _id
+            _rev
             ${hero}
             ${seo}
           }
