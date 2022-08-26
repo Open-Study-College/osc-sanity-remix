@@ -5,7 +5,6 @@ import ButtonGroup from '../buttongroup/ButtonGroup';
 
 export default function MediaTextModule({ module }: { module: mediaTextModule }) {
     const { layout, bodyRaw, links, media } = module;
-    console.log(module);
 
     return (
         <SimpleGrid
