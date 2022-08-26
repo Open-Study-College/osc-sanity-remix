@@ -3,17 +3,24 @@ import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { getColorScheme } from '~/cookie';
 import type { LoaderFunction } from '@remix-run/server-runtime';
-import { queryHomePage } from '~/models/sanity.server';
 import Hero from '~/components/hero/Hero';
+import buildPageData from '~/utils/buildPageData.server';
+import { Center, VStack } from '@chakra-ui/react';
+import Module from '~/components/module';
+import type { module } from '~/types';
 
-export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
+export const loader: LoaderFunction = async ({ request, params }: LoaderArgs) => {
     const colorScheme = await getColorScheme(request);
 
-    const queryHome = await queryHomePage();
+    const data = await buildPageData({
+        request,
+        params,
+        type: 'home'
+    });
 
-    const home = queryHome.Home;
+    const { page: home, isPreview } = data;
 
-    return json({ colorScheme, home });
+    return json({ colorScheme, home, isPreview });
 };
 
 export const meta: MetaFunction = ({ data }) => {
@@ -29,7 +36,27 @@ export const meta: MetaFunction = ({ data }) => {
 };
 
 export default function Index() {
-    const { home } = useLoaderData<typeof loader>();
+    const { home, isPreview } = useLoaderData<typeof loader>();
 
-    return <>{home.showHero ? <Hero settings={home.hero} /> : null}</>;
+    return (
+        <>
+            {isPreview ? (
+                <Center p={4} className="u-bg-tertiary">
+                    Preview Mode
+                </Center>
+            ) : null}
+
+            <main className="mx-auto max-w-4xl">
+                {home.showHero ? <Hero settings={home.hero} /> : null}
+
+                {home.modules && home.modules.length > 0 ? (
+                    <VStack spacing={16}>
+                        {home.modules.map((module: module) =>
+                            module ? <Module key={module._key} module={module} /> : null
+                        )}
+                    </VStack>
+                ) : null}
+            </main>
+        </>
+    );
 }
