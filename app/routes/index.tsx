@@ -5,7 +5,9 @@ import { getColorScheme } from '~/cookie';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import Hero from '~/components/hero/Hero';
 import buildPageData from '~/utils/buildPageData.server';
-import { Center } from '@chakra-ui/react';
+import { Center, VStack } from '@chakra-ui/react';
+import Module from '~/components/module';
+import type { module } from '~/types';
 
 export const loader: LoaderFunction = async ({ request, params }: LoaderArgs) => {
     const colorScheme = await getColorScheme(request);
@@ -46,6 +48,14 @@ export default function Index() {
 
             <main className="mx-auto max-w-4xl">
                 {home.showHero ? <Hero settings={home.hero} /> : null}
+
+                {home.modules && home.modules.length > 0 ? (
+                    <VStack spacing={16}>
+                        {home.modules.map((module: module) =>
+                            module ? <Module key={module._key} module={module} /> : null
+                        )}
+                    </VStack>
+                ) : null}
             </main>
         </>
     );

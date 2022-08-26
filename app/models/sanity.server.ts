@@ -104,6 +104,7 @@ export const queryHomePage = async () => {
             _id
             _rev
             ${hero}
+            ${modules}
             ${seo}
           }
         }`,

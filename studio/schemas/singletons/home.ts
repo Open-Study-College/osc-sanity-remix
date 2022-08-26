@@ -41,7 +41,7 @@ export default {
             title: 'Modules',
             type: 'array',
             of: [
-                { type: 'module.callout' },
+                { type: 'module.content' },
                 { type: 'module.mediaText' }
                 // { type: 'module.collection' },
                 // { type: 'module.image' },
