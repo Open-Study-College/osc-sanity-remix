@@ -24,7 +24,7 @@ import styles from 'app/styles/dest/main.css';
 import * as gtag from '~/utils/gtags.client';
 import { getUser } from './session.server';
 import { checkConnectivity } from '~/utils/client/pwa-utils.client';
-import { querySiteSettings } from '~/models/sanity.server';
+import { getSettings } from '~/models/sanity.server';
 import buildLinkItems from './utils/buildLinkItems';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
@@ -77,7 +77,7 @@ export const headers: HeadersFunction = () => ({
     'Accept-CH': 'Sec-CH-Prefers-Color-Scheme'
 });
 export const loader: LoaderFunction = async ({ request }) => {
-    const siteSettings = await querySiteSettings();
+    const siteSettings = await getSettings();
 
     const headerMenuItems = buildLinkItems(siteSettings.Settings.menu);
     const footerMenuItems = buildLinkItems(siteSettings.Settings.footer);

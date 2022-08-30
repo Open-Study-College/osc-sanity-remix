@@ -2,34 +2,29 @@ import { json } from '@remix-run/node';
 import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import type { module } from '~/types';
 import { useLoaderData } from '@remix-run/react';
-import { queryCollectionsBySlug, queryInternalUrl, queryAsset } from '~/models/sanity.server';
-import { getProductsFromCollection } from '~/models/shopify.server';
+import { getProducts } from '~/models/shopify.server';
 import Hero from '~/components/hero/Hero';
 import Module from '~/components/module';
-import { getSlugFromReference, getAssetFromReference } from '~/utils/getReferenceFromModules';
-import { VStack } from '@chakra-ui/react';
+import { Center, VStack } from '@chakra-ui/react';
 import ProductGrid from '~/components/collections/ProdutGrid';
+import buildPageData from '~/utils/buildPageData.server';
 
-export async function loader({ params }: LoaderArgs) {
+export async function loader({ request, params }: LoaderArgs) {
     if (!params.slug) throw new Error('Missing slug');
 
-    const queryCollection = await queryCollectionsBySlug(params.slug);
-    if (queryCollection.allCollection.length === 0) {
-        throw new Response('Not Found', { status: 404 });
-    }
+    const data = await buildPageData({
+        request,
+        params,
+        type: 'collection'
+    });
 
-    const queryProducts = await getProductsFromCollection(params.slug);
+    const { page: collection, isPreview } = data;
 
-    const collection = queryCollection?.allCollection[0];
+    const queryProducts = await getProducts({ slug: params.slug });
+
     const { products } = queryProducts?.collection;
 
-    // Add the reference slug to the returned response
-    if (collection.modules) {
-        await getSlugFromReference(collection, queryInternalUrl);
-        await getAssetFromReference(collection, queryAsset);
-    }
-
-    return json({ collection, products });
+    return json({ collection, products, isPreview });
 }
 
 export const meta: MetaFunction = ({ data }) => {
@@ -40,16 +35,22 @@ export const meta: MetaFunction = ({ data }) => {
         description: data.collection?.seo?.description,
         image: data.collection?.seo?.image?.url,
         'og:description': data.collection?.seo?.description,
-        'og:image': data.collection?.seo?.image?.url
+        'og:image': data.collection?.seo?.image?.url,
+        robots: data.isPreview ? 'noindex' : null // noindex preview urls
     };
 };
 
 export default function Collection() {
-    const { collection, products } = useLoaderData<typeof loader>();
+    const { collection, products, isPreview } = useLoaderData<typeof loader>();
     const { title } = collection.store;
 
     return (
         <>
+            {isPreview ? (
+                <Center p={4} className="u-bg-tertiary">
+                    Preview Mode
+                </Center>
+            ) : null}
             <main className="mx-auto max-w-4xl">
                 {collection.showHero ? (
                     <Hero settings={collection.hero} />

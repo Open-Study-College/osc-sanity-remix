@@ -2,30 +2,23 @@ import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import type { module } from '~/types';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { queryPagesBySlug, queryInternalUrl, queryAsset } from '~/models/sanity.server';
-import { VStack } from '@chakra-ui/react';
+import { Center, VStack } from '@chakra-ui/react';
 import Hero from '~/components/hero/Hero';
 import Module from '~/components/module';
-import { getSlugFromReference, getAssetFromReference } from '~/utils/getReferenceFromModules';
+import buildPageData from '~/utils/buildPageData.server';
 
-export async function loader({ params }: LoaderArgs) {
+export async function loader({ request, params }: LoaderArgs) {
     if (!params.slug) throw new Error('Missing slug');
 
-    const queryPage = await queryPagesBySlug(params.slug);
+    const data = await buildPageData({
+        request,
+        params,
+        type: 'page'
+    });
 
-    if (queryPage.allPage.length === 0) {
-        throw new Response('Not Found', { status: 404 });
-    }
+    const { page, isPreview } = data;
 
-    const page = queryPage.allPage[0];
-
-    // Add the reference slug to the returned response
-    if (page.modules) {
-        await getSlugFromReference(page, queryInternalUrl);
-        await getAssetFromReference(page, queryAsset);
-    }
-
-    return json({ page });
+    return json({ page, isPreview });
 }
 
 export const meta: MetaFunction = ({ data }) => {
@@ -36,15 +29,22 @@ export const meta: MetaFunction = ({ data }) => {
         description: data.page?.seo?.description,
         image: data.page?.seo?.image?.url,
         'og:description': data.page?.seo?.description,
-        'og:image': data.page?.seo?.image?.url
+        'og:image': data.page?.seo?.image?.url,
+        robots: data.isPreview ? 'noindex' : null // noindex preview urls
     };
 };
 
 export default function Page() {
-    const { page } = useLoaderData<typeof loader>();
+    const { page, isPreview } = useLoaderData<typeof loader>();
 
     return (
         <>
+            {isPreview ? (
+                <Center p={4} className="u-bg-tertiary">
+                    Preview Mode
+                </Center>
+            ) : null}
+
             <main className="mx-auto max-w-4xl">
                 {page.showHero ? (
                     <Hero settings={page.hero} />

@@ -23,6 +23,7 @@
     "@sanity/default-login": "^2.30.5",
     "@sanity/desk-tool": "^2.30.5",
     "@sanity/eslint-config-studio": "^2.0.0",
+    "@sanity/production-preview": "^2.29.3",
     "@sanity/uuid": "^3.0.1",
     "@sanity/vision": "^2.30.5",
     "eslint": "^8.6.0",
@@ -37,7 +38,6 @@
     "slug": "^5.3.0",
     "styled-components": "^5.2.0"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/Open-Study-College/osc-sanity-remix.git"
