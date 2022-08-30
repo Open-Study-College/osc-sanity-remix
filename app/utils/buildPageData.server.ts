@@ -37,17 +37,17 @@ export default async function buildPageData({ request, params, type }: Args) {
             //     useCdn: shouldUseCdn
             // });
 
-            query = await getPage({ slug: params.slug });
+            query = await getPage({ slug: params.slug }).catch((err) => console.error(err));
             break;
         case 'collection':
-            query = await getCollection({ slug: params.slug });
+            query = await getCollection({ slug: params.slug }).catch((err) => console.error(err));
             break;
 
         case 'product':
-            query = await getProduct({ slug: params.slug });
+            query = await getProduct({ slug: params.slug }).catch((err) => console.error(err));
             break;
         default:
-            query = await getHome();
+            query = await getHome().catch((err) => console.error(err));
             break;
     }
 

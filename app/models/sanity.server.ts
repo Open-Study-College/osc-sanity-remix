@@ -37,45 +37,67 @@ const graphcms = new GraphQLClient(
 );
 
 export async function getHome() {
-    const { allHome } = await graphcms.request<GetHomeQuery>(getHomeQuery);
+    try {
+        const { allHome } = await graphcms.request<GetHomeQuery>(getHomeQuery);
 
-    return allHome;
+        return allHome;
+    } catch (err) {
+        console.error(JSON.stringify(err, undefined, 2));
+        process.exit(1);
+    }
 }
 
 export async function getSettings() {
-    const variables = {
-        id: 'settings'
-    };
+    try {
+        const variables = {
+            id: 'settings'
+        };
+        const settings = await graphcms.request<SettingsQuery>(getSettingsQuery, variables);
 
-    const settings = await graphcms.request<SettingsQuery>(getSettingsQuery, variables);
-
-    return settings;
+        return settings;
+    } catch (err) {
+        console.error(JSON.stringify(err, undefined, 2));
+        process.exit(1);
+    }
 }
 
 export async function getCollection({ slug }: pageArgs) {
     if (!slug) console.error('⚠️ Slug is missing or incorrect');
 
-    const variables = {
-        slug
-    };
+    try {
+        const variables = {
+            slug
+        };
 
-    // @ts-ignore
-    const { allCollection } = await graphcms.request<CollectionQuery>(collectionsQuery, variables);
+        // @ts-ignore
+        const { allCollection } = await graphcms.request<CollectionQuery>(
+            collectionsQuery,
+            variables
+        );
 
-    return allCollection;
+        return allCollection;
+    } catch (err) {
+        console.error(JSON.stringify(err, undefined, 2));
+        process.exit(1);
+    }
 }
 
 export async function getProduct({ slug }: pageArgs) {
     if (!slug) console.error('⚠️ Slug is missing or incorrect');
 
-    const variables = {
-        slug
-    };
+    try {
+        const variables = {
+            slug
+        };
 
-    // @ts-ignore
-    const { allProduct } = await graphcms.request<ProductQuery>(productsQuery, variables);
+        // @ts-ignore
+        const { allProduct } = await graphcms.request<ProductQuery>(productsQuery, variables);
 
-    return allProduct;
+        return allProduct;
+    } catch (err) {
+        console.error(JSON.stringify(err, undefined, 2));
+        process.exit(1);
+    }
 }
 
 export async function getPage({ slug }: pageArgs) {
@@ -94,33 +116,43 @@ export async function getPage({ slug }: pageArgs) {
 export async function getInteralUrl(ref: string) {
     if (!ref) console.error('⚠️ Ref is missing or incorrect');
 
-    const variables = {
-        id: ref
-    };
+    try {
+        const variables = {
+            id: ref
+        };
 
-    let query;
-    const isShopifyProduct = ref.includes('shopifyProduct');
-    const isShopifyCollection = ref.includes('shopifyCollection');
+        let query;
+        const isShopifyProduct = ref.includes('shopifyProduct');
+        const isShopifyCollection = ref.includes('shopifyCollection');
 
-    if (isShopifyProduct) {
-        query = await graphcms.request<ProductBySlugQuery>(productSlugQuery, variables);
-    } else if (isShopifyCollection) {
-        query = await graphcms.request<CollectionBySlugQuery>(collectionSlugQuery, variables);
-    } else {
-        query = await graphcms.request<PageBySlugQuery>(pageSlugQuery, variables);
+        if (isShopifyProduct) {
+            query = await graphcms.request<ProductBySlugQuery>(productSlugQuery, variables);
+        } else if (isShopifyCollection) {
+            query = await graphcms.request<CollectionBySlugQuery>(collectionSlugQuery, variables);
+        } else {
+            query = await graphcms.request<PageBySlugQuery>(pageSlugQuery, variables);
+        }
+
+        return query;
+    } catch (err) {
+        console.error(JSON.stringify(err, undefined, 2));
+        process.exit(1);
     }
-
-    return query;
 }
 
 export async function getAsset(ref: string) {
     if (!ref) console.error('⚠️ Ref is missing or incorrect');
 
-    const variables = {
-        id: ref
-    };
+    try {
+        const variables = {
+            id: ref
+        };
 
-    const asset = graphcms.request<AssetQuery>(assetQuery, variables);
+        const asset = graphcms.request<AssetQuery>(assetQuery, variables);
 
-    return asset;
+        return asset;
+    } catch (err) {
+        console.error(JSON.stringify(err, undefined, 2));
+        process.exit(1);
+    }
 }
