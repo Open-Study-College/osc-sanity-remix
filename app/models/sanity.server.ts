@@ -22,21 +22,25 @@ import {
 
 interface pageArgs {
     slug: string | undefined;
+    useCdn: boolean;
 }
 
-// https://www.npmjs.com/package/graphql-request
-const graphcms = new GraphQLClient(
-    `https://${process.env.SANITY_STUDIO_API_PROJECT_ID}.api.sanity.io/v1/graphql/${process.env.SANITY_STUDIO_API_DATASET}/default` ||
-        '',
-    {
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${process.env.SANITY_STUDIO_API_TOKEN}`
-        }
-    }
-);
+const clientUrl = `https://${process.env.SANITY_STUDIO_API_PROJECT_ID}.api.sanity.io/v1/graphql/${process.env.SANITY_STUDIO_API_DATASET}/default`;
+const clientUrlCDN = `https://${process.env.SANITY_STUDIO_API_PROJECT_ID}.apicdn.sanity.io/v1/graphql/${process.env.SANITY_STUDIO_API_DATASET}/default`;
 
-export async function getHome() {
+// https://www.npmjs.com/package/graphql-request
+const graphcms = new GraphQLClient(clientUrl || '', {
+    headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.SANITY_STUDIO_API_TOKEN}`
+    }
+});
+
+export async function getHome({ useCdn }: { useCdn: boolean }) {
+    if (useCdn) {
+        graphcms.setEndpoint(clientUrlCDN);
+    }
+
     try {
         const { allHome } = await graphcms.request<GetHomeQuery>(getHomeQuery);
 
@@ -61,8 +65,12 @@ export async function getSettings() {
     }
 }
 
-export async function getCollection({ slug }: pageArgs) {
+export async function getCollection({ slug, useCdn }: pageArgs) {
     if (!slug) console.error('⚠️ Slug is missing or incorrect');
+
+    if (useCdn) {
+        graphcms.setEndpoint(clientUrlCDN);
+    }
 
     try {
         const variables = {
@@ -82,8 +90,12 @@ export async function getCollection({ slug }: pageArgs) {
     }
 }
 
-export async function getProduct({ slug }: pageArgs) {
+export async function getProduct({ slug, useCdn }: pageArgs) {
     if (!slug) console.error('⚠️ Slug is missing or incorrect');
+
+    if (useCdn) {
+        graphcms.setEndpoint(clientUrlCDN);
+    }
 
     try {
         const variables = {
@@ -100,8 +112,12 @@ export async function getProduct({ slug }: pageArgs) {
     }
 }
 
-export async function getPage({ slug }: pageArgs) {
+export async function getPage({ slug, useCdn }: pageArgs) {
     if (!slug) console.error('⚠️ Slug is missing or incorrect');
+
+    if (useCdn) {
+        graphcms.setEndpoint(clientUrlCDN);
+    }
 
     const variables = {
         slug

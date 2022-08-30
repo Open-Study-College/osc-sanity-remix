@@ -32,22 +32,28 @@ export default async function buildPageData({ request, params, type }: Args) {
 
     switch (type) {
         case 'page':
-            // query = await queryPagesBySlug({
-            //     slug: params.slug,
-            //     useCdn: shouldUseCdn
-            // });
-
-            query = await getPage({ slug: params.slug }).catch((err) => console.error(err));
+            query = await getPage({
+                slug: params.slug,
+                useCdn: shouldUseCdn
+            }).catch((err) => console.error(err));
             break;
         case 'collection':
-            query = await getCollection({ slug: params.slug }).catch((err) => console.error(err));
+            query = await getCollection({
+                slug: params.slug,
+                useCdn: shouldUseCdn
+            }).catch((err) => console.error(err));
             break;
 
         case 'product':
-            query = await getProduct({ slug: params.slug }).catch((err) => console.error(err));
+            query = await getProduct({
+                slug: params.slug,
+                useCdn: shouldUseCdn
+            }).catch((err) => console.error(err));
             break;
         default:
-            query = await getHome().catch((err) => console.error(err));
+            query = await getHome({
+                useCdn: shouldUseCdn
+            }).catch((err) => console.error(err));
             break;
     }
 
