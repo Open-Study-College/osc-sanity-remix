@@ -2,7 +2,7 @@ import { json } from '@remix-run/node';
 import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import type { module } from '~/types';
 import { useLoaderData } from '@remix-run/react';
-import { getProductsFromCollection } from '~/models/shopify.server';
+import { getProducts } from '~/models/shopify.server';
 import Hero from '~/components/hero/Hero';
 import Module from '~/components/module';
 import { Center, VStack } from '@chakra-ui/react';
@@ -20,7 +20,7 @@ export async function loader({ request, params }: LoaderArgs) {
 
     const { page: collection, isPreview } = data;
 
-    const queryProducts = await getProductsFromCollection(params.slug);
+    const queryProducts = await getProducts({ slug: params.slug });
 
     const { products } = queryProducts?.collection;
 

@@ -1,339 +1,174 @@
-import { sanityConnector } from '~/lib/graphqlConnectors.server';
+import { GraphQLClient } from 'graphql-request';
+import type {
+    GetHomeQuery,
+    SettingsQuery,
+    CollectionQuery,
+    ProductQuery,
+    PageQuery,
+    CollectionBySlugQuery,
+    ProductBySlugQuery,
+    PageBySlugQuery,
+    AssetQuery
+} from '~/graphql/sanity/sanity-generated';
+import getHomeQuery from '~/graphql/sanity/home.query';
+import getSettingsQuery from '~/graphql/sanity/settings.query';
+import { collectionsQuery, productsQuery, pagesQuery } from '~/graphql/sanity/pages.query';
+import {
+    productSlugQuery,
+    collectionSlugQuery,
+    pageSlugQuery,
+    assetQuery
+} from '~/graphql/sanity/helpers.query';
 
-interface Args {
+interface pageArgs {
     slug: string | undefined;
-    useCdn?: boolean;
+    useCdn: boolean;
 }
 
-export const queryCollectionsBySlug = async ({ slug, useCdn }: Args) => {
-    if (!slug) console.error('⚠️ Slug is missing or incorrect');
+const clientUrl = `https://${process.env.SANITY_STUDIO_API_PROJECT_ID}.api.sanity.io/v1/graphql/${process.env.SANITY_STUDIO_API_DATASET}/default`;
+const clientUrlCDN = `https://${process.env.SANITY_STUDIO_API_PROJECT_ID}.apicdn.sanity.io/v1/graphql/${process.env.SANITY_STUDIO_API_DATASET}/default`;
 
-    try {
-        const collection = await sanityConnector({
-            // can't query on the single Product as you have to pass the ID to select it
-            // We want to filter by the slug so have to use allProduct and this nasty looking query
-            query: `
-        query collectionBySlug($slug: String) {
-          allCollection(where: { store: { slug: { current: { eq: $slug } } } }) {
-            _id
-            _rev
-            store {
-              title
-            }
-            ${hero}
-            ${modules}
-            ${seo}
-          }
-        }`,
-
-            variables: {
-                slug
-            },
-            useCdn
-        });
-
-        return collection;
-    } catch (err) {
-        console.error(err);
+// https://www.npmjs.com/package/graphql-request
+const graphcms = new GraphQLClient(clientUrl || '', {
+    headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.SANITY_STUDIO_API_TOKEN}`
     }
-};
+});
 
-export const queryProductsBySlug = async ({ slug, useCdn }: Args) => {
-    if (!slug) console.error('⚠️ Slug is missing or incorrect');
-
-    try {
-        const product = await sanityConnector({
-            // can't query on the single Product as you have to pass the ID to select it
-            // We want to filter by the slug so have to use allProduct and this nasty looking query
-            query: `
-        query productBySlug($slug: String) {
-          allProduct(where: { store: { slug: { current: { eq: $slug } } } }) {
-            _id
-            _rev
-            store {
-              title
-            }
-            ${modules}
-            ${seo}
-          }
-        }`,
-
-            variables: {
-                slug
-            },
-            useCdn
-        });
-
-        return product;
-    } catch (err) {
-        console.error(err);
+export async function getHome({ useCdn }: { useCdn: boolean }) {
+    if (useCdn) {
+        graphcms.setEndpoint(clientUrlCDN);
     }
-};
-
-export const queryPagesBySlug = async ({ slug, useCdn }: Args) => {
-    if (!slug) throw new Error('⚠️ Slug is missing or incorrect');
 
     try {
-        const page = await sanityConnector({
-            // can't query on the single Product as you have to pass the ID to select it
-            // We want to filter by the slug so have to use allProduct and this nasty looking query
-            query: `
-        query pageBySlug($slug: String) {
-          allPage(where: { slug: { current: { eq: $slug } } } ) {
-            _id
-            _rev
-            title
-            ${hero}
-            ${modules}
-            ${seo}
-          }
-        }`,
+        const { allHome } = await graphcms.request<GetHomeQuery>(getHomeQuery);
 
-            variables: {
-                slug
-            },
-            useCdn
-        });
-
-        return page;
+        return allHome;
     } catch (err) {
-        console.error(err);
+        console.error(JSON.stringify(err, undefined, 2));
+        process.exit(1);
     }
-};
+}
 
-export const queryHomePage = async ({ useCdn }: Args) => {
+export async function getSettings() {
     try {
-        const page = await sanityConnector({
-            // can't query on the single Product as you have to pass the ID to select it
-            // We want to filter by the slug so have to use allProduct and this nasty looking query
-            query: `
-        {
-          allHome {
-            _id
-            _rev
-            ${hero}
-            ${modules}
-            ${seo}
-          }
-        }`,
-
-            variables: {},
-            useCdn
-        });
-
-        return page;
-    } catch (err) {
-        console.error(err);
-    }
-};
-
-export const querySiteSettings = async () => {
-    try {
-        const settings = await sanityConnector({
-            query: `
-        query settings($id: ID!) {
-            Settings(id: $id) {
-                menu {
-                    links {
-                        __typename
-                        ${linkInternal}
-                        ${LinkExternal}
-                    }
-                }
-
-                footer {
-                    links {
-                        __typename
-                        ${linkInternal}
-                        ${LinkExternal}
-                    }
-                    textRaw
-                }
-            }
-        }
-        `,
-            variables: {
-                id: 'settings'
-            },
-            useCdn: true
-        });
+        const variables = {
+            id: 'settings'
+        };
+        const settings = await graphcms.request<SettingsQuery>(getSettingsQuery, variables);
 
         return settings;
     } catch (err) {
-        console.error(err);
+        console.error(JSON.stringify(err, undefined, 2));
+        process.exit(1);
     }
-};
+}
 
-export const queryInternalUrl = async (ref = '') => {
+export async function getCollection({ slug, useCdn }: pageArgs) {
+    if (!slug) console.error('⚠️ Slug is missing or incorrect');
+
+    if (useCdn) {
+        graphcms.setEndpoint(clientUrlCDN);
+    }
+
     try {
-        let query = '';
+        const variables = {
+            slug
+        };
+
+        // @ts-ignore
+        const { allCollection } = await graphcms.request<CollectionQuery>(
+            collectionsQuery,
+            variables
+        );
+
+        return allCollection;
+    } catch (err) {
+        console.error(JSON.stringify(err, undefined, 2));
+        process.exit(1);
+    }
+}
+
+export async function getProduct({ slug, useCdn }: pageArgs) {
+    if (!slug) console.error('⚠️ Slug is missing or incorrect');
+
+    if (useCdn) {
+        graphcms.setEndpoint(clientUrlCDN);
+    }
+
+    try {
+        const variables = {
+            slug
+        };
+
+        // @ts-ignore
+        const { allProduct } = await graphcms.request<ProductQuery>(productsQuery, variables);
+
+        return allProduct;
+    } catch (err) {
+        console.error(JSON.stringify(err, undefined, 2));
+        process.exit(1);
+    }
+}
+
+export async function getPage({ slug, useCdn }: pageArgs) {
+    if (!slug) console.error('⚠️ Slug is missing or incorrect');
+
+    if (useCdn) {
+        graphcms.setEndpoint(clientUrlCDN);
+    }
+
+    const variables = {
+        slug
+    };
+
+    // @ts-ignore
+    const { allPage } = await graphcms.request<PageQuery>(pagesQuery, variables);
+
+    return allPage;
+}
+
+export async function getInteralUrl(ref: string) {
+    if (!ref) console.error('⚠️ Ref is missing or incorrect');
+
+    try {
+        const variables = {
+            id: ref
+        };
+
+        let query;
         const isShopifyProduct = ref.includes('shopifyProduct');
         const isShopifyCollection = ref.includes('shopifyCollection');
 
         if (isShopifyProduct) {
-            query = `
-                query product($id: ID!) {
-                    Product(id: $id) {
-                        store {
-                            slug {
-                                current
-                            }
-                        }
-                    }
-                }
-            `;
+            query = await graphcms.request<ProductBySlugQuery>(productSlugQuery, variables);
         } else if (isShopifyCollection) {
-            query = `
-        query collection($id: ID!) {
-                    Collection(id: $id) {
-                        store {
-                            slug {
-                                current
-                            }
-                        }
-                    }
-                }
-        `;
+            query = await graphcms.request<CollectionBySlugQuery>(collectionSlugQuery, variables);
         } else {
-            query = `
-            query page($id: ID!) {
-                Page(id: $id) {
-                    slug {
-                        current
-                    }
-                }
-            }
-        `;
+            query = await graphcms.request<PageBySlugQuery>(pageSlugQuery, variables);
         }
 
-        const slug = await sanityConnector({
-            query,
-            variables: {
-                id: ref
-            },
-            useCdn: true
-        });
-
-        return slug;
+        return query;
     } catch (err) {
-        console.error(err);
+        console.error(JSON.stringify(err, undefined, 2));
+        process.exit(1);
     }
-};
+}
 
-export const queryAsset = async (ref = '') => {
+export async function getAsset(ref: string) {
+    if (!ref) console.error('⚠️ Ref is missing or incorrect');
+
     try {
-        const asset = await sanityConnector({
-            query: `query Asset($id: ID!) {
-            SanityFileAsset(id:$id) {
-                url
-                altText
-            }
-          }`,
-            variables: {
-                id: ref
-            },
-            useCdn: true
-        });
+        const variables = {
+            id: ref
+        };
+
+        const asset = graphcms.request<AssetQuery>(assetQuery, variables);
 
         return asset;
     } catch (err) {
-        console.error(err);
-    }
-};
-
-const seo = `
-seo {
-  title
-  description
-  image {
-    asset {
-      url
-    }
-  }
-}`;
-
-const linkInternal = `
-... on LinkInternal {
-    _key
-    title
-    reference {
-        __typename
-        ... on Collection {
-            store {
-                title
-                slug {
-                    current
-                }
-            }
-        }
-        ... on Page {
-            _key
-            title
-            slug {
-                current
-            }
-        }
-    ... on Product {
-        _key
-        store {
-            title
-            slug {
-                current
-            }
-            }
-        }
-    }
-}`;
-
-const LinkExternal = `
-... on LinkExternal {
-    _key
-    title
-    url
-    newWindow
-}`;
-
-const hero = `
-showHero
-hero {
-    image {
-        asset {
-          url
-          altText
-        }
-      }
-    bodyRaw
-    links {
-        __typename
-        ${linkInternal}
-        ${LinkExternal}
+        console.error(JSON.stringify(err, undefined, 2));
+        process.exit(1);
     }
 }
-`;
-
-const modules = `
-    modules {
-			... on ModuleContent {
-         _type
-        _key
-        bodyRaw
-      }
-      ... on ModuleMediaText {
-				_type
-        _key
-        layout
-        bodyRaw
-        links {
-        __typename
-            ${linkInternal}
-            ${LinkExternal}
-        }
-        media {
-          asset {
-            url
-            altText
-          }
-        }
-      }
-    }
-`;
