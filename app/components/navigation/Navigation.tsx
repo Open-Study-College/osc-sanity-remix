@@ -27,9 +27,17 @@ export default function Navigation({ menuItemsName }: Props) {
     return (
         <nav>
             <HStack as="ul" spacing={4}>
-                {menuItems[0].map((menuItem: SanityLinkItem) => (
+                {menuItems[0].links.map((menuItem: SanityLinkItem) => (
                     <li className="" key={menuItem._key}>
-                        {menuItem.__typename === 'LinkExternal' ? (
+                        {menuItem._type === 'linkInternal' ? (
+                            <ChakraLink
+                                as={NavLink}
+                                to={menuItem.slug}
+                                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                            >
+                                {menuItem.title}
+                            </ChakraLink>
+                        ) : (
                             <ChakraLink
                                 href={menuItem.url}
                                 isExternal={menuItem.newWindow}
@@ -37,14 +45,6 @@ export default function Navigation({ menuItemsName }: Props) {
                             >
                                 {menuItem.title}
                                 {menuItem.newWindow ? <ExternalLinkIcon mx={2} /> : null}
-                            </ChakraLink>
-                        ) : (
-                            <ChakraLink
-                                as={NavLink}
-                                to={menuItem.url}
-                                style={({ isActive }) => (isActive ? activeStyle : undefined)}
-                            >
-                                {menuItem.title}
                             </ChakraLink>
                         )}
                     </li>
