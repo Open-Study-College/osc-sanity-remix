@@ -13,7 +13,7 @@ interface Props {
                 altText: string;
             };
         };
-        bodyRaw: PortableTextBlock;
+        body: PortableTextBlock;
         links?: SanityRawLinkItem[];
     };
 }
@@ -34,9 +34,9 @@ export default function Hero({ settings }: Props) {
             <header className="u-bg-secondary">
                 <SimpleGrid columns={2} spacing={10} minChildWidth="340px">
                     <Stack p={12} spacing={6} color="white">
-                        {settings.bodyRaw ? (
+                        {settings.body ? (
                             <PortableText
-                                value={settings.bodyRaw}
+                                value={settings.body}
                                 components={portableTextComponents}
                             />
                         ) : null}
