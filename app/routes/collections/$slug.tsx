@@ -7,17 +7,19 @@ import Hero from '~/components/hero/Hero';
 import Module from '~/components/module';
 import { Center, VStack } from '@chakra-ui/react';
 import ProductGrid from '~/components/collections/ProdutGrid';
-import buildPageData from '~/utils/buildPageData.server';
+import getPageData from '~/models/sanity.server';
+import { COLLECTION_QUERY } from '~/queries/sanity/collection';
 
 export async function loader({ request, params }: LoaderArgs) {
     if (!params.slug) throw new Error('Missing slug');
 
-    const data = await buildPageData({
+    const data = await getPageData({
         request,
         params,
-        type: 'collection'
+        query: COLLECTION_QUERY
     });
 
+    // @ts-ignore
     const { page: collection, isPreview } = data;
 
     const queryProducts = await getProducts({ slug: params.slug });
@@ -28,7 +30,7 @@ export async function loader({ request, params }: LoaderArgs) {
 }
 
 export const meta: MetaFunction = ({ data }) => {
-    const { title } = data.collection?.seo ? data.collection?.seo : data.collection.store;
+    const { title } = data.collection?.seo?.title ? data.collection?.seo : data.collection.store;
 
     return {
         title: `${title} | OSC Stack`,
