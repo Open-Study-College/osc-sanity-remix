@@ -1,5 +1,5 @@
 import { GraphQLClient } from 'graphql-request';
-import productsQuery from '~/graphql/shopify/products.query';
+import productsQuery from '~/queries/shopify/products';
 
 // https://www.npmjs.com/package/graphql-request
 const graphcms = new GraphQLClient(
