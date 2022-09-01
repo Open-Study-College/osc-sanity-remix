@@ -17,17 +17,25 @@ export interface SanityRawLinkItem {
 }
 
 export interface SanityLinkItem {
-    __typename: string;
+    _type: string;
     _key: string;
     title: string;
-    url: string;
+}
+
+export interface InternalSanityLinkItem extends SanityLinkItem {
+    documentType?: string;
+    slug?: string;
+}
+
+export interface ExternalSanityLinkItem extends SanityLinkItem {
     newWindow?: boolean;
+    url?: string;
 }
 
 export interface module {
     _type: string;
     _key: string;
-    bodyRaw?: PortableTextBlock;
+    body?: PortableTextBlock;
 }
 
 export interface mediaTextModule extends module {
@@ -49,7 +57,7 @@ export interface SanityImage {
 
 export interface SanityHero {
     image?: SanityImage;
-    bodyRaw: PortableTextBlock;
+    body: PortableTextBlock;
     links?: SanityRawLinkItem[] | null;
 }
 

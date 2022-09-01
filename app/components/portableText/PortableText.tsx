@@ -48,25 +48,11 @@ const portableTextComponents: PortableTextComponents = {
         number: ({ children }) => <ListItem>{children}</ListItem>
     },
     marks: {
-        annotationLinkInternal: ({ value, children }) => {
-            let url = '/';
-
-            if (value.Product) {
-                url = `/products/${value.Product.store.slug.current}`;
-            }
-            if (value.Collection) {
-                url = `/collections/${value.Collection.store.slug.current}`;
-            }
-            if (value.Page) {
-                url = `/pages/${value.Page.slug.current}`;
-            }
-
-            return (
-                <ChakraLink as={Link} to={url} style={{ textDecoration: 'underline' }}>
-                    {children}
-                </ChakraLink>
-            );
-        },
+        annotationLinkInternal: ({ value, children }) => (
+            <ChakraLink as={Link} to={value.slug} style={{ textDecoration: 'underline' }}>
+                {children}
+            </ChakraLink>
+        ),
         annotationLinkExternal: ({ value, children }) => {
             return (
                 <ChakraLink
@@ -91,9 +77,13 @@ const portableTextComponents: PortableTextComponents = {
         }
     },
     types: {
-        image: ({ value }) => (
-            <img src={value.SanityFileAsset.url} alt={value.SanityFileAsset.altText} />
-        )
+        image: ({ value }) => {
+            const { altText, dimensions, url } = value.asset;
+
+            return (
+                <img src={url} alt={altText} width={dimensions.width} height={dimensions.height} />
+            );
+        }
     }
 };
 

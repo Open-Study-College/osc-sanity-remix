@@ -24,11 +24,11 @@ import styles from 'app/styles/dest/main.css';
 import * as gtag from '~/utils/gtags.client';
 import { getUser } from './session.server';
 import { checkConnectivity } from '~/utils/client/pwa-utils.client';
-import { getSettings } from '~/models/sanity.server';
-import buildLinkItems from './utils/buildLinkItems';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import type { SanityLinkItem } from '~/types';
+import { getClient } from './lib/sanity/getClient.server';
+import { SETTINGS_QUERY } from './queries/sanity/settings';
 // push notifications not working at present, due to wrong sender ID
 // import { PushNotification } from '~/utils/server/pwa-utils.server';
 
@@ -77,10 +77,13 @@ export const headers: HeadersFunction = () => ({
     'Accept-CH': 'Sec-CH-Prefers-Color-Scheme'
 });
 export const loader: LoaderFunction = async ({ request }) => {
-    const siteSettings = await getSettings();
+    const siteSettings = await getClient()
+        .fetch(SETTINGS_QUERY)
+        .catch((err) => console.error(err));
+    const liveSettings = siteSettings.filter((setting) => !setting._id.includes('drafts'))[0];
 
-    const headerMenuItems = buildLinkItems(siteSettings.Settings.menu);
-    const footerMenuItems = buildLinkItems(siteSettings.Settings.footer);
+    const headerMenuItems = liveSettings.menu;
+    const footerMenuItems = liveSettings.footer;
 
     return json<LoaderData>({
         user: await getUser(request),
@@ -92,7 +95,7 @@ export const loader: LoaderFunction = async ({ request }) => {
         nodeEnv: process.env.NODE_ENV === 'production' ? 'production' : 'development',
         headerMenuItems,
         footerMenuItems,
-        footerText: siteSettings.Settings.footer.textRaw
+        footerText: liveSettings.footer.text
     });
 };
 interface DocumentProps {

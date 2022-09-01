@@ -4,20 +4,21 @@ import { useLoaderData } from '@remix-run/react';
 import { getColorScheme } from '~/cookie';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import Hero from '~/components/hero/Hero';
-import buildPageData from '~/utils/buildPageData.server';
 import { Center, VStack } from '@chakra-ui/react';
 import Module from '~/components/module';
 import type { module } from '~/types';
+import { HOME_QUERY } from '~/queries/sanity/home';
+import getPageData from '~/models/sanity.server';
 
 export const loader: LoaderFunction = async ({ request, params }: LoaderArgs) => {
     const colorScheme = await getColorScheme(request);
 
-    const data = await buildPageData({
+    const data = await getPageData({
         request,
-        params,
-        type: 'home'
+        query: HOME_QUERY
     });
 
+    // @ts-ignore
     const { page: home, isPreview } = data;
 
     return json({ colorScheme, home, isPreview });
@@ -37,6 +38,8 @@ export const meta: MetaFunction = ({ data }) => {
 
 export default function Index() {
     const { home, isPreview } = useLoaderData<typeof loader>();
+
+    console.log(home);
 
     return (
         <>

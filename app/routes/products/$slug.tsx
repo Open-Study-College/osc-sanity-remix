@@ -4,24 +4,26 @@ import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import Module from '~/components/module';
 import { Center, VStack } from '@chakra-ui/react';
-import buildPageData from '~/utils/buildPageData.server';
+import getPageData from '~/models/sanity.server';
+import { PRODUCT_QUERY } from '~/queries/sanity/product';
 
 export async function loader({ request, params }: LoaderArgs) {
     if (!params.slug) throw new Error('Missing slug');
 
-    const data = await buildPageData({
+    const data = await getPageData({
         request,
         params,
-        type: 'product'
+        query: PRODUCT_QUERY
     });
 
+    // @ts-ignore
     const { page: product, isPreview } = data;
 
     return json({ product, isPreview });
 }
 
 export const meta: MetaFunction = ({ data }) => {
-    const { title } = data.product?.seo ? data.product?.seo : data.product.store;
+    const { title } = data.product?.seo?.title ? data.product?.seo : data.product.store;
 
     return {
         title: `${title} | OSC Stack`,

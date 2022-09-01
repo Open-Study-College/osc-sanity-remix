@@ -1,21 +1,18 @@
 import { Link } from '@remix-run/react';
 import { Button, Link as ChakraLink, ButtonGroup as ChakraButtonGroup } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
-import buildLinkItems from '~/utils/buildLinkItems';
-import type { SanityRawLinkItem, SanityLinkItem } from '~/types';
+import type { InternalSanityLinkItem, ExternalSanityLinkItem } from '~/types';
 
 interface Props {
-    links: SanityRawLinkItem[];
+    links: InternalSanityLinkItem[] | ExternalSanityLinkItem[];
 }
 
 export default function ButtonGroup({ links }: Props) {
-    const linksArray = buildLinkItems({ links });
-
     return (
         <ChakraButtonGroup size="lg" spacing={4}>
-            {linksArray.map((link: SanityLinkItem) =>
-                link.__typename === 'LinkInternal' ? (
-                    <Button key={link._key} as={Link} to={link.url} className="u-bg-primary">
+            {links.map((link) =>
+                link._type === 'linkInternal' ? (
+                    <Button key={link._key} as={Link} to={link.slug} className="u-bg-primary">
                         {link.title}
                     </Button>
                 ) : (

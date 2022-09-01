@@ -4,7 +4,7 @@ import { Box, SimpleGrid } from '@chakra-ui/react';
 import ButtonGroup from '../buttongroup/ButtonGroup';
 
 export default function MediaTextModule({ module }: { module: mediaTextModule }) {
-    const { layout, bodyRaw, links, media } = module;
+    const { layout, body, links, media } = module;
 
     return (
         <SimpleGrid
@@ -22,7 +22,7 @@ export default function MediaTextModule({ module }: { module: mediaTextModule })
 
             <Box>
                 <Box px={12}>
-                    <ContentModule content={bodyRaw} />
+                    <ContentModule content={body} />
                 </Box>
 
                 <Box p={12}>{links ? <ButtonGroup links={links} /> : null}</Box>
