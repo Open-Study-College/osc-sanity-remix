@@ -1,10 +1,11 @@
 {
   "root": true,
   "project": {
-    "name": "Shopify - openstudydev"
+    "name": "Shopify - openstudydev",
+    "basePath": "/studio"
   },
   "api": {
-    "projectId": "",
+    "projectId": "v6lebos6",
     "dataset": "production"
   },
   "plugins": [
