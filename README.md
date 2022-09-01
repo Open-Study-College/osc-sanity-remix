@@ -36,9 +36,22 @@ Click this button to create a [Gitpod](https://gitpod.io) workspace with the pro
 
 - Initial setup: _If you just generated this project, this step has been done for you._
 
-  ```sh
-  npm run setup
-  ```
+You will also need to add the following to your .env file
+
+```.env
+SANITY_STUDIO_API_PROJECT_ID=<project-id>
+SANITY_STUDIO_API_DATASET=<project-dataset>
+SANITY_STUDIO_API_TOKEN=<project-api-token>
+
+SHOPIFY_STORE_URL="openstudydev.myshopify.com"
+SHOPIFY_STOREFRONT_API_ACCESS_TOKEN=<access-token>
+SHOPIFY_API_KEY=<public-api-key>
+SHOPIFY_SECRET_KEY=<secret-api-key>
+```
+
+```sh
+npm run setup
+```
 
 - Start dev server:
 
@@ -46,20 +59,23 @@ Click this button to create a [Gitpod](https://gitpod.io) workspace with the pro
   npm run dev
   ```
 
-This starts your app in development mode, rebuilding assets on file changes.
+## Setting up Sanity
 
-The database seed script creates a new user with some data you can use to get started:
+You will need to add a .env.development file to the `/studio` directory and include the following variables:
 
-- Email: `rachel@remix.run`
-- Password: `racheliscool`
+```.env.development
+SANITY_STUDIO_API_PROJECT_ID=<project-id>
+SANITY_STUDIO_API_DATASET=<project-dataset>
+```
 
-### Relevant code:
+While inside the `/studio` directory run
 
-This is a pretty simple note-taking app, but it's a good example of how you can build a full stack app with Prisma and Remix. The main functionality is creating users, logging in and out, and creating and deleting notes.
+```sh
+npm install
+npm start
+```
 
-- creating users, and logging in and out [./app/models/user.server.ts](./app/models/user.server.ts)
-- user sessions, and verifying them [./app/session.server.ts](./app/session.server.ts)
-- creating, and deleting notes [./app/models/note.server.ts](./app/models/note.server.ts)
+To generate the local studio on [http://localhost:3333](http://localhost:3333)
 
 ## Deployment
 
