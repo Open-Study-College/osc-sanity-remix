@@ -8,7 +8,7 @@ export default function Module({ module }: { module: module }) {
         case 'module.content':
             return (
                 <Container maxW="container.md">
-                    <ContentModule content={module.bodyRaw} />
+                    <ContentModule content={module.body} />
                 </Container>
             );
         case 'module.mediaText':

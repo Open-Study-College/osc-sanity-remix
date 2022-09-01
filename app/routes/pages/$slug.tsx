@@ -5,31 +5,34 @@ import { useLoaderData } from '@remix-run/react';
 import { Center, VStack } from '@chakra-ui/react';
 import Hero from '~/components/hero/Hero';
 import Module from '~/components/module';
-import buildPageData from '~/utils/buildPageData.server';
+import getPageData from '~/models/sanity.server';
+import { PAGE_QUERY } from '~/queries/sanity/page';
 
 export async function loader({ request, params }: LoaderArgs) {
     if (!params.slug) throw new Error('Missing slug');
 
-    const data = await buildPageData({
+    const data = await getPageData({
         request,
         params,
-        type: 'page'
+        query: PAGE_QUERY
     });
 
+    // @ts-ignore
     const { page, isPreview } = data;
 
     return json({ page, isPreview });
 }
 
 export const meta: MetaFunction = ({ data }) => {
-    const { title } = data.page?.seo ? data.page?.seo : data.page;
+    const pageData = data.page;
+    const { title } = pageData?.seo ? pageData?.seo : pageData;
 
     return {
         title: `${title} | OSC Stack`,
-        description: data.page?.seo?.description,
-        image: data.page?.seo?.image?.url,
-        'og:description': data.page?.seo?.description,
-        'og:image': data.page?.seo?.image?.url,
+        description: pageData?.seo?.description,
+        image: pageData?.seo?.image?.url,
+        'og:description': pageData?.seo?.description,
+        'og:image': pageData?.seo?.image?.url,
         robots: data.isPreview ? 'noindex' : null // noindex preview urls
     };
 };
