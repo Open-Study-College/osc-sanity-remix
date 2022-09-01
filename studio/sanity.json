@@ -5,7 +5,7 @@
     "basePath": "/studio"
   },
   "api": {
-    "projectId": "",
+    "projectId": "v6lebos6",
     "dataset": "production"
   },
   "plugins": [
