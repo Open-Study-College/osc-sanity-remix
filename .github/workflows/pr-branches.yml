@@ -6,6 +6,8 @@ on:
 env:
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
   FLY_REGION: iad
+  SANITY_STUDIO_API_DATASET: ${{ secrets.SANITY_STUDIO_API_DATASET }}
+  SANITY_STUDIO_API_PROJECT_ID: ${{ secrets.SANITY_STUDIO_API_PROJECT_ID }}
 
 jobs:
   build:
