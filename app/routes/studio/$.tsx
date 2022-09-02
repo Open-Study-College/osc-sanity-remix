@@ -1,12 +1,11 @@
+import type { LoaderArgs } from '@remix-run/server-runtime';
 import { useCatch } from '@remix-run/react';
+import { redirect } from '@remix-run/server-runtime';
 
-export async function loader() {
-    // This page should always through a 404 error
-    // Remix router is intefering with the Sanity Studio route so pages access directly or refreshed will errror
-    // This allows us to handle that nicely and direct users to the correct url
-    throw new Response('Not Found', {
-        status: 404
-    });
+export async function loader({ params }: LoaderArgs) {
+    console.log({ params });
+
+    return redirect('/studio');
 }
 
 export function CatchBoundary() {
