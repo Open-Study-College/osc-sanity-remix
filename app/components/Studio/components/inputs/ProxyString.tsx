@@ -18,7 +18,6 @@ const ProxyString = forwardRef<HTMLInputElement, Props>((props, ref) => {
         onBlur,
         placeholder,
         presence,
-        readOnly,
         type
     } = props;
 
