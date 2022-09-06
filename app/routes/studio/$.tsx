@@ -13,7 +13,7 @@ export default function StudioPage() {
     return (
         <ClientOnly>
             {() => (
-                <div id="sanity-studio">
+                <div id="sanity-studio" style={{ height: '100vh' }}>
                     <StudioWrapper />
                 </div>
             )}
