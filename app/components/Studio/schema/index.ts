@@ -26,7 +26,7 @@ import { content as moduleContent } from './objects/module/content';
 import { mediaText as moduleMediaText } from './objects/module/mediaText';
 import { placeholderString } from './objects/placeholderString';
 import { productInventory } from './objects/productInventory';
-import productPriceRange from 'studio/schemas/objects/productPriceRange';
+import { productPriceRange } from './objects/productPriceRange';
 import { productOption } from './objects/productOption';
 import { productWithVariant } from './objects/productWithVariant';
 import { proxyString } from './objects/proxyString';

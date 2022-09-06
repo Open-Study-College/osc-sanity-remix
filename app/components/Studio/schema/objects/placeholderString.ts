@@ -1,10 +1,12 @@
-// import PlaceholderStringInput from '../../components/inputs/PlaceholderString';
+import PlaceholderStringInput from '../../components/inputs/PlaceholderString';
 
 import { defineType } from 'sanity';
 
 export const placeholderString = defineType({
     name: 'placeholderString',
     title: 'Title',
-    type: 'string'
-    // inputComponent: PlaceholderStringInput
+    type: 'string',
+    components: {
+        input: PlaceholderStringInput
+    }
 });

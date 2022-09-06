@@ -1,9 +1,9 @@
 import { PackageIcon } from '@sanity/icons';
 import pluralize from 'pluralize';
 import { defineField, defineType } from 'sanity';
-// import ShopifyIcon from "../../components/icons/Shopify";
-// import CollectionHiddenInput from "../../components/inputs/CollectionHidden";
-// import ShopifyDocumentStatus from "../../components/media/ShopifyDocumentStatus";
+import ShopifyIcon from '../../components/icons/Shopify';
+import CollectionHiddenInput from '../../components/inputs/CollectionHidden';
+import ShopifyDocumentStatus from '../../components/media/ShopifyDocumentStatus';
 
 const GROUPS = [
     {
@@ -17,8 +17,8 @@ const GROUPS = [
     },
     {
         name: 'shopifySync',
-        title: 'Shopify sync'
-        // icon: ShopifyIcon,
+        title: 'Shopify sync',
+        icon: ShopifyIcon
     },
     {
         name: 'seo',
@@ -29,7 +29,7 @@ const GROUPS = [
 export const collection = defineType({
     // Required to hide 'create new' button in desk structure
     //   @ts-ignore
-    __experimental_actions: [/*'create',*/ 'update', /*'delete',*/ 'publish'],
+    //   __experimental_actions: [/*'create',*/ "update", /*'delete',*/ "publish"],
     name: 'collection',
     title: 'Collection',
     type: 'document',
@@ -40,7 +40,9 @@ export const collection = defineType({
         defineField({
             name: 'hidden',
             type: 'string',
-            //   inputComponent: CollectionHiddenInput,
+            components: {
+                input: CollectionHiddenInput
+            },
             group: GROUPS.map((group) => group.name),
             hidden: ({ parent }) => {
                 const isDeleted = parent?.store?.isDeleted;
@@ -124,13 +126,9 @@ export const collection = defineType({
         prepare(selection) {
             const { imageUrl, isDeleted, ruleCount, title } = selection;
             return {
-                // media: (
-                //   <ShopifyDocumentStatus
-                //     isDeleted={isDeleted}
-                //     type="collection"
-                //     url={imageUrl}
-                //   />
-                // ),
+                media: (
+                    <ShopifyDocumentStatus isDeleted={isDeleted} type="collection" url={imageUrl} />
+                ),
                 subtitle:
                     ruleCount > 0 ? `Automated (${pluralize('rule', ruleCount, true)})` : 'Manual',
                 title

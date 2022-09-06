@@ -1,6 +1,6 @@
 import { defineField, defineType } from 'sanity';
 import { DocumentIcon } from '@sanity/icons';
-// import { validateSlug } from '../../utils/validateSlug';
+import { validateSlug } from '~/lib/sanity/utils/validateSlug';
 
 export const page = defineType({
     name: 'page',
@@ -34,8 +34,8 @@ export const page = defineType({
         defineField({
             name: 'slug',
             type: 'slug',
-            options: { source: 'title' }
-            // validation: validateSlug
+            options: { source: 'title' },
+            validation: validateSlug
         }),
         // Show hero
         defineField({
@@ -61,27 +61,27 @@ export const page = defineType({
             type: 'array',
             of: [{ type: 'module.mediaText' }, { type: 'module.content' }],
             group: 'editorial'
-        })
+        }),
         // SEO
-        // {
-        //   name: "seo",
-        //   title: "SEO",
-        //   type: "seo.page",
-        //   group: "seo",
-        // },
+        defineField({
+            name: 'seo',
+            title: 'SEO',
+            type: 'seo.page',
+            group: 'seo'
+        })
     ],
     preview: {
-        // select: {
-        //   active: "active",
-        //   seoImage: "seo.image",
-        //   title: "title",
-        // },
-        // prepare(selection) {
-        //   const { seoImage, title } = selection;
-        //   return {
-        //     media: seoImage,
-        //     title,
-        //   };
-        // },
+        select: {
+            active: 'active',
+            seoImage: 'seo.image',
+            title: 'title'
+        },
+        prepare(selection) {
+            const { seoImage, title } = selection;
+            return {
+                media: seoImage,
+                title
+            };
+        }
     }
 });

@@ -65,7 +65,8 @@ export const shopifyCollection = defineType({
             name: 'slug',
             title: 'Slug',
             description: 'Shopify Collection handle',
-            type: 'slug'
+            type: 'slug',
+            readOnly: true
         }),
         // Description
         defineField({
@@ -86,7 +87,8 @@ export const shopifyCollection = defineType({
             title: 'Rules',
             type: 'array',
             description: 'Include Shopify products that satisfy these conditions',
-            of: [{ type: 'rule' }]
+            of: [{ type: 'rule' }],
+            readOnly: true
         }),
         // Disjunctive rules
         defineField({

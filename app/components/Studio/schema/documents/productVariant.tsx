@@ -1,8 +1,8 @@
 import { CopyIcon } from '@sanity/icons';
 import { defineField, defineType } from 'sanity';
-// import ShopifyIcon from '../../components/icons/Shopify';
-// import ProductVariantHiddenInput from '../../components/inputs/ProductVariantHidden';
-// import ShopifyDocumentStatus from '../../components/media/ShopifyDocumentStatus';
+import ShopifyIcon from '../../components/icons/Shopify';
+import ProductVariantHiddenInput from '../../components/inputs/ProductVariantHidden';
+import ShopifyDocumentStatus from '../../components/media/ShopifyDocumentStatus';
 
 export const productVariant = defineType({
     // HACK: Required to hide 'create new' button in desk structure
@@ -15,8 +15,8 @@ export const productVariant = defineType({
     groups: [
         {
             name: 'shopifySync',
-            title: 'Shopify sync'
-            // icon: ShopifyIcon
+            title: 'Shopify sync',
+            icon: ShopifyIcon
         }
     ],
     fields: [
@@ -24,7 +24,9 @@ export const productVariant = defineType({
         defineField({
             name: 'hidden',
             type: 'string',
-            // inputComponent: ProductVariantHiddenInput,
+            components: {
+                input: ProductVariantHiddenInput
+            },
             hidden: ({ parent }) => {
                 const isDeleted = parent?.store?.isDeleted;
 
@@ -59,14 +61,14 @@ export const productVariant = defineType({
             const { isDeleted, previewImageUrl, sku, status, title } = selection;
 
             return {
-                // media: (
-                //     <ShopifyDocumentStatus
-                //         isActive={status === 'active'}
-                //         isDeleted={isDeleted}
-                //         type="productVariant"
-                //         url={previewImageUrl}
-                //     />
-                // ),
+                media: (
+                    <ShopifyDocumentStatus
+                        isActive={status === 'active'}
+                        isDeleted={isDeleted}
+                        type="productVariant"
+                        url={previewImageUrl}
+                    />
+                ),
                 subtitle: sku,
                 title
             };

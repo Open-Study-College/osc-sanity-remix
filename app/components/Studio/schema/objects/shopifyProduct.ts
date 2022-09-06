@@ -92,6 +92,7 @@ export const shopifyProduct = defineType({
             name: 'slug',
             title: 'Slug',
             type: 'slug',
+            readOnly: true,
             description: 'Shopify Product handle'
         }),
         // Description
@@ -126,7 +127,8 @@ export const shopifyProduct = defineType({
         defineField({
             name: 'priceRange',
             title: 'Price range',
-            type: 'productPriceRange'
+            type: 'productPriceRange',
+            readOnly: true
         }),
         // Preview Image URL
         defineField({
@@ -152,12 +154,14 @@ export const shopifyProduct = defineType({
             name: 'variants',
             title: 'Variants',
             type: 'array',
+            readOnly: true,
             of: [
                 {
                     title: 'Variant',
                     type: 'reference',
                     weak: true,
-                    to: [{ type: 'productVariant' }]
+                    to: [{ type: 'productVariant' }],
+                    readOnly: true
                 }
             ]
         })

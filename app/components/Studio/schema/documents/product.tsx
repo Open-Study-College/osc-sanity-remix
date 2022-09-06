@@ -1,9 +1,9 @@
 import { TagIcon } from '@sanity/icons';
 import pluralize from 'pluralize';
 import { defineField, defineType } from 'sanity';
-// import ShopifyIcon from '../../components/icons/Shopify';
-// import ProductHiddenInput from '../../components/inputs/ProductHidden';
-// import ShopifyDocumentStatus from '../../components/media/ShopifyDocumentStatus';
+import ShopifyIcon from '../../components/icons/Shopify';
+import ProductHiddenInput from '../../components/inputs/ProductHidden';
+import ShopifyDocumentStatus from '../../components/media/ShopifyDocumentStatus';
 import { getPriceRange } from '~/lib/sanity/utils/getPriceRange';
 
 const GROUPS = [
@@ -14,8 +14,8 @@ const GROUPS = [
     },
     {
         name: 'shopifySync',
-        title: 'Shopify sync'
-        // icon: ShopifyIcon,
+        title: 'Shopify sync',
+        icon: ShopifyIcon
     },
     {
         name: 'seo',
@@ -26,7 +26,7 @@ const GROUPS = [
 export const product = defineType({
     // Required to hide 'create new' button in desk structure
     // @ts-ignore
-    __experimental_actions: [/*'create',*/ 'update', /*'delete',*/ 'publish'],
+    //   __experimental_actions: [/*'create',*/ "update", /*'delete',*/ "publish"],
     name: 'product',
     title: 'Product',
     type: 'document',
@@ -37,7 +37,9 @@ export const product = defineType({
         defineField({
             name: 'hidden',
             type: 'string',
-            // inputComponent: ProductHiddenInput,
+            components: {
+                input: ProductHiddenInput
+            },
             group: GROUPS.map((group) => group.name),
             hidden: ({ parent }) => {
                 const isActive = parent?.store?.status === 'active';
@@ -141,14 +143,14 @@ export const product = defineType({
             }
 
             return {
-                // media: (
-                //     <ShopifyDocumentStatus
-                //         isActive={status === 'active'}
-                //         isDeleted={isDeleted}
-                //         type="product"
-                //         url={previewImageUrl}
-                //     />
-                // ),
+                media: (
+                    <ShopifyDocumentStatus
+                        isActive={status === 'active'}
+                        isDeleted={isDeleted}
+                        type="product"
+                        url={previewImageUrl}
+                    />
+                ),
                 description: description.join(' / '),
                 subtitle,
                 title
