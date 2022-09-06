@@ -1,4 +1,4 @@
-import { CogIcon, PackageIcon } from '@sanity/icons';
+import { CogIcon } from '@sanity/icons';
 import { defineField, defineType } from 'sanity';
 
 const TITLE = 'Settings';

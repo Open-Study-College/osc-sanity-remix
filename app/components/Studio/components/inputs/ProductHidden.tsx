@@ -1,8 +1,9 @@
+/* eslint-disable react/display-name */
 import type { SanityDocument } from '@sanity/client';
 import { WarningOutlineIcon } from '@sanity/icons';
 import { Box, Card, Flex, Stack, Text } from '@sanity/ui';
 import { forwardRef, useEffect, useState } from 'react';
-import { getShopifyStoreId } from '~/lib/sanity/hooks/useShopifyStoreId';
+import { useShopifyStoreId } from '~/lib/sanity/hooks/useShopifyStoreId';
 import { productUrl } from '~/lib/sanity/utils/shopifyUrls';
 
 type Props = {
