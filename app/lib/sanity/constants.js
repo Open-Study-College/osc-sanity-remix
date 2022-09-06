@@ -5,7 +5,7 @@ export const DEFAULT_CURRENCY_CODE = 'GBP';
 // Document ids which:
 // - cannot be created in the 'new document' menu
 // - cannot be duplicated, unpublished or deleted
-export const LOCKED_DOCUMENT_IDS = ['home', 'settings'];
+export const LOCKED_DOCUMENT_IDS = ['home', 'settings', 'product', 'productVariant', 'collection'];
 
 // Document types which:
 // - cannot be created in the 'new document' menu
