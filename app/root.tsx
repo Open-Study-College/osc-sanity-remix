@@ -172,7 +172,7 @@ const Document = withEmotionCache(({ children }: DocumentProps, emotionCache: Em
                     />
                 ))}
             </head>
-            <body>
+            <body style={{ margin: 0 }}>
                 <noscript>
                     <iframe
                         title="gtm"
