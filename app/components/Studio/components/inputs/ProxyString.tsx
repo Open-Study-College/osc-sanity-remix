@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { FormField } from 'sanity/form';
 import { LockIcon } from '@sanity/icons';
 import { Box, Text, TextInput, Tooltip } from '@sanity/ui';

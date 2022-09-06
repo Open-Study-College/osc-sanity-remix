@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import type { MarksObjectField, Path } from 'sanity';
 import { FormField, set, unset } from 'sanity/form';
 import { TextInput } from '@sanity/ui';

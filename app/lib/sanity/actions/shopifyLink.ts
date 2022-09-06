@@ -22,6 +22,7 @@ export default (props: Props) => {
 
     useEffect(() => {
         getStoreId.then((id) => setStoreId(id));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // Hide action if:

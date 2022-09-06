@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { CloseIcon, ImageIcon, LinkRemovedIcon } from '@sanity/icons';
 import { forwardRef, useState } from 'react';
 

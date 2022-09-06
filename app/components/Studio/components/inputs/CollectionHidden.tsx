@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import type { SanityDocument } from '@sanity/client';
 import { WarningOutlineIcon } from '@sanity/icons';
 import { Box, Card, Flex, Stack, Text } from '@sanity/ui';
@@ -22,6 +23,7 @@ const CollectionHiddenInput = forwardRef<HTMLDivElement, Props>((props, ref) => 
                 setShopifyCollectionUrl(collectionUrl(id, document?.store?.id));
             }
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

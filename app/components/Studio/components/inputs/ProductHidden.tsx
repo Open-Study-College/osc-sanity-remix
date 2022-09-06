@@ -24,6 +24,7 @@ const ProductHiddenInput = forwardRef<HTMLDivElement, Props>((props, ref) => {
                 setShopifyProductUrl(productUrl(id, document?.store?.id));
             }
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     let message;
