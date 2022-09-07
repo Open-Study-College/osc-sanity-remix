@@ -18,6 +18,7 @@ import { schemaTypes } from '~/components/Studio/schema';
 import { deleteAction } from '~/lib/sanity/actions/deleteAction';
 import { duplicateAction } from '~/lib/sanity/actions/duplicateAction';
 import shopifyLink from '~/lib/sanity/actions/shopifyLink';
+import { resolvePreviewUrl } from '~/lib/sanity/actions/resolvePreviewUrl';
 
 // @ts-ignore
 export default createConfig({
@@ -69,34 +70,15 @@ export default createConfig({
             });
 
             return [...resolveActions, shopifyLink];
-        }
+        },
 
         // prev is the result from previous plugins and can be composed
-        // productionUrl: async (prev, context) => {
-        //   // context includes the client an other details
-        //   const { document } = context;
+        productionUrl: async (prev, context) => {
+            // context includes the client an other details
+            const previewUrl = resolvePreviewUrl(context);
 
-        //   const siteUrl = isDev
-        //     ? "http://localhost:3000"
-        //     : "https://osc-sanity-remix.fly.dev/";
-
-        //   const params = new URLSearchParams();
-        //   params.set("preview", "true");
-
-        //   switch (document._type) {
-        //     case "page":
-        //       return `${siteUrl}/pages/${document.slug.currenct}?${params}`;
-
-        //     case "collection":
-        //       return `${siteUrl}/collections/${document.store.slug.currenct}?${params}`;
-
-        //     case "product":
-        //       return `${siteUrl}/products/${document.store.slug.currenct}?${params}`;
-
-        //     default:
-        //       return `${siteUrl}/?${params}`;
-        //   }
-        // },
+            return previewUrl;
+        }
     },
 
     schema: {
