@@ -19,16 +19,19 @@ export const resolvePreviewUrl = (prev: any, context: Context) => {
             return document.slug ? `${siteUrl}/pages/${document.slug.current}?${params}` : null;
 
         case 'collection':
-            return document.slug
+            return document.store.slug
                 ? `${siteUrl}/collections/${document.store.slug.current}?${params}`
                 : null;
 
         case 'product':
-            return document.slug
+            return document.store.slug
                 ? `${siteUrl}/products/${document.store.slug.current}?${params}`
                 : null;
 
+        case 'home':
+            return `${siteUrl}/?${params}`;
+
         default:
-            return document.slug ? `${siteUrl}/?${params}` : null;
+            return prev;
     }
 };
