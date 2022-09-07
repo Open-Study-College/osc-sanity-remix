@@ -142,9 +142,11 @@ export const shopifyProduct = defineType({
             name: 'options',
             title: 'Options',
             type: 'array',
+            readOnly: true,
             of: [
                 {
-                    type: 'option'
+                    type: 'option',
+                    readOnly: true
                 }
             ]
         }),

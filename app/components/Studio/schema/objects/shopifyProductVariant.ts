@@ -4,6 +4,7 @@ export const shopifyProductVariant = defineType({
     name: 'shopifyProductVariant',
     title: 'Shopify',
     type: 'object',
+    readOnly: true,
     options: {
         collapsed: false,
         collapsible: true
@@ -112,7 +113,8 @@ export const shopifyProductVariant = defineType({
         defineField({
             name: 'inventory',
             title: 'Inventory',
-            type: 'productInventory'
+            type: 'productInventory',
+            readOnly: true
         }),
         // Option 1
         defineField({
@@ -142,6 +144,5 @@ export const shopifyProductVariant = defineType({
             type: 'string',
             description: 'Image displayed in both cart and checkout'
         })
-    ],
-    readOnly: true
+    ]
 });

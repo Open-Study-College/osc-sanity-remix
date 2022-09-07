@@ -19,6 +19,7 @@ export const productOption = defineType({
             title: 'Values',
             name: 'values',
             type: 'array',
+            readOnly: true,
             of: [{ type: 'string' }]
         })
     ],
