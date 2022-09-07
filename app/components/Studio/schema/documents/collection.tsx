@@ -7,10 +7,6 @@ import ShopifyDocumentStatus from '../../components/media/ShopifyDocumentStatus'
 
 const GROUPS = [
     {
-        name: 'theme',
-        title: 'Theme'
-    },
-    {
         default: true,
         name: 'editorial',
         title: 'Editorial'
