@@ -23,7 +23,6 @@ import { schemaTypes } from '~/components/Studio/schema';
 import { deleteAction } from '~/lib/sanity/actions/deleteAction';
 import { duplicateAction } from '~/lib/sanity/actions/duplicateAction';
 import shopifyLink from '~/lib/sanity/actions/shopifyLink';
-import { resolvePreviewUrl } from '~/lib/sanity/actions/resolvePreviewUrl';
 
 // @ts-ignore
 export default createConfig({
@@ -76,14 +75,6 @@ export default createConfig({
             });
 
             return [...resolveActions, shopifyLink];
-        },
-
-        // prev is the result from previous plugins and can be composed
-        productionUrl: async (prev, context) => {
-            // context includes the client an other details
-            const previewUrl = resolvePreviewUrl(prev, context);
-
-            return previewUrl;
         }
     },
 
