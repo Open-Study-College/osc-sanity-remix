@@ -86,6 +86,9 @@ export interface SanityPage {
 export interface SanityCollectionPage extends SanityPage {
     store: {
         title: string;
+        slug?: {
+            current: string;
+        };
     };
 }
 
