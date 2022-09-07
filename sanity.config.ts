@@ -1,5 +1,10 @@
 import { createConfig, isDev } from 'sanity';
-import { LOCKED_DOCUMENT_IDS, SANITY_API_VERSION } from '~/lib/sanity/constants';
+import {
+    SANITY_STUDIO_API_DATASET,
+    SANITY_STUDIO_API_PROJECT_ID,
+    LOCKED_DOCUMENT_IDS,
+    SANITY_API_VERSION
+} from '~/lib/sanity/constants';
 // Plugins
 import { deskTool } from 'sanity/desk';
 import {
@@ -25,8 +30,8 @@ export default createConfig({
     name: 'default',
     title: 'Shopify - openstudydev',
     basePath: '/studio',
-    projectId: 'v6lebos6',
-    dataset: 'production',
+    projectId: SANITY_STUDIO_API_PROJECT_ID,
+    dataset: SANITY_STUDIO_API_DATASET,
 
     plugins: [
         dashboardTool({
