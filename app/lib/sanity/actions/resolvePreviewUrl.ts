@@ -9,7 +9,8 @@ interface Context extends ConfigContext {
 export const resolvePreviewUrl = (prev: any, context: Context) => {
     const { document } = context;
 
-    const siteUrl = isDev ? 'http://localhost:3000' : 'https://osc-sanity-remix.fly.dev';
+    //? Good idea?
+    const siteUrl = window.location.origin;
 
     const params = new URLSearchParams();
     params.set('preview', 'true');
