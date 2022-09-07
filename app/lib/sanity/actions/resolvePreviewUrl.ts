@@ -1,6 +1,5 @@
 import type { SanityPage, SanityCollectionPage } from '~/types';
 import type { ConfigContext } from 'sanity';
-import { isDev } from 'sanity';
 
 interface Context extends ConfigContext {
     document: SanityPage | SanityCollectionPage;
