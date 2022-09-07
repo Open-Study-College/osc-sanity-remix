@@ -17,7 +17,7 @@ import { visionTool } from '@sanity/vision';
 // import { media, mediaAssetSource } from "sanity-plugin-media";
 //! @mdx-js dependency is @theme-ui and cases an ESM error -- possible blocker?
 // Components
-import { structure } from '~/components/Studio/structure';
+import { structure, defaultDocumentNode } from '~/components/Studio/structure';
 import { schemaTypes } from '~/components/Studio/schema';
 // Actions
 import { deleteAction } from '~/lib/sanity/actions/deleteAction';
@@ -38,7 +38,8 @@ export default createConfig({
             widgets: [sanityTutorialsWidget(), projectInfoWidget(), projectUsersWidget()]
         }),
         deskTool({
-            structure
+            structure,
+            defaultDocumentNode
         }),
         isDev
             ? visionTool({
