@@ -82,8 +82,8 @@ export const loader: LoaderFunction = async ({ request }) => {
         .catch((err) => console.error(err));
     const liveSettings = siteSettings.filter((setting) => !setting._id.includes('drafts'))[0];
 
-    const headerMenuItems = liveSettings.menu;
-    const footerMenuItems = liveSettings.footer;
+    const headerMenuItems = liveSettings?.menu;
+    const footerMenuItems = liveSettings?.footer;
 
     return json<LoaderData>({
         user: await getUser(request),
@@ -95,7 +95,7 @@ export const loader: LoaderFunction = async ({ request }) => {
         nodeEnv: process.env.NODE_ENV === 'production' ? 'production' : 'development',
         headerMenuItems,
         footerMenuItems,
-        footerText: liveSettings.footer.text
+        footerText: liveSettings?.footer?.text
     });
 };
 interface DocumentProps {
