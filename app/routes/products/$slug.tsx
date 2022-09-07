@@ -1,9 +1,11 @@
 import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import type { module } from '~/types';
+import { useState } from 'react';
 import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData, useParams } from '@remix-run/react';
 import Module from '~/components/module';
-import { Center, VStack } from '@chakra-ui/react';
+import Preview from '~/components/Preview';
+import { VStack } from '@chakra-ui/react';
 import getPageData from '~/models/sanity.server';
 import { PRODUCT_QUERY } from '~/queries/sanity/product';
 
@@ -19,7 +21,12 @@ export async function loader({ request, params }: LoaderArgs) {
     // @ts-ignore
     const { page: product, isPreview } = data;
 
-    return json({ product, isPreview });
+    return json({
+        product,
+        isPreview,
+        // If `preview` mode is active, we'll need these for live updates
+        query: isPreview ? PRODUCT_QUERY : null
+    });
 }
 
 export const meta: MetaFunction = ({ data }) => {
@@ -36,22 +43,26 @@ export const meta: MetaFunction = ({ data }) => {
 };
 
 export default function Product() {
-    const { product, isPreview } = useLoaderData<typeof loader>();
-    const { title } = product.store;
+    const { product, isPreview, query } = useLoaderData<typeof loader>();
+    const params = useParams();
+    // If `preview` mode is active, its component update this state for us
+    const [data, setData] = useState(product);
 
+    const title = data?.store?.title;
+
+    // NOTE: For preview mode to work nicely when working with draft content, optional chain _everything_
     return (
         <>
             {isPreview ? (
-                <Center p={4} className="u-bg-tertiary">
-                    Preview Mode
-                </Center>
+                <Preview data={data} setData={setData} query={query} queryParams={params} />
             ) : null}
+
             <main className="mx-auto max-w-4xl">
                 <h1 className="my-6 border-b-2 text-center text-3xl">{title}</h1>
 
-                {product.modules && product.modules.length > 0 ? (
+                {data?.modules && data?.modules.length > 0 ? (
                     <VStack spacing={16}>
-                        {product.modules.map((module: module) =>
+                        {data?.modules.map((module: module) =>
                             module ? <Module key={module._key} module={module} /> : null
                         )}
                     </VStack>

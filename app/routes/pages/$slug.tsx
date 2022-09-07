@@ -1,10 +1,12 @@
 import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import type { module } from '~/types';
+import { useState } from 'react';
 import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
-import { Center, VStack } from '@chakra-ui/react';
+import { useLoaderData, useParams } from '@remix-run/react';
+import { VStack } from '@chakra-ui/react';
 import Hero from '~/components/hero/Hero';
 import Module from '~/components/module';
+import Preview from '~/components/Preview';
 import getPageData from '~/models/sanity.server';
 import { PAGE_QUERY } from '~/queries/sanity/page';
 
@@ -20,7 +22,12 @@ export async function loader({ request, params }: LoaderArgs) {
     // @ts-ignore
     const { page, isPreview } = data;
 
-    return json({ page, isPreview });
+    return json({
+        page,
+        isPreview,
+        // If `preview` mode is active, we'll need these for live updates
+        query: isPreview ? PAGE_QUERY : null
+    });
 }
 
 export const meta: MetaFunction = ({ data }) => {
@@ -38,26 +45,28 @@ export const meta: MetaFunction = ({ data }) => {
 };
 
 export default function Page() {
-    const { page, isPreview } = useLoaderData<typeof loader>();
+    let { page, isPreview, query } = useLoaderData<typeof loader>();
+    const params = useParams();
+    // If `preview` mode is active, its component update this state for us
+    const [data, setData] = useState(page);
 
+    // NOTE: For preview mode to work nicely when working with draft content, optional chain _everything_
     return (
         <>
             {isPreview ? (
-                <Center p={4} className="u-bg-tertiary">
-                    Preview Mode
-                </Center>
+                <Preview data={data} setData={setData} query={query} queryParams={params} />
             ) : null}
 
             <main className="mx-auto max-w-4xl">
-                {page.showHero ? (
-                    <Hero settings={page.hero} />
+                {data?.showHero ? (
+                    <Hero settings={data?.hero} />
                 ) : (
-                    <h1 className="my-6 border-b-2 text-center text-3xl">{page.title}</h1>
+                    <h1 className="my-6 border-b-2 text-center text-3xl">{data?.title}</h1>
                 )}
 
-                {page.modules && page.modules.length > 0 ? (
+                {data?.modules && data?.modules.length > 0 ? (
                     <VStack spacing={16}>
-                        {page.modules.map((module: module) =>
+                        {data?.modules.map((module: module) =>
                             module ? <Module key={module._key} module={module} /> : null
                         )}
                     </VStack>
