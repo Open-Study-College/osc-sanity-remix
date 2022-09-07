@@ -73,6 +73,7 @@
     "react-dom": "^18.2.0",
     "remix-utils": "^3.3.0",
     "sanity": "dev-preview",
+    "sanity-plugin-iframe-pane": "^2.0.0",
     "slug": "^8.0.0",
     "tiny-invariant": "^1.2.0",
     "web-push": "^3.4.5"
