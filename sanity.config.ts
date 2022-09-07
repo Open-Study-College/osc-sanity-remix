@@ -75,7 +75,7 @@ export default createConfig({
         // prev is the result from previous plugins and can be composed
         productionUrl: async (prev, context) => {
             // context includes the client an other details
-            const previewUrl = resolvePreviewUrl(context);
+            const previewUrl = resolvePreviewUrl(prev, context);
 
             return previewUrl;
         }

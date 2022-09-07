@@ -6,10 +6,10 @@ interface Context extends ConfigContext {
     document: SanityPage | SanityCollectionPage;
 }
 
-export const resolvePreviewUrl = (context: Context) => {
+export const resolvePreviewUrl = (prev: any, context: Context) => {
     const { document } = context;
 
-    const siteUrl = isDev ? 'http://localhost:3000' : 'https://osc-sanity-remix.fly.dev/';
+    const siteUrl = isDev ? 'http://localhost:3000' : 'https://osc-sanity-remix.fly.dev';
 
     const params = new URLSearchParams();
     params.set('preview', 'true');
