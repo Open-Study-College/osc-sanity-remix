@@ -24,9 +24,6 @@ const GROUPS = [
 ];
 
 export const product = defineType({
-    // Required to hide 'create new' button in desk structure
-    // @ts-ignore
-    //   __experimental_actions: [/*'create',*/ "update", /*'delete',*/ "publish"],
     name: 'product',
     title: 'Product',
     type: 'document',

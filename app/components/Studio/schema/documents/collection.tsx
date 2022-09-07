@@ -23,9 +23,6 @@ const GROUPS = [
 ];
 
 export const collection = defineType({
-    // Required to hide 'create new' button in desk structure
-    //   @ts-ignore
-    //   __experimental_actions: [/*'create',*/ "update", /*'delete',*/ "publish"],
     name: 'collection',
     title: 'Collection',
     type: 'document',

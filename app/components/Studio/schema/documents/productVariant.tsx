@@ -5,9 +5,6 @@ import ProductVariantHiddenInput from '../../components/inputs/ProductVariantHid
 import ShopifyDocumentStatus from '../../components/media/ShopifyDocumentStatus';
 
 export const productVariant = defineType({
-    // HACK: Required to hide 'create new' button in desk structure
-    // @ts-ignore
-    __experimental_actions: [/*'create',*/ 'update', /*'delete',*/ 'publish'],
     name: 'productVariant',
     title: 'Product variant',
     type: 'document',
