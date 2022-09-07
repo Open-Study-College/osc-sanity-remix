@@ -33,13 +33,6 @@ export const productVariant = defineType({
                 return !isDeleted;
             }
         }),
-        // Title (proxy)
-        defineField({
-            title: 'Title',
-            name: 'titleProxy',
-            type: 'proxyString',
-            options: { field: 'store.title' }
-        }),
         // Shopify product variant
         defineField({
             name: 'store',

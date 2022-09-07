@@ -47,20 +47,6 @@ export const product = defineType({
                 return isActive && !isDeleted;
             }
         }),
-        // Title (proxy)
-        defineField({
-            name: 'titleProxy',
-            title: 'Title',
-            type: 'proxyString',
-            options: { field: 'store.title' }
-        }),
-        // Slug (proxy)
-        defineField({
-            name: 'slugProxy',
-            title: 'Slug',
-            type: 'proxyString',
-            options: { field: 'store.slug.current' }
-        }),
         // Modules
         defineField({
             name: 'modules',
