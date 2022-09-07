@@ -70,7 +70,13 @@ export interface SanitySEO {
 export interface SanityPage {
     _id: string;
     _rev: string;
+    _type?: string;
     title?: string;
+    slug?:
+        | {
+              current: string;
+          }
+        | undefined;
     seo: SanitySEO;
     hero: SanityHero;
     showHero: boolean;
@@ -80,6 +86,9 @@ export interface SanityPage {
 export interface SanityCollectionPage extends SanityPage {
     store: {
         title: string;
+        slug?: {
+            current: string;
+        };
     };
 }
 

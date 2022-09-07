@@ -106,6 +106,7 @@ const Document = withEmotionCache(({ children }: DocumentProps, emotionCache: Em
     const serverStyleData = useEmotionCache(emotionCache);
     let location = useLocation();
     let matches = useMatches();
+    const isStudio = Boolean(matches.find((match) => match.id === 'routes/studio/$'));
 
     useEffect(() => {
         let mounted = isMount;
@@ -148,7 +149,7 @@ const Document = withEmotionCache(({ children }: DocumentProps, emotionCache: Em
     return (
         <html lang="en" className="h-full">
             <head>
-                <Links />
+                {isStudio ? null : <Links />}
                 <Meta />
                 {nodeEnv === 'production' && (
                     <script
@@ -171,7 +172,7 @@ const Document = withEmotionCache(({ children }: DocumentProps, emotionCache: Em
                     />
                 ))}
             </head>
-            <body>
+            <body style={{ margin: 0 }}>
                 <noscript>
                     <iframe
                         title="gtm"
@@ -214,6 +215,8 @@ const Document = withEmotionCache(({ children }: DocumentProps, emotionCache: Em
 
 export default function App() {
     const { colorScheme } = useLoaderData();
+    const matches = useMatches();
+    const isStudio = Boolean(matches.find((match) => match.id === 'routes/studio/$'));
 
     const online = () => {
         //..Do something for online state
@@ -228,6 +231,15 @@ export default function App() {
         // The `console.log` method returns an object with a status of "success" if online and a pass message or a status of "bad" and a fail message if offline
         checkConnectivity(online, offline).then((data) => console.log(data));
     }, []);
+
+    if (isStudio) {
+        return (
+            <Document>
+                <Outlet />
+            </Document>
+        );
+    }
+
     return (
         <Document>
             <ChakraProvider theme={colorScheme === 'light' ? lightTheme : darkTheme}>

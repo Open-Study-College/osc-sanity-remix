@@ -19,9 +19,12 @@ export default async function getPageData({ request, params, query }: Args) {
         const querySanityDataset = await getClient(isPreview).fetch(query, param);
 
         // @ts-ignore
-        const pageData = querySanityDataset.filter((item) =>
-            isPreview ? item._id.includes('drafts') : !item._id.includes('drafts')
-        )[0];
+        const pageData = querySanityDataset.filter((item) => {
+            const hasDrafts = item._id.includes('drafts');
+
+            // Only try and fetch the previewClient data if drafts exist in the query response
+            return isPreview && hasDrafts ? hasDrafts : !hasDrafts;
+        })[0];
 
         return { page: pageData, isPreview };
     } catch (err) {

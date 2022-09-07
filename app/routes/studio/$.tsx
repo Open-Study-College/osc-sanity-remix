@@ -1,34 +1,22 @@
-import type { LoaderArgs } from '@remix-run/server-runtime';
-import { useCatch } from '@remix-run/react';
-import { redirect } from '@remix-run/server-runtime';
+import type { MetaFunction } from '@remix-run/server-runtime';
+import { ClientOnly } from 'remix-utils';
+import StudioWrapper from '~/components/Studio';
 
-export async function loader({ params }: LoaderArgs) {
-    console.log({ params });
+export const meta: MetaFunction = () => {
+    return {
+        title: 'Sanity Studio',
+        description: 'The Platform for Structured Content'
+    };
+};
 
-    // Currently with Studio V2 we can't host it as a subdirectory with Remix seamlessly.
-    // When a user navigates to the /studio route then the Studio will load up okay and the
-    // user can access everything.
-    // However if they directly access /studio/desk (for example) or refresh the page then
-    // Remix will take over and throw a 404 error.
-    // Adding this redirect allows us to push the page back to the Sanity Studio startup page
-    // and the catch boundry is there as a safety net.
-    return redirect('/studio');
-}
-
-export function CatchBoundary() {
-    const caught = useCatch();
-
+export default function StudioPage() {
     return (
-        <div>
-            <h1>Oops something went wrong there!</h1>
-            <p>Status: {caught.status}</p>
-
-            <p>Try reloading the Studio</p>
-            <a href="/studio">Reload</a>
-        </div>
+        <ClientOnly>
+            {() => (
+                <div id="sanity-studio" style={{ height: '100vh' }}>
+                    <StudioWrapper />
+                </div>
+            )}
+        </ClientOnly>
     );
-}
-
-export default function Studio404() {
-    return <p>Not sure what happened there</p>;
 }
