@@ -1,6 +1,6 @@
 import { defineField, defineType } from 'sanity';
 import { DocumentIcon } from '@sanity/icons';
-import { validateSlug } from '~/lib/sanity/utils/validateSlug';
+import { validateSlug } from '~/studio/utils/validateSlug';
 
 export const page = defineType({
     name: 'page',

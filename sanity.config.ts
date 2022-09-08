@@ -4,7 +4,7 @@ import {
     SANITY_STUDIO_API_PROJECT_ID,
     LOCKED_DOCUMENT_IDS,
     SANITY_API_VERSION
-} from '~/lib/sanity/constants';
+} from '~/studio/constants';
 // Plugins
 import { deskTool } from 'sanity/desk';
 import {
@@ -17,12 +17,12 @@ import { visionTool } from '@sanity/vision';
 // import { media, mediaAssetSource } from "sanity-plugin-media";
 //! @mdx-js dependency is @theme-ui and cases an ESM error -- possible blocker?
 // Components
-import { structure, defaultDocumentNode } from '~/components/Studio/structure';
-import { schemaTypes } from '~/components/Studio/schema';
+import { structure, defaultDocumentNode } from '~/studio/structure';
+import { schemaTypes } from '~/studio/schema';
 // Actions
-import { deleteAction } from '~/lib/sanity/actions/deleteAction';
-import { duplicateAction } from '~/lib/sanity/actions/duplicateAction';
-import shopifyLink from '~/lib/sanity/actions/shopifyLink';
+import { deleteAction } from '~/studio/actions/deleteAction';
+import { duplicateAction } from '~/studio/actions/duplicateAction';
+import shopifyLink from '~/studio/actions/shopifyLink';
 
 // @ts-ignore
 export default createConfig({

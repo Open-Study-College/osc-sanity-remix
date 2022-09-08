@@ -1,10 +1,10 @@
 import { TagIcon } from '@sanity/icons';
 import pluralize from 'pluralize';
 import { defineField, defineType } from 'sanity';
-import ShopifyIcon from '../../components/icons/Shopify';
-import ProductHiddenInput from '../../components/inputs/ProductHidden';
-import ShopifyDocumentStatus from '../../components/media/ShopifyDocumentStatus';
-import { getPriceRange } from '~/lib/sanity/utils/getPriceRange';
+import ShopifyIcon from '~/studio/components/icons/Shopify';
+import ProductHiddenInput from '~/studio/components/inputs/ProductHidden';
+import ShopifyDocumentStatus from '~/studio/components/media/ShopifyDocumentStatus';
+import { getPriceRange } from '~/studio/utils/getPriceRange';
 
 const GROUPS = [
     {

@@ -1,6 +1,6 @@
 import type { DocumentActionComponent } from 'sanity/desk';
 import { DuplicateAction } from 'sanity/desk';
-import { LOCKED_DOCUMENT_IDS } from '../constants';
+import { LOCKED_DOCUMENT_IDS } from '~/studio/constants';
 
 export const duplicateAction: DocumentActionComponent = (props) => {
     const { disabled, ...rest } = DuplicateAction(props);

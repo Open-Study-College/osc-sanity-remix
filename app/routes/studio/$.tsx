@@ -1,6 +1,6 @@
 import type { MetaFunction } from '@remix-run/server-runtime';
 import { ClientOnly } from 'remix-utils';
-import StudioWrapper from '~/components/Studio';
+import StudioWrapper from '~/components/StudioWrapper';
 
 export const meta: MetaFunction = () => {
     return {

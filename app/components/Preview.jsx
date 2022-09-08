@@ -1,7 +1,7 @@
 import { Center } from '@chakra-ui/react';
 import { useEffect } from 'react';
 
-import { usePreviewSubscription } from '~/lib/sanity/hooks/usePreviewSubscription';
+import { usePreviewSubscription } from '~/hooks/usePreviewSubscription';
 
 export default function Preview({ data, setData, query, queryParams }) {
     const { data: previewData } = usePreviewSubscription(query, {

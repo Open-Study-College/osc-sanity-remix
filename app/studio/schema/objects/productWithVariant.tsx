@@ -1,10 +1,10 @@
 import { TagIcon } from '@sanity/icons';
-import sanityClient from '../../../../../sanity.config';
+import sanityClient from '../../../../sanity.config';
 import pluralize from 'pluralize';
 import { defineField, defineType } from 'sanity';
-// import ShopifyDocumentStatus from '../../components/media/ShopifyDocumentStatus';
-import { SANITY_API_VERSION } from '~/lib/sanity/constants';
-import { getPriceRange } from '~/lib/sanity/utils/getPriceRange';
+import ShopifyDocumentStatus from '~/studio/components/media/ShopifyDocumentStatus';
+import { SANITY_API_VERSION } from '~/studio/constants';
+import { getPriceRange } from '~/studio/utils/getPriceRange';
 
 export const productWithVariant = defineType({
     name: 'productWithVariant',
@@ -90,12 +90,12 @@ export const productWithVariant = defineType({
                 defaultVariantTitle,
                 isDeleted,
                 optionCount,
-                // previewImageUrl,
+                previewImageUrl,
                 priceRange,
                 status,
                 title,
                 variantCount,
-                // variantPreviewImageUrl,
+                variantPreviewImageUrl,
                 variantTitle
             } = selection;
 
@@ -120,14 +120,14 @@ export const productWithVariant = defineType({
             }
 
             return {
-                // media: (
-                //     <ShopifyDocumentStatus
-                //         isActive={status === 'active'}
-                //         isDeleted={isDeleted}
-                //         type="product"
-                //         url={variantPreviewImageUrl || previewImageUrl}
-                //     />
-                // ),
+                media: (
+                    <ShopifyDocumentStatus
+                        isActive={status === 'active'}
+                        isDeleted={isDeleted}
+                        type="product"
+                        url={variantPreviewImageUrl || previewImageUrl}
+                    />
+                ),
                 description: description.join(' / '),
                 subtitle,
                 title: previewTitle.join(' ')

@@ -3,8 +3,8 @@ import type { SanityDocument } from '@sanity/client';
 import { WarningOutlineIcon } from '@sanity/icons';
 import { Box, Card, Flex, Stack, Text } from '@sanity/ui';
 import { forwardRef, useEffect, useState } from 'react';
-import { useShopifyStoreId } from '~/lib/sanity/hooks/useShopifyStoreId';
-import { collectionUrl } from '~/lib/sanity/utils/shopifyUrls';
+import { useShopifyStoreId } from '~/studio/hooks/useShopifyStoreId';
+import { collectionUrl } from '~/studio/utils/shopifyUrls';
 
 type Props = {
     document: SanityDocument;
