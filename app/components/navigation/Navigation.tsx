@@ -27,7 +27,7 @@ export default function Navigation({ menuItemsName }: Props) {
     return (
         <nav>
             <HStack as="ul" spacing={4}>
-                {menuItems[0].links.map((menuItem: SanityLinkItem) => (
+                {menuItems[0]?.links?.map((menuItem: SanityLinkItem) => (
                     <li className="" key={menuItem._key}>
                         {menuItem._type === 'linkInternal' ? (
                             <ChakraLink

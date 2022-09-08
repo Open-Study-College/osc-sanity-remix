@@ -1,4 +1,6 @@
-import type { StructureResolver } from 'sanity/desk';
+import type { StructureResolver, DefaultDocumentNodeResolver } from 'sanity/desk';
+import Iframe from 'sanity-plugin-iframe-pane';
+import { resolvePreviewUrl } from '~/lib/sanity/actions/resolvePreviewUrl';
 import { home } from './desk/home';
 import { pages } from './desk/pages';
 import { collections } from './desk/collections';
@@ -15,6 +17,23 @@ const DOCUMENT_TYPES_IN_STRUCTURE = [
     'productVariant',
     'settings'
 ];
+
+export const defaultDocumentNode: DefaultDocumentNodeResolver = (S, { schemaType }) => {
+    if (['home', 'page', 'collection', 'product'].includes(schemaType)) {
+        return S.document().views([
+            S.view.form(),
+            S.view
+                .component(Iframe)
+                .options({
+                    url: (doc) => resolvePreviewUrl(doc),
+                    reload: { button: true }
+                })
+                .title('Preview')
+        ]);
+    }
+
+    return S.document();
+};
 
 // note: context includes `currentUser` and the client
 export const structure: StructureResolver = (S, context) => {

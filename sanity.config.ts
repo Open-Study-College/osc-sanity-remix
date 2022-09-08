@@ -1,5 +1,10 @@
 import { createConfig, isDev } from 'sanity';
-import { LOCKED_DOCUMENT_IDS, SANITY_API_VERSION } from '~/lib/sanity/constants';
+import {
+    SANITY_STUDIO_API_DATASET,
+    SANITY_STUDIO_API_PROJECT_ID,
+    LOCKED_DOCUMENT_IDS,
+    SANITY_API_VERSION
+} from '~/lib/sanity/constants';
 // Plugins
 import { deskTool } from 'sanity/desk';
 import {
@@ -12,28 +17,28 @@ import { visionTool } from '@sanity/vision';
 // import { media, mediaAssetSource } from "sanity-plugin-media";
 //! @mdx-js dependency is @theme-ui and cases an ESM error -- possible blocker?
 // Components
-import { structure } from '~/components/Studio/structure';
+import { structure, defaultDocumentNode } from '~/components/Studio/structure';
 import { schemaTypes } from '~/components/Studio/schema';
 // Actions
 import { deleteAction } from '~/lib/sanity/actions/deleteAction';
 import { duplicateAction } from '~/lib/sanity/actions/duplicateAction';
 import shopifyLink from '~/lib/sanity/actions/shopifyLink';
-import { resolvePreviewUrl } from '~/lib/sanity/actions/resolvePreviewUrl';
 
 // @ts-ignore
 export default createConfig({
     name: 'default',
     title: 'Shopify - openstudydev',
     basePath: '/studio',
-    projectId: 'v6lebos6',
-    dataset: 'production',
+    projectId: SANITY_STUDIO_API_PROJECT_ID,
+    dataset: SANITY_STUDIO_API_DATASET,
 
     plugins: [
         dashboardTool({
             widgets: [sanityTutorialsWidget(), projectInfoWidget(), projectUsersWidget()]
         }),
         deskTool({
-            structure
+            structure,
+            defaultDocumentNode
         }),
         isDev
             ? visionTool({
@@ -70,14 +75,6 @@ export default createConfig({
             });
 
             return [...resolveActions, shopifyLink];
-        },
-
-        // prev is the result from previous plugins and can be composed
-        productionUrl: async (prev, context) => {
-            // context includes the client an other details
-            const previewUrl = resolvePreviewUrl(prev, context);
-
-            return previewUrl;
         }
     },
 

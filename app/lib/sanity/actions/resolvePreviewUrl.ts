@@ -1,13 +1,18 @@
-import type { SanityPage, SanityCollectionPage } from '~/types';
-import type { ConfigContext } from 'sanity';
+import type { SanityDocument } from 'sanity';
 
-interface Context extends ConfigContext {
-    document: SanityPage | SanityCollectionPage;
+interface Document extends SanityDocument {
+    slug: {
+        current: string;
+    };
+
+    store?: {
+        slug: {
+            current: string;
+        };
+    };
 }
 
-export const resolvePreviewUrl = (prev: any, context: Context) => {
-    const { document } = context;
-
+export const resolvePreviewUrl = (document: Document) => {
     //? Good idea?
     const siteUrl = window.location.origin;
 
@@ -16,14 +21,26 @@ export const resolvePreviewUrl = (prev: any, context: Context) => {
 
     switch (document._type) {
         case 'page':
+            if (!document.slug) {
+                throw new Error(`Document has no slug, cannot preview`);
+            }
+
             return document.slug ? `${siteUrl}/pages/${document.slug.current}?${params}` : null;
 
         case 'collection':
+            if (!document.store) {
+                throw new Error(`Document has no slug, cannot preview`);
+            }
+
             return document.store.slug
                 ? `${siteUrl}/collections/${document.store.slug.current}?${params}`
                 : null;
 
         case 'product':
+            if (!document.store) {
+                throw new Error(`Document has no slug, cannot preview`);
+            }
+
             return document.store.slug
                 ? `${siteUrl}/products/${document.store.slug.current}?${params}`
                 : null;
@@ -32,6 +49,6 @@ export const resolvePreviewUrl = (prev: any, context: Context) => {
             return `${siteUrl}/?${params}`;
 
         default:
-            return prev;
+            break;
     }
 };

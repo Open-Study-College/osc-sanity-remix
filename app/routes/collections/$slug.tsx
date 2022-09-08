@@ -1,11 +1,13 @@
 import { json } from '@remix-run/node';
 import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import type { module } from '~/types';
-import { useLoaderData } from '@remix-run/react';
+import { useState } from 'react';
+import { useLoaderData, useParams } from '@remix-run/react';
 import { getProducts } from '~/models/shopify.server';
 import Hero from '~/components/hero/Hero';
 import Module from '~/components/module';
-import { Center, VStack } from '@chakra-ui/react';
+import Preview from '~/components/Preview';
+import { VStack } from '@chakra-ui/react';
 import ProductGrid from '~/components/collections/ProdutGrid';
 import getPageData from '~/models/sanity.server';
 import { COLLECTION_QUERY } from '~/queries/sanity/collection';
@@ -26,7 +28,13 @@ export async function loader({ request, params }: LoaderArgs) {
 
     const { products } = queryProducts?.collection;
 
-    return json({ collection, products, isPreview });
+    return json({
+        collection,
+        products,
+        isPreview,
+        // If `preview` mode is active, we'll need these for live updates
+        query: isPreview ? COLLECTION_QUERY : null
+    });
 }
 
 export const meta: MetaFunction = ({ data }) => {
@@ -43,28 +51,32 @@ export const meta: MetaFunction = ({ data }) => {
 };
 
 export default function Collection() {
-    const { collection, products, isPreview } = useLoaderData<typeof loader>();
-    const { title } = collection.store;
+    const { collection, products, isPreview, query } = useLoaderData<typeof loader>();
+    const params = useParams();
+    // If `preview` mode is active, its component update this state for us
+    const [data, setData] = useState(collection);
 
+    const title = data?.store?.title;
+
+    // NOTE: For preview mode to work nicely when working with draft content, optional chain _everything_
     return (
         <>
             {isPreview ? (
-                <Center p={4} className="u-bg-tertiary">
-                    Preview Mode
-                </Center>
+                <Preview data={data} setData={setData} query={query} queryParams={params} />
             ) : null}
+
             <main className="mx-auto max-w-4xl">
-                {collection.showHero ? (
-                    <Hero settings={collection.hero} />
+                {data?.showHero ? (
+                    <Hero settings={data?.hero} />
                 ) : (
                     <h1 className="my-6 border-b-2 text-center text-3xl">{title}</h1>
                 )}
 
                 {products ? <ProductGrid products={products.nodes} /> : <p>No products</p>}
 
-                {collection.modules && collection.modules.length > 0 ? (
+                {data?.modules && data?.modules.length > 0 ? (
                     <VStack spacing={16}>
-                        {collection.modules.map((module: module) =>
+                        {data?.modules.map((module: module) =>
                             module ? <Module key={module._key} module={module} /> : null
                         )}
                     </VStack>

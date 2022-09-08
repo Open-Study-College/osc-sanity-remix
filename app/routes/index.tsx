@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { json } from '@remix-run/node';
 import type { LoaderArgs, MetaFunction } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData, useParams } from '@remix-run/react';
 import { getColorScheme } from '~/cookie';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import Hero from '~/components/hero/Hero';
+import Preview from '~/components/Preview';
 import { Center, VStack } from '@chakra-ui/react';
 import Module from '~/components/module';
 import type { module } from '~/types';
@@ -21,7 +23,12 @@ export const loader: LoaderFunction = async ({ request, params }: LoaderArgs) =>
     // @ts-ignore
     const { page: home, isPreview } = data;
 
-    return json({ colorScheme, home, isPreview });
+    return json({
+        colorScheme,
+        home,
+        isPreview,
+        query: isPreview ? HOME_QUERY : null
+    });
 };
 
 export const meta: MetaFunction = ({ data }) => {
@@ -37,24 +44,25 @@ export const meta: MetaFunction = ({ data }) => {
 };
 
 export default function Index() {
-    const { home, isPreview } = useLoaderData<typeof loader>();
+    const { home, isPreview, query } = useLoaderData<typeof loader>();
+    const params = useParams();
+    // If `preview` mode is active, its component update this state for us
+    const [data, setData] = useState(home);
 
-    console.log(home);
+    // NOTE: For preview mode to work nicely when working with draft content, optional chain _everything_
 
     return (
         <>
             {isPreview ? (
-                <Center p={4} className="u-bg-tertiary">
-                    Preview Mode
-                </Center>
+                <Preview data={data} setData={setData} query={query} queryParams={params} />
             ) : null}
 
             <main className="mx-auto max-w-4xl">
-                {home.showHero ? <Hero settings={home.hero} /> : null}
+                {data?.showHero ? <Hero settings={data?.hero} /> : null}
 
-                {home.modules && home.modules.length > 0 ? (
+                {data?.modules && data?.modules.length > 0 ? (
                     <VStack spacing={16}>
-                        {home.modules.map((module: module) =>
+                        {data?.modules.map((module: module) =>
                             module ? <Module key={module._key} module={module} /> : null
                         )}
                     </VStack>

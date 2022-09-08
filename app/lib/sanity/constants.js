@@ -1,3 +1,6 @@
+export const SANITY_STUDIO_API_PROJECT_ID = 'v6lebos6';
+export const SANITY_STUDIO_API_DATASET = 'production';
+
 // Currency code (ISO 4217) to use when displaying prices in the studio
 // https://en.wikipedia.org/wiki/ISO_4217
 export const DEFAULT_CURRENCY_CODE = 'GBP';

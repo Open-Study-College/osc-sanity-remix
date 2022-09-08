@@ -48,26 +48,31 @@ const portableTextComponents: PortableTextComponents = {
         number: ({ children }) => <ListItem>{children}</ListItem>
     },
     marks: {
-        annotationLinkInternal: ({ value, children }) => (
-            <ChakraLink as={Link} to={value.slug} style={{ textDecoration: 'underline' }}>
-                {children}
-            </ChakraLink>
-        ),
+        annotationLinkInternal: ({ value, children }) => {
+            // If there is no slug fallback to the home path
+            // This helps to stop Remix throwing when links are being applied in preview
+            const path = value?.slug ? value?.slug : '/';
+            return (
+                <ChakraLink as={Link} to={path} style={{ textDecoration: 'underline' }}>
+                    {children}
+                </ChakraLink>
+            );
+        },
         annotationLinkExternal: ({ value, children }) => {
             return (
                 <ChakraLink
-                    href={value.url}
-                    isExternal={value.newWindow}
+                    href={value?.url}
+                    isExternal={value?.newWindow}
                     rel="noreferrer"
                     style={{ textDecoration: 'underline' }}
                 >
                     {children}
-                    {value.newWindow ? <ExternalLinkIcon mx={2} /> : null}
+                    {value?.newWindow ? <ExternalLinkIcon mx={2} /> : null}
                 </ChakraLink>
             );
         },
         annotationLinkEmail: ({ value, children }) => {
-            const email = value.email ? `mailto:${value.email}` : undefined;
+            const email = value?.email ? `mailto:${value?.email}` : undefined;
 
             return (
                 <ChakraLink href={email} style={{ textDecoration: 'underline' }}>
@@ -78,7 +83,7 @@ const portableTextComponents: PortableTextComponents = {
     },
     types: {
         image: ({ value }) => {
-            const { altText, dimensions, url } = value.asset;
+            const { altText, dimensions, url } = value?.asset;
 
             return (
                 <img src={url} alt={altText} width={dimensions.width} height={dimensions.height} />
