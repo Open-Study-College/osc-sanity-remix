@@ -19,7 +19,7 @@ const DOCUMENT_TYPES_IN_STRUCTURE = [
 ];
 
 export const defaultDocumentNode: DefaultDocumentNodeResolver = (S, { schemaType }) => {
-    if (['page', 'collection', 'product'].includes(schemaType)) {
+    if (['home', 'page', 'collection', 'product'].includes(schemaType)) {
         return S.document().views([
             S.view.form(),
             S.view
