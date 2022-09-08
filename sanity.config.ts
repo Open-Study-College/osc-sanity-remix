@@ -15,7 +15,6 @@ import {
 } from '@sanity/dashboard';
 import { visionTool } from '@sanity/vision';
 import { media } from 'sanity-plugin-media';
-//! @mdx-js dependency is @theme-ui and cases an ESM error -- possible blocker?
 // Components
 import { structure, defaultDocumentNode } from '~/studio/structure';
 import { schemaTypes } from '~/studio/schema';
