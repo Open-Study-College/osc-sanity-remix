@@ -1,9 +1,9 @@
 import { PackageIcon } from '@sanity/icons';
 import pluralize from 'pluralize';
 import { defineField, defineType } from 'sanity';
-import ShopifyIcon from '../../components/icons/Shopify';
-import CollectionHiddenInput from '../../components/inputs/CollectionHidden';
-import ShopifyDocumentStatus from '../../components/media/ShopifyDocumentStatus';
+import ShopifyIcon from '~/studio/components/icons/Shopify';
+import CollectionHiddenInput from '~/studio/components/inputs/CollectionHidden';
+import ShopifyDocumentStatus from '~/studio/components/media/ShopifyDocumentStatus';
 
 const GROUPS = [
     {

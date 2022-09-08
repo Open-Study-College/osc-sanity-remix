@@ -4,7 +4,7 @@
  * Read more: https://www.sanity.io/docs/customization#f924645007e1
  */
 import { LinkIcon } from '@sanity/icons';
-import { PAGE_REFERENCES } from '~/lib/sanity/constants';
+import { PAGE_REFERENCES } from '~/studio/constants';
 
 export default {
     title: 'Internal Link',

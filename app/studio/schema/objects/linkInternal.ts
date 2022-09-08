@@ -1,7 +1,7 @@
 import { LinkIcon } from '@sanity/icons';
 import { defineField, defineType } from 'sanity';
-import { PAGE_REFERENCES } from '~/lib/sanity/constants';
-import { getPriceRange } from '~/lib/sanity/utils/getPriceRange';
+import { PAGE_REFERENCES } from '~/studio/constants';
+import { getPriceRange } from '~/studio/utils/getPriceRange';
 
 export const linkInternal = defineType({
     title: 'Internal Link',

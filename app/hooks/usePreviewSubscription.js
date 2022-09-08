@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { config } from '../config';
+import { config } from '../lib/sanity/config';
 
 export function usePreviewSubscription(query, subscriptionOptions) {
     const { params, initialData } = subscriptionOptions;

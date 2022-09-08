@@ -4,8 +4,8 @@
  * Learn more: https://www.sanity.io/docs/document-actions
  */
 import { EarthGlobeIcon } from '@sanity/icons';
-import { collectionUrl, productUrl, productVariantUrl } from '../utils/shopifyUrls';
-import { useShopifyStoreId } from '../hooks/useShopifyStoreId';
+import { collectionUrl, productUrl, productVariantUrl } from '~/studio/utils/shopifyUrls';
+import { useShopifyStoreId } from '~/studio/hooks/useShopifyStoreId';
 import { useEffect, useState } from 'react';
 
 type Props = {

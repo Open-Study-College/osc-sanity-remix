@@ -1,6 +1,6 @@
 import type { StructureResolver, DefaultDocumentNodeResolver } from 'sanity/desk';
 import Iframe from 'sanity-plugin-iframe-pane';
-import { resolvePreviewUrl } from '~/lib/sanity/actions/resolvePreviewUrl';
+import { resolvePreviewUrl } from '~/studio/actions/resolvePreviewUrl';
 import { home } from './desk/home';
 import { pages } from './desk/pages';
 import { collections } from './desk/collections';

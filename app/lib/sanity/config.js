@@ -2,7 +2,7 @@ import {
     SANITY_STUDIO_API_PROJECT_ID,
     SANITY_STUDIO_API_DATASET,
     SANITY_API_VERSION
-} from './constants';
+} from '~/studio/constants';
 
 export const config = {
     apiVersion: SANITY_API_VERSION, // see studio/contstants.js

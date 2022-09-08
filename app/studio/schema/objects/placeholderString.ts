@@ -1,4 +1,4 @@
-import PlaceholderStringInput from '../../components/inputs/PlaceholderString';
+import PlaceholderStringInput from '~/studio/components/inputs/PlaceholderString';
 
 import { defineType } from 'sanity';
 
