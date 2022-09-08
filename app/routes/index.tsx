@@ -6,7 +6,7 @@ import { getColorScheme } from '~/cookie';
 import type { LoaderFunction } from '@remix-run/server-runtime';
 import Hero from '~/components/hero/Hero';
 import Preview from '~/components/Preview';
-import { Center, VStack } from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
 import Module from '~/components/module';
 import type { module } from '~/types';
 import { HOME_QUERY } from '~/queries/sanity/home';
