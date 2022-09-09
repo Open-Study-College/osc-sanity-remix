@@ -29,7 +29,6 @@ import { productInventory } from './objects/productInventory';
 import { productPriceRange } from './objects/productPriceRange';
 import { productOption } from './objects/productOption';
 import { productWithVariant } from './objects/productWithVariant';
-import { proxyString } from './objects/proxyString';
 import { home as seoHome } from './objects/seo/home';
 import { page as seoPage } from './objects/seo/page';
 import { footer as settingsFooter } from './objects/settings/footer';
@@ -73,7 +72,6 @@ export const schemaTypes = [
     productOption,
     productPriceRange,
     productWithVariant,
-    proxyString,
     seoHome,
     seoPage,
     seoShopify,
