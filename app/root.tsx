@@ -68,6 +68,8 @@ type LoaderData = {
     gaTrackingId: string | undefined;
     googleTagManagerId: string | undefined;
     nodeEnv: string;
+    SANITY_STUDIO_API_PROJECT_ID: string | undefined;
+    SANITY_STUDIO_API_DATASET: string | undefined;
     headerMenuItems: SanityLinkItem[] | undefined;
     footerMenuItems: SanityLinkItem[] | undefined;
     footerText: object[] | undefined;
@@ -93,6 +95,8 @@ export const loader: LoaderFunction = async ({ request }) => {
         googleTagManagerId:
             process.env.NODE_ENV === 'production' ? process.env.GTM_TRACKING_ID : undefined,
         nodeEnv: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+        SANITY_STUDIO_API_PROJECT_ID: process.env.SANITY_STUDIO_API_PROJECT_ID,
+        SANITY_STUDIO_API_DATASET: process.env.SANITY_STUDIO_API_DATASET,
         headerMenuItems,
         footerMenuItems,
         footerText: liveSettings?.footer?.text
@@ -214,7 +218,8 @@ const Document = withEmotionCache(({ children }: DocumentProps, emotionCache: Em
 });
 
 export default function App() {
-    const { colorScheme } = useLoaderData();
+    const { colorScheme, SANITY_STUDIO_API_PROJECT_ID, SANITY_STUDIO_API_DATASET } =
+        useLoaderData();
     const matches = useMatches();
     const isStudio = Boolean(matches.find((match) => match.id === 'routes/studio/$'));
 
@@ -235,6 +240,14 @@ export default function App() {
     if (isStudio) {
         return (
             <Document>
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `document.env = ${JSON.stringify({
+                            SANITY_STUDIO_API_PROJECT_ID,
+                            SANITY_STUDIO_API_DATASET
+                        })}`
+                    }}
+                />
                 <Outlet />
             </Document>
         );
@@ -242,6 +255,14 @@ export default function App() {
 
     return (
         <Document>
+            <script
+                dangerouslySetInnerHTML={{
+                    __html: `document.env = ${JSON.stringify({
+                        SANITY_STUDIO_API_PROJECT_ID,
+                        SANITY_STUDIO_API_DATASET
+                    })}`
+                }}
+            />
             <ChakraProvider theme={colorScheme === 'light' ? lightTheme : darkTheme}>
                 <Header />
                 <Outlet />
