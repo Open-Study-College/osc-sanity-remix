@@ -1,4 +1,6 @@
 import type { StructureResolver, DefaultDocumentNodeResolver } from 'sanity/desk';
+import type { SanityDocument } from 'sanity';
+
 import Iframe from 'sanity-plugin-iframe-pane';
 import { resolvePreviewUrl } from '~/studio/actions/resolvePreviewUrl';
 import { home } from './desk/home';
@@ -6,6 +8,18 @@ import { pages } from './desk/pages';
 import { collections } from './desk/collections';
 import { products } from './desk/products';
 import { settings } from './desk/settings';
+
+interface Document extends SanityDocument {
+    slug: {
+        current: string;
+    };
+
+    store?: {
+        slug: {
+            current: string;
+        };
+    };
+}
 
 // If you add document types to desk structure manually, you can add them to this array to prevent duplicates in the root pane
 const DOCUMENT_TYPES_IN_STRUCTURE = [
@@ -25,7 +39,7 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (S, { schemaType
             S.view
                 .component(Iframe)
                 .options({
-                    url: (doc) => resolvePreviewUrl(doc),
+                    url: (doc: Document) => resolvePreviewUrl(doc),
                     reload: { button: true }
                 })
                 .title('Preview')
@@ -35,8 +49,7 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (S, { schemaType
     return S.document();
 };
 
-// note: context includes `currentUser` and the client
-export const structure: StructureResolver = (S, context) => {
+export const structure: StructureResolver = (S) => {
     return S.list()
         .title('Content')
         .items([
@@ -50,7 +63,7 @@ export const structure: StructureResolver = (S, context) => {
             S.divider(),
             // Automatically add new document types to the root pane
             ...S.documentTypeListItems().filter(
-                (listItem) => !DOCUMENT_TYPES_IN_STRUCTURE.includes(listItem.getId())
+                (listItem) => !DOCUMENT_TYPES_IN_STRUCTURE.includes(listItem.getId() ?? '')
             )
         ]);
 };
