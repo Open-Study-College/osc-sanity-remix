@@ -60,6 +60,7 @@
     "@sanity/vision": "^3.0.0-dev-preview.15",
     "@storybook/addon-a11y": "^6.5.9",
     "@theme-ui/mdx": "^0.14.7",
+    "@types/lodash.get": "^4.4.7",
     "bcryptjs": "^2.4.3",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
