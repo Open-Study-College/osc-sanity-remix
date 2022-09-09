@@ -3,6 +3,8 @@
  *
  * Read more: https://www.sanity.io/docs/customization#f924645007e1
  */
+import type { ReactElement } from 'react';
+import type { RuleType } from '~/studio/schemaTypes';
 import { LinkIcon } from '@sanity/icons';
 import { PAGE_REFERENCES } from '~/studio/constants';
 
@@ -12,7 +14,7 @@ export default {
     type: 'object',
     blockEditor: {
         icon: () => <LinkIcon />,
-        render: ({ children }) => (
+        render: ({ children }: { children: ReactElement }) => (
             <span>
                 <LinkIcon
                     style={{
@@ -31,7 +33,7 @@ export default {
             name: 'reference',
             type: 'reference',
             weak: true,
-            validation: (Rule) => Rule.required(),
+            validation: (Rule: RuleType) => Rule.required(),
             to: PAGE_REFERENCES
         }
     ]

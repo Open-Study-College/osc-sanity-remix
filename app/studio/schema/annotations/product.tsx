@@ -3,6 +3,8 @@
  *
  * Read more: https://www.sanity.io/docs/customization#f924645007e1
  */
+import type { RuleType } from '~/studio/schemaTypes';
+import type { ReactElement } from 'react';
 import { TagIcon } from '@sanity/icons';
 
 export default {
@@ -11,7 +13,7 @@ export default {
     type: 'object',
     blockEditor: {
         icon: () => <TagIcon />,
-        render: ({ children }) => (
+        render: ({ children }: { children: ReactElement }) => (
             <>
                 <TagIcon
                     style={{
@@ -30,7 +32,7 @@ export default {
             name: 'productWithVariant',
             title: 'Product + Variant',
             type: 'productWithVariant',
-            validation: (Rule) => Rule.required()
+            validation: (Rule: RuleType) => Rule.required()
         },
         // Link action
         {
@@ -55,7 +57,7 @@ export default {
                     }
                 ]
             },
-            validation: (Rule) => Rule.required()
+            validation: (Rule: RuleType) => Rule.required()
         },
         // Quantity
         {
@@ -63,8 +65,8 @@ export default {
             title: 'Quantity',
             type: 'number',
             initialValue: 1,
-            hidden: ({ parent }) => parent.linkAction === 'link',
-            validation: (Rule) => Rule.required().min(1).max(10)
+            hidden: ({ parent }: { parent: any }) => parent.linkAction === 'link',
+            validation: (Rule: RuleType) => Rule.required().min(1).max(10)
         }
     ]
 };
