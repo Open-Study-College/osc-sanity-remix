@@ -59,23 +59,60 @@ npm run setup
   npm run dev
   ```
 
-## Setting up Sanity
+## Developing with Sanity V3
 
-You will need to add a .env.development file to the `/studio` directory and include the following variables:
+Unlike Sanity V2 we don't need to run Sanity on `localhost:3333` as it can run directly through Remix, with a little bit of setup.
 
-```.env.development
-SANITY_STUDIO_API_PROJECT_ID=<project-id>
-SANITY_STUDIO_API_DATASET=<project-dataset>
+To access the studio start the dev server (if you haven't already) and navigate to `localhost:3000/studio`
+
+### Accessing `.env` variables
+
+_This should be done already and is merely here for reference._
+
+Make sure you have at least the `SANITY_STUDIO_API_PROJECT_ID` and `SANITY_STUDIO_API_DATASET` in your `.env` file. You will also need to make sure that you are exporting them from the `loader()` function in `root.tsx`.
+
+Next import them into you main `App` component and assign them to the `document` object through a `script` tag.
+
+**A contrived example below:**
+
+```ts
+export const loader: LoaderFunction = async ({ request }) => {
+  return json<LoaderData>({
+    SANITY_STUDIO_API_PROJECT_ID: process.env.SANITY_STUDIO_API_PROJECT_ID,
+    SANITY_STUDIO_API_DATASET: process.env.SANITY_STUDIO_API_DATASET,
+  });
+};
+
+export default function App() {
+  const { SANITY_STUDIO_API_PROJECT_ID, SANITY_STUDIO_API_DATASET } =
+    useLoaderData();
+
+  return (
+    <Document>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `document.env = ${JSON.stringify({
+            SANITY_STUDIO_API_PROJECT_ID,
+            SANITY_STUDIO_API_DATASET,
+          })}`,
+        }}
+      />
+      <Outlet />
+    </Document>
+  );
+}
 ```
 
-While inside the `/studio` directory run
+This is required because the project ID and the dataset from Sanity need to be accessed by both the server and the client. By assigning them to the docuemnt object we can reference them safely like this:
 
-```sh
-npm install
-npm start
+```ts
+export const SANITY_STUDIO_API_PROJECT_ID =
+  typeof document !== "undefined"
+    ? document.env.SANITY_STUDIO_API_PROJECT_ID
+    : process.env.SANITY_STUDIO_API_PROJECT_ID;
 ```
 
-To generate the local studio on [http://localhost:3333](http://localhost:3333)
+See [document guard](https://remix.run/docs/en/v1/guides/constraints#document-guard) in Remix for more details on this approach to accessing secrets in the client bundle.
 
 ## Deployment
 
