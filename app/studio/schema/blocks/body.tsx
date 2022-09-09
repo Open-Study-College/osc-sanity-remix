@@ -1,3 +1,5 @@
+import type { ReactElement } from 'react';
+
 export default {
     name: 'body',
     title: 'Rich Text',
@@ -41,7 +43,7 @@ export default {
             styles: [
                 {
                     blockEditor: {
-                        render: ({ children }) => (
+                        render: ({ children }: { children: ReactElement }) => (
                             <div style={{ fontSize: '1.5rem', lineHeight: 1.2 }}>{children}</div>
                         )
                     },
@@ -50,7 +52,7 @@ export default {
                 },
                 {
                     blockEditor: {
-                        render: ({ children }) => (
+                        render: ({ children }: { children: ReactElement }) => (
                             <div style={{ fontSize: '1.25rem', lineHeight: 1.25 }}>{children}</div>
                         )
                     },
@@ -59,7 +61,7 @@ export default {
                 },
                 {
                     blockEditor: {
-                        render: ({ children }) => (
+                        render: ({ children }: { children: ReactElement }) => (
                             <div style={{ fontSize: '1.2rem', lineHeight: 1.25 }}>{children}</div>
                         )
                     },
