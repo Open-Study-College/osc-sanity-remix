@@ -1,4 +1,6 @@
-export const settings = (S) =>
+import type { StructureBuilder } from 'sanity/desk';
+
+export const settings = (S: StructureBuilder) =>
     S.listItem()
         .title('Settings')
         .schemaType('settings')
