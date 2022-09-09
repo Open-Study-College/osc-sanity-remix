@@ -102,7 +102,7 @@ export const collection = defineType({
             ruleCount: 'store.rules.length',
             title: 'store.title'
         },
-        prepare(selection) {
+        prepare(selection: Record<string, any>) {
             const { imageUrl, isDeleted, ruleCount, title } = selection;
             return {
                 media: (

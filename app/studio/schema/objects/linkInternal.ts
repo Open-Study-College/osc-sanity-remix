@@ -34,7 +34,7 @@ export const linkInternal = defineType({
             referenceType: 'reference._type',
             title: 'title'
         },
-        prepare(selection) {
+        prepare(selection: Record<string, any>) {
             const {
                 reference,
                 referenceProductPriceRange,

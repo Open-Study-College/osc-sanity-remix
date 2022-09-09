@@ -85,7 +85,7 @@ export const productWithVariant = defineType({
             variantPreviewImageUrl: 'variant.store.previewImageUrl',
             variantTitle: 'variant.store.title'
         },
-        prepare(selection) {
+        prepare(selection: Record<string, any>) {
             const {
                 defaultVariantTitle,
                 isDeleted,

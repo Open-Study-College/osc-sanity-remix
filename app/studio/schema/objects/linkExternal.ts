@@ -34,7 +34,7 @@ export const linkExternal = defineType({
             title: 'title',
             url: 'url'
         },
-        prepare(selection) {
+        prepare(selection: Record<string, any>) {
             const { title, url } = selection;
 
             let subtitle = [];

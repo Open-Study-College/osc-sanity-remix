@@ -19,7 +19,7 @@ export type RuleType = {
     uri: (options: { scheme: string[] }) => RuleType;
 };
 
-type Validation = (rule: RuleType) => RuleType;
+export type Validation = (rule: RuleType) => RuleType;
 
 type CommonFieldProps = {
     name: string;

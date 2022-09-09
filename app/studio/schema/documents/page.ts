@@ -35,6 +35,7 @@ export const page = defineType({
             name: 'slug',
             type: 'slug',
             options: { source: 'title' },
+            // @ts-ignore -- expect rule to come from function
             validation: validateSlug
         }),
         // Show hero
@@ -76,7 +77,7 @@ export const page = defineType({
             seoImage: 'seo.image',
             title: 'title'
         },
-        prepare(selection) {
+        prepare(selection: Record<string, any>) {
             const { seoImage, title } = selection;
             return {
                 media: seoImage,

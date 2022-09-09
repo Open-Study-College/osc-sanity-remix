@@ -27,7 +27,7 @@ export const productOption = defineType({
         select: {
             name: 'name'
         },
-        prepare(selection) {
+        prepare(selection: Record<string, any>) {
             const { name } = selection;
 
             return {
