@@ -6,7 +6,6 @@
 import { useClient } from 'sanity';
 import { TrashIcon } from '@sanity/icons';
 import { Stack, Text, useToast } from '@sanity/ui';
-import sanityClient from '../../../sanity.config';
 import { useState } from 'react';
 import { SANITY_API_VERSION } from '~/studio/constants';
 
@@ -61,7 +60,7 @@ const deleteProductAndVariants = (props: Props) => {
                 }
 
                 // Delete current document (including draft)
-                const transaction = sanityClient.transaction();
+                const transaction = client.transaction();
                 if (published?._id) {
                     transaction.delete(published._id);
                 }
