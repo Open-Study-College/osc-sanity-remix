@@ -23,7 +23,6 @@ import { deleteAction } from '~/studio/actions/deleteAction';
 import { duplicateAction } from '~/studio/actions/duplicateAction';
 import shopifyLink from '~/studio/actions/shopifyLink';
 
-// @ts-ignore
 export default createConfig({
     name: 'default',
     title: 'Shopify - openstudydev',
@@ -40,11 +39,8 @@ export default createConfig({
             defaultDocumentNode
         }),
         media(),
-        isDev
-            ? visionTool({
-                  defaultApiVersion: SANITY_API_VERSION
-              })
-            : []
+        // @ts-ignore - expect it to be empty if we're not on the dev store
+        isDev ? visionTool({ defaultApiVersion: SANITY_API_VERSION }) : []
     ],
 
     document: {
