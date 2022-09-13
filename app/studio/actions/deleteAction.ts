@@ -1,19 +1,24 @@
-import type { DocumentActionComponent } from 'sanity/desk';
+import type { DocumentActionProps } from 'sanity/desk';
 import { DeleteAction } from 'sanity/desk';
 import deleteCollection from './deleteCollection';
 import deleteProductAndVariants from './deleteProductAndVariants';
 
-export const deleteAction: DocumentActionComponent = (props) => {
-    const { disabled, ...rest } = DeleteAction(props);
+interface DeleteDocumentActionProps extends DocumentActionProps {
+    disabled?: boolean;
+}
+
+export const deleteAction = (props: DeleteDocumentActionProps) => {
+    const action = DeleteAction(props);
 
     if (['home', 'settings'].includes(props.type)) {
-        return { disabled: true, ...rest };
+        return { disabled: true, ...action };
     }
 
     //  Enable delete button only if item has been marked for deletion
     if (['productVariant'].includes(props.type)) {
+        // @ts-ignore
         if (props?.published?.store?.isDeleted) {
-            return { disabled: false, ...rest };
+            return { disabled: false, ...action };
         }
     }
 
@@ -27,5 +32,5 @@ export const deleteAction: DocumentActionComponent = (props) => {
         return deleteProductAndVariants(props);
     }
 
-    return { ...rest };
+    return { ...action };
 };
