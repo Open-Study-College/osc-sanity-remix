@@ -153,3 +153,21 @@ export type PreviewProps = {
 };
 
 export type Body2TextProps = { children: React.FunctionComponent<any> };
+
+export interface ShopifySanityDocument extends SanityDocument {
+    store: {
+        createdAt: Date | string;
+        descriptionHtml: HTMLElement | undefined;
+        gid: string;
+        id: number;
+        isDeleted: boolean;
+        slug: string;
+        status: string;
+        tags: string;
+        title: string;
+        updatedAt: Date | string;
+        vendor: string;
+    };
+}
+
+export type Schema = object[];

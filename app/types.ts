@@ -39,19 +39,15 @@ export interface module {
 }
 
 export interface mediaTextModule extends module {
-    media?: {
-        asset: {
-            url: string;
-            altText: string | null;
-        };
-    }[];
-    links: SanityRawLinkItem[];
+    layout: 'media-left' | 'media-right';
+    media?: SanityImage;
+    links: InternalSanityLinkItem[] | ExternalSanityLinkItem[];
 }
 
 export interface SanityImage {
     asset: {
         url: string;
-        altText: string;
+        altText: string | undefined;
     };
 }
 
