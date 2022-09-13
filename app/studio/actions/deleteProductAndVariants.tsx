@@ -79,7 +79,7 @@ const deleteProductAndVariants = (props: Props) => {
                 try {
                     await transaction.commit();
                     // Navigate back to products root
-                } catch (err) {
+                } catch (err: any) {
                     toast.push({
                         status: 'error',
                         title: err?.message

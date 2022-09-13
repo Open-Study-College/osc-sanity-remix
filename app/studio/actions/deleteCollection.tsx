@@ -53,7 +53,7 @@ const deleteCollection = (props: Props) => {
                     await transaction.commit();
                     // Navigate back to collections root
                     // TODO: useRouter not exported from sanity?
-                } catch (err) {
+                } catch (err: any) {
                     toast.push({
                         status: 'error',
                         title: err?.message
