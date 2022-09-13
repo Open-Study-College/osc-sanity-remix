@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react';
 import type { ReactComponentLike } from 'prop-types';
+import type { SanityDocument } from '@sanity';
 
 type Meta = {
     parent: { [key: string]: any };

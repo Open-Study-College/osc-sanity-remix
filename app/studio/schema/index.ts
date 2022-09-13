@@ -1,3 +1,4 @@
+import type { Schema } from '../schemaTypes';
 // Rich text annotations used in the block content editor
 import annotationLinkEmail from './annotations/linkEmail';
 import annotationLinkExternal from './annotations/linkExternal';
@@ -39,8 +40,9 @@ import { shopify as seoShopify } from './objects/seo/shopify';
 import { shopifyCollection } from './objects/shopifyCollection';
 import { shopifyProduct } from './objects/shopifyProduct';
 import { shopifyProductVariant } from './objects/shopifyProductVariant';
+import type { SchemaTypeDefinition } from 'sanity';
 
-export const schemaTypes = [
+export const schemaTypes: SchemaTypeDefinition[] = [
     // Annotations
     annotationLinkEmail,
     annotationLinkExternal,
