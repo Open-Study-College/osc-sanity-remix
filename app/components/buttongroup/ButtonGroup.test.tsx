@@ -4,24 +4,18 @@ import ButtonGroup from './ButtonGroup';
 
 const sampleLinksRAW = [
     {
-        __typename: 'LinkInternal',
         _key: '51bdfbd12674',
-        title: 'Internal link',
-        reference: {
-            __typename: 'Page',
-            _key: null,
-            title: 'Kitchen sink',
-            slug: {
-                current: 'kitchen-sink'
-            }
-        }
+        _type: 'linkInternal',
+        documentType: 'page',
+        slug: '/pages/kitchen-sink',
+        title: 'Internal Link'
     },
     {
-        __typename: 'LinkExternal',
         _key: 'fc93bf42bc5a',
+        _type: 'linkExternal',
+        newWindow: true,
         title: 'External link',
-        url: 'https://openstudycollege.com/',
-        newWindow: true
+        url: 'https://openstudycollege.com/'
     }
 ];
 
