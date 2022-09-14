@@ -32,17 +32,19 @@ export interface ExternalSanityLinkItem extends SanityLinkItem {
     url?: string;
 }
 
-export interface module {
+export interface contentModule {
     _type: string;
     _key: string;
     body?: PortableTextBlock;
 }
 
-export interface mediaTextModule extends module {
+export interface mediaTextModule extends contentModule {
     layout: 'media-left' | 'media-right';
     media?: SanityImage;
     links: InternalSanityLinkItem[] | ExternalSanityLinkItem[];
 }
+
+export type module = contentModule | mediaTextModule;
 
 export interface SanityImage {
     asset: {
