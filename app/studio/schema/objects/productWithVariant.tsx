@@ -1,10 +1,11 @@
 import { TagIcon } from '@sanity/icons';
-import sanityClient from '../../../../sanity.config';
 import pluralize from 'pluralize';
 import { defineField, defineType } from 'sanity';
 import ShopifyDocumentStatus from '~/studio/components/media/ShopifyDocumentStatus';
-import { SANITY_API_VERSION } from '~/studio/constants';
 import { getPriceRange } from '~/studio/utils/getPriceRange';
+
+// eslint-disable-next-line react-hooks/rules-of-hooks -- this is being imported into a React component
+// const sanityClient = useClient();
 
 export const productWithVariant = defineType({
     name: 'productWithVariant',
@@ -25,7 +26,10 @@ export const productWithVariant = defineType({
             weak: true,
             description: 'First variant will be selected if left empty',
             options: {
+                // @ts-ignore - incomplete type definition for defineField? Should allow more than just strings
                 filter: ({ parent }) => {
+                    console.log(parent);
+                    // @ts-ignore
                     const productId = parent?.product?._ref;
                     const shopifyProductId = Number(productId?.replace('shopifyProduct-', ''));
 
@@ -50,9 +54,11 @@ export const productWithVariant = defineType({
             validation: (Rule) =>
                 Rule.custom(async (value, { parent }) => {
                     // Selected product in adjacent `product` field
+                    // @ts-ignore
                     const productId = parent?.product?._ref;
 
                     // Selected product variant
+                    // @ts-ignore
                     const productVariantId = value?._ref;
 
                     if (!productId || !productVariantId) {
@@ -61,14 +67,14 @@ export const productWithVariant = defineType({
 
                     // If both product + product variant are specified,
                     // check to see if `product` references this product variant.
-                    const result = await sanityClient
-                        .withConfig({ apiVersion: SANITY_API_VERSION })
-                        .fetch(`*[_id == $productId && references($productVariantId)][0]._id`, {
-                            productId,
-                            productVariantId
-                        });
+                    // const result = await sanityClient
+                    //     .withConfig({ apiVersion: SANITY_API_VERSION })
+                    //     .fetch(`*[_id == $productId && references($productVariantId)][0]._id`, {
+                    //         productId,
+                    //         productVariantId
+                    //     });
 
-                    return result ? true : 'Invalid product variant';
+                    return !productId || !productVariantId ? true : 'Invalid product variant';
                 })
         })
     ],
