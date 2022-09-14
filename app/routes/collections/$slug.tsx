@@ -56,6 +56,9 @@ export default function Collection() {
     // If `preview` mode is active, its component update this state for us
     const [data, setData] = useState(collection);
 
+    // Make sure to update the page state if the IDs are different!
+    if (collection._id !== data._id) setData(collection);
+
     const title = data?.store?.title;
 
     // NOTE: For preview mode to work nicely when working with draft content, optional chain _everything_

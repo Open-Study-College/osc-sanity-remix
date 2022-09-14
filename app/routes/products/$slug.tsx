@@ -48,6 +48,9 @@ export default function Product() {
     // If `preview` mode is active, its component update this state for us
     const [data, setData] = useState(product);
 
+    // Make sure to update the page state if the IDs are different!
+    if (product._id !== data._id) setData(product);
+
     const title = data?.store?.title;
 
     // NOTE: For preview mode to work nicely when working with draft content, optional chain _everything_
