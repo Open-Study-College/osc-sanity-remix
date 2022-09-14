@@ -8,11 +8,11 @@ export default function Module({ module }: { module: module }) {
         case 'module.content':
             return (
                 <Container maxW="container.md">
-                    <ContentModule content={module.body} />
+                    {module.body ? <ContentModule content={module.body} /> : null}
                 </Container>
             );
         case 'module.mediaText':
-            return <MediaTextModule module={module} />;
+            return <>{'layout' in module ? <MediaTextModule module={module} /> : null}</>;
         default:
             return null;
     }
