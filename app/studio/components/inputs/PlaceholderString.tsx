@@ -1,39 +1,28 @@
 /* eslint-disable react/display-name */
-import type { MarksObjectField, Path } from 'sanity';
+import type { Path } from 'sanity';
+import type { Document } from '~/studio/schemaTypes';
 import { FormField, set, unset } from 'sanity/form';
 import { TextInput } from '@sanity/ui';
 import { uuid } from '@sanity/uuid';
 import get from 'lodash.get';
-import type { RefObject } from 'react';
 import { forwardRef, useCallback } from 'react';
 
-// TODO: use correct type
 type Props = {
-    markers: MarksObjectField[];
+    document: Document;
     onBlur: () => void;
     onChange: (event: any) => void;
     onFocus: (path: Path) => void;
+    readOnly: any;
     type: any;
     value: any;
 };
 
-const PlaceholderStringInput = forwardRef((props: Props, ref: RefObject<HTMLInputElement>) => {
-    const {
-        compareValue,
-        document,
-        markers,
-        onBlur,
-        onChange,
-        onFocus,
-        presence,
-        readOnly,
-        type,
-        value
-    } = props;
+const PlaceholderStringInput = forwardRef<HTMLInputElement, Props>((props: Props, ref) => {
+    const { document, onBlur, onChange, onFocus, readOnly, type, value } = props;
 
     const handleChange = useCallback(
         // useCallback will help with performance
-        (event) => {
+        (event: React.ChangeEvent<HTMLInputElement>): void => {
             const inputValue = event.currentTarget.value; // get current value
 
             // if the value exists, set the data, if not, unset the data
@@ -47,19 +36,13 @@ const PlaceholderStringInput = forwardRef((props: Props, ref: RefObject<HTMLInpu
     const inputId = uuid();
 
     return (
-        <FormField
-            compareValue={compareValue}
-            description={type?.description}
-            inputId={inputId}
-            markers={markers}
-            presence={presence}
-            title={type?.title}
-        >
+        <FormField description={type?.description} inputId={inputId} title={type?.title}>
             <TextInput
                 defaultValue={value}
                 id={inputId}
                 onBlur={onBlur}
                 onChange={handleChange}
+                // @ts-ignore
                 onFocus={onFocus}
                 placeholder={proxyValue}
                 readOnly={readOnly}

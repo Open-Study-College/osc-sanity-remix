@@ -1,6 +1,7 @@
+import type { StructureBuilder } from 'sanity/desk';
 import { InfoOutlineIcon } from '@sanity/icons';
 
-export const products = (S) =>
+export const products = (S: StructureBuilder) =>
     S.listItem()
         .title('Products')
         .schemaType('product')

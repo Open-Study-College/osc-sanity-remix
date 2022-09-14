@@ -5,7 +5,7 @@
  */
 import { TrashIcon } from '@sanity/icons';
 import { Stack, Text, useToast } from '@sanity/ui';
-import sanityClient from '../../../sanity.config';
+import { useClient } from 'sanity';
 import { useState } from 'react';
 
 type Props = {
@@ -17,6 +17,9 @@ type Props = {
 
 const deleteCollection = (props: Props) => {
     const { draft, onComplete, published } = props;
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const sanityClient = useClient();
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -50,7 +53,7 @@ const deleteCollection = (props: Props) => {
                     await transaction.commit();
                     // Navigate back to collections root
                     // TODO: useRouter not exported from sanity?
-                } catch (err) {
+                } catch (err: any) {
                     toast.push({
                         status: 'error',
                         title: err?.message

@@ -21,9 +21,7 @@ export default function MediaTextModule({ module }: { module: mediaTextModule })
             ) : null}
 
             <Box>
-                <Box px={12}>
-                    <ContentModule content={body} />
-                </Box>
+                <Box px={12}>{body ? <ContentModule content={body} /> : null}</Box>
 
                 <Box p={12}>{links ? <ButtonGroup links={links} /> : null}</Box>
             </Box>

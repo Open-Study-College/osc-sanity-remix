@@ -33,25 +33,25 @@ export interface ExternalSanityLinkItem extends SanityLinkItem {
 }
 
 export interface module {
-    _type: string;
-    _key: string;
+    _type?: string;
+    _key?: string;
+}
+
+export interface contentModule extends module {
     body?: PortableTextBlock;
 }
 
 export interface mediaTextModule extends module {
-    media?: {
-        asset: {
-            url: string;
-            altText: string | null;
-        };
-    }[];
-    links: SanityRawLinkItem[];
+    layout: 'media-left' | 'media-right';
+    body?: PortableTextBlock;
+    media?: SanityImage;
+    links?: InternalSanityLinkItem[] | ExternalSanityLinkItem[];
 }
 
 export interface SanityImage {
     asset: {
         url: string;
-        altText: string;
+        altText: string | undefined;
     };
 }
 
@@ -96,12 +96,12 @@ export interface shopifyProduct {
     id: string;
     title: string;
     handle: string;
-    featuredImage: {
-        altText: string;
+    featuredImage?: {
+        altText?: string | null;
         height: number;
         width: number;
         url: string;
-    };
+    } | null;
     compareAtPriceRange: {
         minVariantPrice: {
             amount: string;
@@ -118,4 +118,19 @@ export interface shopifyProduct {
         values: string[];
         name: string;
     }[];
+}
+
+export interface SanitySiteSetting {
+    _id: 'settings';
+    _rev: string;
+    _type: 'settings';
+    footer: {
+        _type: 'settings.footer';
+        links: InternalSanityLinkItem[] | ExternalSanityLinkItem[];
+        text: PortableTextBlock;
+    };
+    menu: {
+        links: InternalSanityLinkItem[] | ExternalSanityLinkItem[];
+    };
+    seo: SanitySEO;
 }

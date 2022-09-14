@@ -101,7 +101,7 @@ export const product = defineType({
             title: 'store.title',
             variantCount: 'store.variants.length'
         },
-        prepare(selection) {
+        prepare(selection: Record<string, any>) {
             const {
                 isDeleted,
                 optionCount,

@@ -1,13 +1,18 @@
 import { DEFAULT_CURRENCY_CODE } from '~/studio/constants';
 
-const formatNumber = (val) => {
+interface PriceRange {
+    minVariantPrice: number;
+    maxVariantPrice: number;
+}
+
+const formatNumber = (val: number) => {
     return new Intl.NumberFormat('en', {
         currency: DEFAULT_CURRENCY_CODE,
         style: 'currency'
     }).format(val);
 };
 
-export const getPriceRange = (price) => {
+export const getPriceRange = (price: PriceRange) => {
     if (!price || typeof price?.minVariantPrice === 'undefined') {
         return 'No price found';
     }

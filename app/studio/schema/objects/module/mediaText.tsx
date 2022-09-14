@@ -68,7 +68,7 @@ export const mediaText = defineType({
             title: 'body',
             layout: 'layout'
         },
-        prepare(selection) {
+        prepare(selection: Record<string, any>) {
             const title = selection.title[0].children[0].text; // display the first item from the body content;
             const layout = selection.layout.replace('-', ' / ');
 

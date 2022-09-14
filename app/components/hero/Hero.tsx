@@ -1,32 +1,23 @@
 import type { PortableTextBlock } from '@portabletext/types';
-import type { PortableTextComponents } from '@portabletext/react';
-import { PortableText } from '@portabletext/react';
-import { SimpleGrid, Heading, Stack, Text } from '@chakra-ui/react';
+import PortableText from '~/components/portableText/PortableText';
+import { SimpleGrid, Stack } from '@chakra-ui/react';
 import ButtonGroup from '../buttongroup/ButtonGroup';
-import type { SanityRawLinkItem } from '~/types';
+import type { InternalSanityLinkItem, ExternalSanityLinkItem } from '~/types';
 
 interface Props {
     settings: {
-        image?: {
-            asset: {
-                url: string;
-                altText: string;
-            };
-        };
-        body: PortableTextBlock;
-        links?: SanityRawLinkItem[];
+        image?:
+            | {
+                  asset: {
+                      url: string;
+                      altText: string;
+                  };
+              }
+            | undefined;
+        body?: PortableTextBlock | undefined;
+        links?: InternalSanityLinkItem[] | ExternalSanityLinkItem[] | undefined;
     };
 }
-
-// Pass ChakraUI components into the portable text items
-const portableTextComponents: PortableTextComponents = {
-    block: {
-        h1: ({ children }) => <Heading as="h1">{children}</Heading>,
-        h2: ({ children }) => <Heading as="h2">{children}</Heading>,
-        h3: ({ children }) => <Heading as="h3">{children}</Heading>,
-        normal: ({ children }) => <Text>{children}</Text>
-    }
-};
 
 export default function Hero({ settings }: Props) {
     return (
@@ -34,14 +25,11 @@ export default function Hero({ settings }: Props) {
             <header className="u-bg-secondary">
                 <SimpleGrid columns={2} spacing={10} minChildWidth="340px">
                     <Stack p={12} spacing={6} color="white">
-                        {settings.body ? (
-                            <PortableText
-                                value={settings.body}
-                                components={portableTextComponents}
-                            />
-                        ) : null}
+                        {settings.body ? <PortableText value={settings.body} /> : null}
 
-                        {settings.links?.length > 0 ? <ButtonGroup links={settings.links} /> : null}
+                        {settings.links && settings.links?.length > 0 ? (
+                            <ButtonGroup links={settings.links} />
+                        ) : null}
                     </Stack>
 
                     <div>

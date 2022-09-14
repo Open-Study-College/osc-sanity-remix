@@ -29,7 +29,6 @@ import { productInventory } from './objects/productInventory';
 import { productPriceRange } from './objects/productPriceRange';
 import { productOption } from './objects/productOption';
 import { productWithVariant } from './objects/productWithVariant';
-import { proxyString } from './objects/proxyString';
 import { home as seoHome } from './objects/seo/home';
 import { page as seoPage } from './objects/seo/page';
 import { footer as settingsFooter } from './objects/settings/footer';
@@ -40,8 +39,9 @@ import { shopify as seoShopify } from './objects/seo/shopify';
 import { shopifyCollection } from './objects/shopifyCollection';
 import { shopifyProduct } from './objects/shopifyProduct';
 import { shopifyProductVariant } from './objects/shopifyProductVariant';
+import type { SchemaTypeDefinition } from 'sanity';
 
-export const schemaTypes = [
+export const schemaTypes: SchemaTypeDefinition[] = [
     // Annotations
     annotationLinkEmail,
     annotationLinkExternal,
@@ -73,7 +73,6 @@ export const schemaTypes = [
     productOption,
     productPriceRange,
     productWithVariant,
-    proxyString,
     seoHome,
     seoPage,
     seoShopify,

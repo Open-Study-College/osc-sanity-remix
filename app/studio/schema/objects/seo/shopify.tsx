@@ -14,11 +14,7 @@ export const shopify = defineType({
             name: 'title',
             title: 'Title',
             type: 'placeholderString',
-            description: (
-                <>
-                    If empty, displays the default Shopify document title (<code>store.title</code>)
-                </>
-            ),
+            description: 'If empty, displays the default Shopify document title (store.title)',
             options: {
                 field: 'store.title'
             },

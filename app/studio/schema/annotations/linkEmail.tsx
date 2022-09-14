@@ -3,6 +3,7 @@
  *
  * Read more: https://www.sanity.io/docs/customization#f924645007e1
  */
+import type { ReactElement } from 'react';
 import { EnvelopeIcon } from '@sanity/icons';
 
 export default {
@@ -11,7 +12,7 @@ export default {
     type: 'object',
     blockEditor: {
         icon: () => <EnvelopeIcon />,
-        render: ({ children }) => (
+        render: ({ children }: { children: ReactElement }) => (
             <span>
                 <EnvelopeIcon
                     style={{

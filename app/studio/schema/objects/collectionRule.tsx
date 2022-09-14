@@ -33,7 +33,7 @@ export const collectionRule = defineType({
             name: 'column',
             relation: 'relation'
         },
-        prepare(selection) {
+        prepare(selection: Record<string, any>) {
             const { condition, name, relation } = selection;
 
             return {

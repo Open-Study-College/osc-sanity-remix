@@ -26,7 +26,7 @@ import { getUser } from './session.server';
 import { checkConnectivity } from '~/utils/client/pwa-utils.client';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
-import type { SanityLinkItem } from '~/types';
+import type { SanityLinkItem, SanitySiteSetting } from '~/types';
 import { getClient } from './lib/sanity/getClient.server';
 import { SETTINGS_QUERY } from './queries/sanity/settings';
 // push notifications not working at present, due to wrong sender ID
@@ -82,7 +82,9 @@ export const loader: LoaderFunction = async ({ request }) => {
     const siteSettings = await getClient()
         .fetch(SETTINGS_QUERY)
         .catch((err) => console.error(err));
-    const liveSettings = siteSettings.filter((setting) => !setting._id.includes('drafts'))[0];
+    const liveSettings = siteSettings.filter(
+        (setting: SanitySiteSetting) => !setting._id.includes('drafts')
+    )[0];
 
     const headerMenuItems = liveSettings?.menu;
     const footerMenuItems = liveSettings?.footer;

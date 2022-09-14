@@ -47,7 +47,7 @@ export const productVariant = defineType({
             status: 'store.status',
             title: 'store.title'
         },
-        prepare(selection) {
+        prepare(selection: Record<string, any>) {
             const { isDeleted, previewImageUrl, sku, status, title } = selection;
 
             return {

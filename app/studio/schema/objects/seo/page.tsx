@@ -13,11 +13,7 @@ export const page = defineType({
             name: 'title',
             title: 'Title',
             type: 'placeholderString',
-            description: (
-                <>
-                    If empty, displays the document title (<code>title</code>)
-                </>
-            ),
+            description: 'If empty, displays the document title (title)',
             options: { field: 'title' },
             validation: (Rule) =>
                 Rule.max(50).warning('Longer titles may be truncated by search engines')
