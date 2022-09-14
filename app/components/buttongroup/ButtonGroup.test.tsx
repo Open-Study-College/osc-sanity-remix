@@ -4,24 +4,18 @@ import ButtonGroup from './ButtonGroup';
 
 const sampleLinksRAW = [
     {
-        __typename: 'LinkInternal',
         _key: '51bdfbd12674',
-        title: 'Internal link',
-        reference: {
-            __typename: 'Page',
-            _key: null,
-            title: 'Kitchen sink',
-            slug: {
-                current: 'kitchen-sink'
-            }
-        }
+        _type: 'linkInternal',
+        documentType: 'page',
+        slug: '/pages/kitchen-sink',
+        title: 'Internal Link'
     },
     {
-        __typename: 'LinkExternal',
         _key: 'fc93bf42bc5a',
+        _type: 'linkExternal',
+        newWindow: true,
         title: 'External link',
-        url: 'https://openstudycollege.com/',
-        newWindow: true
+        url: 'https://openstudycollege.com/'
     }
 ];
 
@@ -40,10 +34,15 @@ test('renders the ButtonGroup component', async () => {
         name: /external link/i
     });
 
+    // @ts-ignore - can remove once test methods issue is resolved
     expect(internalLink).toHaveAttribute('href', '/pages/kitchen-sink');
+    // @ts-ignore - can remove once test methods issue is resolved
     expect(internalLink).not.toHaveAttribute('target', '_blank');
 
+    // @ts-ignore - can remove once test methods issue is resolved
     expect(externalLink).toHaveAttribute('href', 'https://openstudycollege.com/');
+    // @ts-ignore - can remove once test methods issue is resolved
     expect(externalLink).toHaveAttribute('target', '_blank');
+    // @ts-ignore - can remove once test methods issue is resolved
     expect(externalLink).toHaveAttribute('rel', 'noreferrer');
 });

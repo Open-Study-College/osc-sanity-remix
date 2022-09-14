@@ -1,0 +1,38 @@
+diff --git a/node_modules/@theme-ui/mdx/dist/theme-ui-mdx.cjs.dev.js b/node_modules/@theme-ui/mdx/dist/theme-ui-mdx.cjs.dev.js
+index 9c29f0b..860aefa 100644
+--- a/node_modules/@theme-ui/mdx/dist/theme-ui-mdx.cjs.dev.js
++++ b/node_modules/@theme-ui/mdx/dist/theme-ui-mdx.cjs.dev.js
+@@ -2,10 +2,10 @@
+ 
+ Object.defineProperty(exports, '__esModule', { value: true });
+ 
+-var core = require('@theme-ui/core');
+-var css = require('@theme-ui/css');
+-var react$1 = require('react');
+-var react = require('@mdx-js/react');
++var core = import('@theme-ui/core');
++var css = import('@theme-ui/css');
++var react$1 = import('react');
++var react = import('@mdx-js/react');
+ 
+ /** @jsx jsx */
+ // mdx components
+diff --git a/node_modules/@theme-ui/mdx/dist/theme-ui-mdx.cjs.prod.js b/node_modules/@theme-ui/mdx/dist/theme-ui-mdx.cjs.prod.js
+index 9c29f0b..860aefa 100644
+--- a/node_modules/@theme-ui/mdx/dist/theme-ui-mdx.cjs.prod.js
++++ b/node_modules/@theme-ui/mdx/dist/theme-ui-mdx.cjs.prod.js
+@@ -2,10 +2,10 @@
+ 
+ Object.defineProperty(exports, '__esModule', { value: true });
+ 
+-var core = require('@theme-ui/core');
+-var css = require('@theme-ui/css');
+-var react$1 = require('react');
+-var react = require('@mdx-js/react');
++var core = import('@theme-ui/core');
++var css = import('@theme-ui/css');
++var react$1 = import('react');
++var react = import('@mdx-js/react');
+ 
+ /** @jsx jsx */
+ // mdx components

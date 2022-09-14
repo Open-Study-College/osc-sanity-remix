@@ -1,7 +1,7 @@
 export default {
-    _type: 'module.content',
     _key: 'f916e021644b',
-    bodyRaw: [
+    _type: 'module.content',
+    body: [
         {
             _key: '12c1204ef297',
             _type: 'block',
@@ -52,10 +52,34 @@ export default {
                     _key: 'cca9fb604a5d0',
                     _type: 'span',
                     marks: [],
-                    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+                    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud '
+                },
+                {
+                    _key: '714c2e8391ea',
+                    _type: 'span',
+                    marks: ['40f101171757'],
+                    text: 'exercitation'
+                },
+                {
+                    _key: 'bf21615af15d',
+                    _type: 'span',
+                    marks: [],
+                    text: ' ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
                 }
             ],
-            markDefs: [],
+            markDefs: [
+                {
+                    _key: '40f101171757',
+                    _type: 'annotationLinkInternal',
+                    documentType: 'page',
+                    reference: {
+                        _ref: '0fd68162-1deb-4ddd-9e9b-f452f5ac9ea4',
+                        _type: 'reference',
+                        _weak: true
+                    },
+                    slug: '/pages/empty-page'
+                }
+            ],
             style: 'normal'
         },
         {
@@ -73,18 +97,13 @@ export default {
                 {
                     _key: 'ba3921f2089c',
                     _type: 'annotationLinkInternal',
+                    documentType: 'product',
                     reference: {
                         _ref: 'shopifyProduct-7438725447935',
                         _type: 'reference',
                         _weak: true
                     },
-                    Product: {
-                        store: {
-                            slug: {
-                                current: 'hair-up-course'
-                            }
-                        }
-                    }
+                    slug: '/products/hair-up-course'
                 }
             ],
             style: 'normal'
@@ -104,18 +123,13 @@ export default {
                 {
                     _key: 'ffff1f8e41f7',
                     _type: 'annotationLinkInternal',
+                    documentType: 'collection',
                     reference: {
                         _ref: 'shopifyCollection-387079045375',
                         _type: 'reference',
                         _weak: true
                     },
-                    Collection: {
-                        store: {
-                            slug: {
-                                current: 'accounting'
-                            }
-                        }
-                    }
+                    slug: '/collections/accounting'
                 }
             ],
             style: 'normal'
@@ -135,16 +149,13 @@ export default {
                 {
                     _key: 'fbf5e5a6f992',
                     _type: 'annotationLinkInternal',
+                    documentType: 'page',
                     reference: {
                         _ref: '0fd68162-1deb-4ddd-9e9b-f452f5ac9ea4',
                         _type: 'reference',
                         _weak: true
                     },
-                    Page: {
-                        slug: {
-                            current: 'empty-page'
-                        }
-                    }
+                    slug: '/pages/empty-page'
                 }
             ],
             style: 'normal'
@@ -165,6 +176,7 @@ export default {
                     _key: '72b789ac2391',
                     _type: 'annotationLinkExternal',
                     newWindow: true,
+                    title: null,
                     url: 'https://openstudycollege.com/'
                 }
             ],
@@ -364,13 +376,15 @@ export default {
             _key: '2bdfe377b49d',
             _type: 'image',
             asset: {
-                _ref: 'image-586e498d79a8d15c6799af5409c43db2cff08477-1920x1442-jpg',
-                _type: 'reference'
+                altText: 'Open books on a desk with a pen',
+                dimensions: {
+                    height: 1442,
+                    width: 1920
+                },
+                path: 'images/v6lebos6/production/586e498d79a8d15c6799af5409c43db2cff08477-1920x1442.jpg',
+                url: 'https://cdn.sanity.io/images/v6lebos6/production/586e498d79a8d15c6799af5409c43db2cff08477-1920x1442.jpg'
             },
-            SanityFileAsset: {
-                url: 'https://cdn.sanity.io/images/v6lebos6/production/586e498d79a8d15c6799af5409c43db2cff08477-1920x1442.jpg',
-                altText: 'Open books on a desk with a pen'
-            }
+            markDefs: null
         }
     ]
 };

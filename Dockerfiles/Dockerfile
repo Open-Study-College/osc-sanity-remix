@@ -12,6 +12,8 @@ FROM base as deps
 
 WORKDIR /myapp
 
+COPY patches/@theme-ui+mdx+0.14.7.patch /myapp/patches/@theme-ui+mdx+0.14.7.patch
+
 ADD package.json package-lock.json ./
 RUN npm install --production=false
 

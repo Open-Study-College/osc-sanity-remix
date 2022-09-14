@@ -26,7 +26,7 @@ import { getUser } from './session.server';
 import { checkConnectivity } from '~/utils/client/pwa-utils.client';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
-import type { SanityLinkItem } from '~/types';
+import type { SanityLinkItem, SanitySiteSetting } from '~/types';
 import { getClient } from './lib/sanity/getClient.server';
 import { SETTINGS_QUERY } from './queries/sanity/settings';
 // push notifications not working at present, due to wrong sender ID
@@ -68,6 +68,8 @@ type LoaderData = {
     gaTrackingId: string | undefined;
     googleTagManagerId: string | undefined;
     nodeEnv: string;
+    SANITY_STUDIO_API_PROJECT_ID: string | undefined;
+    SANITY_STUDIO_API_DATASET: string | undefined;
     headerMenuItems: SanityLinkItem[] | undefined;
     footerMenuItems: SanityLinkItem[] | undefined;
     footerText: object[] | undefined;
@@ -80,10 +82,12 @@ export const loader: LoaderFunction = async ({ request }) => {
     const siteSettings = await getClient()
         .fetch(SETTINGS_QUERY)
         .catch((err) => console.error(err));
-    const liveSettings = siteSettings.filter((setting) => !setting._id.includes('drafts'))[0];
+    const liveSettings = siteSettings.filter(
+        (setting: SanitySiteSetting) => !setting._id.includes('drafts')
+    )[0];
 
-    const headerMenuItems = liveSettings.menu;
-    const footerMenuItems = liveSettings.footer;
+    const headerMenuItems = liveSettings?.menu;
+    const footerMenuItems = liveSettings?.footer;
 
     return json<LoaderData>({
         user: await getUser(request),
@@ -93,9 +97,11 @@ export const loader: LoaderFunction = async ({ request }) => {
         googleTagManagerId:
             process.env.NODE_ENV === 'production' ? process.env.GTM_TRACKING_ID : undefined,
         nodeEnv: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+        SANITY_STUDIO_API_PROJECT_ID: process.env.SANITY_STUDIO_API_PROJECT_ID,
+        SANITY_STUDIO_API_DATASET: process.env.SANITY_STUDIO_API_DATASET,
         headerMenuItems,
         footerMenuItems,
-        footerText: liveSettings.footer.text
+        footerText: liveSettings?.footer?.text
     });
 };
 interface DocumentProps {
@@ -106,6 +112,7 @@ const Document = withEmotionCache(({ children }: DocumentProps, emotionCache: Em
     const serverStyleData = useEmotionCache(emotionCache);
     let location = useLocation();
     let matches = useMatches();
+    const isStudio = Boolean(matches.find((match) => match.id === 'routes/studio/$'));
 
     useEffect(() => {
         let mounted = isMount;
@@ -148,7 +155,7 @@ const Document = withEmotionCache(({ children }: DocumentProps, emotionCache: Em
     return (
         <html lang="en" className="h-full">
             <head>
-                <Links />
+                {isStudio ? null : <Links />}
                 <Meta />
                 {nodeEnv === 'production' && (
                     <script
@@ -171,7 +178,7 @@ const Document = withEmotionCache(({ children }: DocumentProps, emotionCache: Em
                     />
                 ))}
             </head>
-            <body>
+            <body style={{ margin: 0 }}>
                 <noscript>
                     <iframe
                         title="gtm"
@@ -213,7 +220,10 @@ const Document = withEmotionCache(({ children }: DocumentProps, emotionCache: Em
 });
 
 export default function App() {
-    const { colorScheme } = useLoaderData();
+    const { colorScheme, SANITY_STUDIO_API_PROJECT_ID, SANITY_STUDIO_API_DATASET } =
+        useLoaderData();
+    const matches = useMatches();
+    const isStudio = Boolean(matches.find((match) => match.id === 'routes/studio/$'));
 
     const online = () => {
         //..Do something for online state
@@ -228,8 +238,33 @@ export default function App() {
         // The `console.log` method returns an object with a status of "success" if online and a pass message or a status of "bad" and a fail message if offline
         checkConnectivity(online, offline).then((data) => console.log(data));
     }, []);
+
+    if (isStudio) {
+        return (
+            <Document>
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `document.env = ${JSON.stringify({
+                            SANITY_STUDIO_API_PROJECT_ID,
+                            SANITY_STUDIO_API_DATASET
+                        })}`
+                    }}
+                />
+                <Outlet />
+            </Document>
+        );
+    }
+
     return (
         <Document>
+            <script
+                dangerouslySetInnerHTML={{
+                    __html: `document.env = ${JSON.stringify({
+                        SANITY_STUDIO_API_PROJECT_ID,
+                        SANITY_STUDIO_API_DATASET
+                    })}`
+                }}
+            />
             <ChakraProvider theme={colorScheme === 'light' ? lightTheme : darkTheme}>
                 <Header />
                 <Outlet />
