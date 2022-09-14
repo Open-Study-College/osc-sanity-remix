@@ -21,7 +21,7 @@ export default function ProductCard({ product }: Props) {
             {featuredImage ? (
                 <Img
                     src={featuredImage.url}
-                    alt={featuredImage.altText}
+                    alt={featuredImage.altText ? featuredImage.altText : ''}
                     htmlWidth={featuredImage.width}
                     htmlHeight={featuredImage.height}
                     objectFit="cover"
