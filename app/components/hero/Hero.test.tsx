@@ -111,9 +111,12 @@ test('renders the Hero component without buttons', async () => {
     const img = await screen.findByRole('img');
     const heading = await screen.findByRole('heading');
 
+    // @ts-ignore - can remove once test methods issue is resolved
     expect(img).toHaveAttribute('src', '/path/to/image.jpg');
+    // @ts-ignore - can remove once test methods issue is resolved
     expect(img).toHaveAttribute('alt', 'Open books on a desk with a pen');
 
+    // @ts-ignore - can remove once test methods issue is resolved
     expect(heading).toHaveTextContent('The distance learning experts');
 });
 
@@ -149,5 +152,6 @@ test('renders the Hero component with buttons', async () => {
 
     const buttonGroup = await screen.findByRole('group');
 
+    // @ts-ignore - can remove once test methods issue is resolved
     expect(buttonGroup).toBeVisible();
 });

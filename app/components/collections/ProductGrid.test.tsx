@@ -10,6 +10,7 @@ test('renders no products text when products array is empty', () => {
         </MemoryRouter>
     );
 
+    // @ts-ignore - can remove once test methods issue is resolved
     expect(screen.getByText('No products')).toBeInTheDocument();
 });
 

@@ -40,10 +40,15 @@ test('renders the ButtonGroup component', async () => {
         name: /external link/i
     });
 
+    // @ts-ignore - can remove once test methods issue is resolved
     expect(internalLink).toHaveAttribute('href', '/pages/kitchen-sink');
+    // @ts-ignore - can remove once test methods issue is resolved
     expect(internalLink).not.toHaveAttribute('target', '_blank');
 
+    // @ts-ignore - can remove once test methods issue is resolved
     expect(externalLink).toHaveAttribute('href', 'https://openstudycollege.com/');
+    // @ts-ignore - can remove once test methods issue is resolved
     expect(externalLink).toHaveAttribute('target', '_blank');
+    // @ts-ignore - can remove once test methods issue is resolved
     expect(externalLink).toHaveAttribute('rel', 'noreferrer');
 });
