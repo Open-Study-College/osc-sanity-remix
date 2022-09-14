@@ -115,3 +115,18 @@ export interface shopifyProduct {
         name: string;
     }[];
 }
+
+export interface SanitySiteSetting {
+    _id: 'settings';
+    _rev: string;
+    _type: 'settings';
+    footer: {
+        _type: 'settings.footer';
+        links: InternalSanityLinkItem[] | ExternalSanityLinkItem[];
+        text: PortableTextBlock;
+    };
+    menu: {
+        links: InternalSanityLinkItem[] | ExternalSanityLinkItem[];
+    };
+    seo: SanitySEO;
+}
