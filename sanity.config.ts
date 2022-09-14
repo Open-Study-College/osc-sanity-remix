@@ -55,6 +55,7 @@ export default createConfig({
             return filteredItems;
         },
 
+        // @ts-ignore -- no defined types
         actions: (prev) => {
             const resolveActions = prev.map((previousAction) => {
                 switch (previousAction.action) {

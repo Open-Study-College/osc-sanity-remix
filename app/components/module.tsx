@@ -1,4 +1,4 @@
-import type { module } from '~/types';
+import type { module, contentModule, mediaTextModule } from '~/types';
 import { Container } from '@chakra-ui/react';
 import ContentModule from './modules/Content';
 import MediaTextModule from './modules/MediaText';
@@ -6,13 +6,19 @@ import MediaTextModule from './modules/MediaText';
 export default function Module({ module }: { module: module }) {
     switch (module._type) {
         case 'module.content':
+            const moduleContent = module as contentModule;
+
             return (
                 <Container maxW="container.md">
-                    {module.body ? <ContentModule content={module.body} /> : null}
+                    {moduleContent.body ? <ContentModule content={moduleContent.body} /> : null}
                 </Container>
             );
+
         case 'module.mediaText':
-            return <>{'layout' in module ? <MediaTextModule module={module} /> : null}</>;
+            const moduleMedia = module as mediaTextModule;
+
+            return <MediaTextModule module={moduleMedia} />;
+
         default:
             return null;
     }

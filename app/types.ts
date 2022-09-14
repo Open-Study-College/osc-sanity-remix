@@ -32,19 +32,21 @@ export interface ExternalSanityLinkItem extends SanityLinkItem {
     url?: string;
 }
 
-export interface contentModule {
-    _type: string;
-    _key: string;
+export interface module {
+    _type?: string;
+    _key?: string;
+}
+
+export interface contentModule extends module {
     body?: PortableTextBlock;
 }
 
-export interface mediaTextModule extends contentModule {
+export interface mediaTextModule extends module {
     layout: 'media-left' | 'media-right';
+    body?: PortableTextBlock;
     media?: SanityImage;
-    links: InternalSanityLinkItem[] | ExternalSanityLinkItem[];
+    links?: InternalSanityLinkItem[] | ExternalSanityLinkItem[];
 }
-
-export type module = contentModule | mediaTextModule;
 
 export interface SanityImage {
     asset: {
@@ -94,12 +96,12 @@ export interface shopifyProduct {
     id: string;
     title: string;
     handle: string;
-    featuredImage: {
-        altText: string;
+    featuredImage?: {
+        altText?: string | null;
         height: number;
         width: number;
         url: string;
-    };
+    } | null;
     compareAtPriceRange: {
         minVariantPrice: {
             amount: string;
