@@ -59,7 +59,7 @@ export default function Page() {
     const [data, setData] = useState(page);
 
     // Make sure to update the page state if the IDs are different!
-    if (page._id !== data._id) setData(page);
+    if (page?._id !== data?._id) setData(page);
 
     // NOTE: For preview mode to work nicely when working with draft content, optional chain _everything_
     return (

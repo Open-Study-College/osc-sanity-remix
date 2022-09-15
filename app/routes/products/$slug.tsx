@@ -59,7 +59,7 @@ export default function Product() {
     const [data, setData] = useState(product);
 
     // Make sure to update the page state if the IDs are different!
-    if (product._id !== data._id) setData(product);
+    if (product?._id !== data?._id) setData(product);
 
     const title = data?.store?.title;
 
