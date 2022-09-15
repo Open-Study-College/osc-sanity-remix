@@ -1,5 +1,7 @@
 import type { StructureBuilder } from 'sanity/desk';
 import { InfoOutlineIcon } from '@sanity/icons';
+import Iframe from 'sanity-plugin-iframe-pane';
+import { resolvePreviewUrl } from '~/studio/actions/resolvePreviewUrl';
 
 export const products = (S: StructureBuilder) =>
     S.listItem()
@@ -14,7 +16,22 @@ export const products = (S: StructureBuilder) =>
                         S.listItem()
                             .title('Details')
                             .icon(InfoOutlineIcon)
-                            .child(S.document().schemaType('product').documentId(id)),
+                            .child(
+                                S.document()
+                                    .schemaType('product')
+                                    .documentId(id)
+                                    .views([
+                                        S.view.form(),
+                                        S.view
+                                            .component(Iframe)
+                                            .options({
+                                                // @ts-ignore
+                                                url: (doc: Document) => resolvePreviewUrl(doc),
+                                                reload: { button: true }
+                                            })
+                                            .title('Preview')
+                                    ])
+                            ),
                         // Product variants
                         S.listItem()
                             .title('Variants')
