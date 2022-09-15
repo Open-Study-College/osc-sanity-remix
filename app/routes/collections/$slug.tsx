@@ -9,12 +9,19 @@ import Module from '~/components/module';
 import Preview from '~/components/Preview';
 import { VStack } from '@chakra-ui/react';
 import ProductGrid from '~/components/collections/ProdutGrid';
-import getPageData from '~/models/sanity.server';
+import getPageData, { getSettingsData } from '~/models/sanity.server';
 import { COLLECTION_QUERY } from '~/queries/sanity/collection';
+import { SETTINGS_QUERY } from '~/queries/sanity/settings';
 
 export async function loader({ request, params }: LoaderArgs) {
     if (!params.slug) throw new Error('Missing slug');
 
+    // Query the site settings
+    const siteSettings = await getSettingsData({
+        query: SETTINGS_QUERY
+    });
+
+    // Query the page data
     const data = await getPageData({
         request,
         params,
@@ -29,6 +36,9 @@ export async function loader({ request, params }: LoaderArgs) {
     const { products } = queryProducts?.collection;
 
     return json({
+        headerMenuItems: siteSettings?.headerMenuItems,
+        footerMenuItems: siteSettings?.footerSettings,
+        footerText: siteSettings?.footerSettings?.text,
         collection,
         products,
         isPreview,

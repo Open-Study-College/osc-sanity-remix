@@ -1,4 +1,5 @@
 import type { Params } from 'react-router-dom';
+import type { SanitySiteSetting } from '~/types';
 import { getClient } from '~/lib/sanity/getClient.server';
 
 interface Args {
@@ -27,6 +28,27 @@ export default async function getPageData({ request, params, query }: Args) {
         })[0];
 
         return { page: pageData, isPreview };
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+export async function getSettingsData({ query }: { query: string }) {
+    if (!query) throw new Error('Query must be passed');
+
+    try {
+        const siteSettings = await getClient().fetch(query);
+        const liveSettings = siteSettings.filter(
+            (setting: SanitySiteSetting) => !setting._id.includes('drafts')
+        )[0];
+
+        const headerMenuItems = liveSettings?.menu;
+        const footerSettings = liveSettings?.footer;
+
+        return {
+            headerMenuItems,
+            footerSettings
+        };
     } catch (err) {
         console.error(err);
     }

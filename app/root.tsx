@@ -26,9 +26,6 @@ import { getUser } from './session.server';
 import { checkConnectivity } from '~/utils/client/pwa-utils.client';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
-import type { SanityLinkItem, SanitySiteSetting } from '~/types';
-import { getClient } from './lib/sanity/getClient.server';
-import { SETTINGS_QUERY } from './queries/sanity/settings';
 // push notifications not working at present, due to wrong sender ID
 // import { PushNotification } from '~/utils/server/pwa-utils.server';
 
@@ -70,25 +67,12 @@ type LoaderData = {
     nodeEnv: string;
     SANITY_STUDIO_API_PROJECT_ID: string | undefined;
     SANITY_STUDIO_API_DATASET: string | undefined;
-    headerMenuItems: SanityLinkItem[] | undefined;
-    footerMenuItems: SanityLinkItem[] | undefined;
-    footerText: object[] | undefined;
 };
 
 export const headers: HeadersFunction = () => ({
     'Accept-CH': 'Sec-CH-Prefers-Color-Scheme'
 });
 export const loader: LoaderFunction = async ({ request }) => {
-    const siteSettings = await getClient()
-        .fetch(SETTINGS_QUERY)
-        .catch((err) => console.error(err));
-    const liveSettings = siteSettings.filter(
-        (setting: SanitySiteSetting) => !setting._id.includes('drafts')
-    )[0];
-
-    const headerMenuItems = liveSettings?.menu;
-    const footerMenuItems = liveSettings?.footer;
-
     return json<LoaderData>({
         user: await getUser(request),
         colorScheme: await getColorScheme(request),
@@ -98,10 +82,7 @@ export const loader: LoaderFunction = async ({ request }) => {
             process.env.NODE_ENV === 'production' ? process.env.GTM_TRACKING_ID : undefined,
         nodeEnv: process.env.NODE_ENV === 'production' ? 'production' : 'development',
         SANITY_STUDIO_API_PROJECT_ID: process.env.SANITY_STUDIO_API_PROJECT_ID,
-        SANITY_STUDIO_API_DATASET: process.env.SANITY_STUDIO_API_DATASET,
-        headerMenuItems,
-        footerMenuItems,
-        footerText: liveSettings?.footer?.text
+        SANITY_STUDIO_API_DATASET: process.env.SANITY_STUDIO_API_DATASET
     });
 };
 interface DocumentProps {
