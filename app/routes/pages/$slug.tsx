@@ -7,11 +7,16 @@ import { VStack } from '@chakra-ui/react';
 import Hero from '~/components/hero/Hero';
 import Module from '~/components/module';
 import Preview from '~/components/Preview';
-import getPageData from '~/models/sanity.server';
+import getPageData, { getSettingsData } from '~/models/sanity.server';
 import { PAGE_QUERY } from '~/queries/sanity/page';
+import { SETTINGS_QUERY } from '~/queries/sanity/settings';
 
 export async function loader({ request, params }: LoaderArgs) {
     if (!params.slug) throw new Error('Missing slug');
+
+    const siteSettings = await getSettingsData({
+        query: SETTINGS_QUERY
+    });
 
     const data = await getPageData({
         request,
@@ -23,6 +28,9 @@ export async function loader({ request, params }: LoaderArgs) {
     const { page, isPreview } = data;
 
     return json({
+        headerMenuItems: siteSettings?.headerMenuItems,
+        footerMenuItems: siteSettings?.footerSettings,
+        footerText: siteSettings?.footerSettings?.text,
         page,
         isPreview,
         // If `preview` mode is active, we'll need these for live updates
@@ -52,7 +60,6 @@ export default function Page() {
 
     // Make sure to update the page state if the IDs are different!
     if (page._id !== data._id) setData(page);
-
 
     // NOTE: For preview mode to work nicely when working with draft content, optional chain _everything_
     return (
