@@ -48,18 +48,15 @@ export default function Navigation({ menuItemsName }: Props) {
     // https://remix.run/docs/en/v1/api/remix#usematches
     const matches = useMatches();
 
-    const menuItems = matches
-        .filter((match) => match.id === 'root')
-        .map((match) =>
-            menuItemsName === 'headerMenuItems'
-                ? match.data.headerMenuItems
-                : match.data.footerMenuItems
-        );
+    const menuItems =
+        menuItemsName === 'headerMenuItems'
+            ? matches.find((match) => match.data.headerMenuItems)?.data.headerMenuItems
+            : matches.find((match) => match.data.footerMenuItems)?.data.footerMenuItems;
 
     return (
         <nav>
             <HStack as="ul" spacing={4}>
-                {menuItems[0]?.links?.map((menuItem: MenuItem) => (
+                {menuItems?.links?.map((menuItem: MenuItem) => (
                     <li className="" key={menuItem._key}>
                         {menuItem._type === 'linkInternal' ? (
                             <InternalMenuItem menuItem={menuItem} />
