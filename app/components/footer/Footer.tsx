@@ -6,9 +6,7 @@ import Navigation from '../navigation/Navigation';
 export default function Footer() {
     const matches = useMatches();
 
-    const footerData = matches
-        .filter((match) => match.id === 'root')
-        .map((match) => match.data.footerText);
+    const footerData = matches.find((match) => match.data.footerText)?.data.footerText;
 
     return (
         <footer className="u-bg-secondary">
@@ -28,7 +26,7 @@ export default function Footer() {
                     <Spacer />
 
                     <Box>
-                        <PortableText value={footerData[0]} />
+                        <PortableText value={footerData} />
                     </Box>
                 </Flex>
             </Box>

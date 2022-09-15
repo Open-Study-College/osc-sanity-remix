@@ -6,12 +6,19 @@ import { useLoaderData, useParams } from '@remix-run/react';
 import Module from '~/components/module';
 import Preview from '~/components/Preview';
 import { VStack } from '@chakra-ui/react';
-import getPageData from '~/models/sanity.server';
+import getPageData, { getSettingsData } from '~/models/sanity.server';
 import { PRODUCT_QUERY } from '~/queries/sanity/product';
+import { SETTINGS_QUERY } from '~/queries/sanity/settings';
 
 export async function loader({ request, params }: LoaderArgs) {
     if (!params.slug) throw new Error('Missing slug');
 
+    // Query the site settings
+    const siteSettings = await getSettingsData({
+        query: SETTINGS_QUERY
+    });
+
+    // Query the page data
     const data = await getPageData({
         request,
         params,
@@ -22,6 +29,9 @@ export async function loader({ request, params }: LoaderArgs) {
     const { page: product, isPreview } = data;
 
     return json({
+        headerMenuItems: siteSettings?.headerMenuItems,
+        footerMenuItems: siteSettings?.footerSettings,
+        footerText: siteSettings?.footerSettings?.text,
         product,
         isPreview,
         // If `preview` mode is active, we'll need these for live updates

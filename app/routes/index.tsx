@@ -10,11 +10,18 @@ import { VStack } from '@chakra-ui/react';
 import Module from '~/components/module';
 import type { module } from '~/types';
 import { HOME_QUERY } from '~/queries/sanity/home';
-import getPageData from '~/models/sanity.server';
+import getPageData, { getSettingsData } from '~/models/sanity.server';
+import { SETTINGS_QUERY } from '~/queries/sanity/settings';
 
 export const loader: LoaderFunction = async ({ request, params }: LoaderArgs) => {
     const colorScheme = await getColorScheme(request);
 
+    // Query the site settings
+    const siteSettings = await getSettingsData({
+        query: SETTINGS_QUERY
+    });
+
+    // Query the page data
     const data = await getPageData({
         request,
         query: HOME_QUERY
@@ -25,6 +32,9 @@ export const loader: LoaderFunction = async ({ request, params }: LoaderArgs) =>
 
     return json({
         colorScheme,
+        headerMenuItems: siteSettings?.headerMenuItems,
+        footerMenuItems: siteSettings?.footerSettings,
+        footerText: siteSettings?.footerSettings?.text,
         home,
         isPreview,
         query: isPreview ? HOME_QUERY : null
