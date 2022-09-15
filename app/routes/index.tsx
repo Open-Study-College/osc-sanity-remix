@@ -1,4 +1,3 @@
-import type { SanitySiteSetting } from '~/types';
 import { useState } from 'react';
 import { json } from '@remix-run/node';
 import type { LoaderArgs, MetaFunction } from '@remix-run/node';
