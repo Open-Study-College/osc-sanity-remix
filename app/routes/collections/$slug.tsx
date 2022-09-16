@@ -67,7 +67,7 @@ export default function Collection() {
     const [data, setData] = useState(collection);
 
     // Make sure to update the page state if the IDs are different!
-    if (collection._id !== data._id) setData(collection);
+    if (collection?._id !== data?._id) setData(collection);
 
     const title = data?.store?.title;
 
