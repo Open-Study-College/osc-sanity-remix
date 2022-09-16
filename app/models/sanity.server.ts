@@ -27,6 +27,8 @@ export default async function getPageData({ request, params, query }: Args) {
             return isPreview && hasDrafts ? hasDrafts : !hasDrafts;
         })[0];
 
+        console.log({ pageData });
+
         return { page: pageData, isPreview };
     } catch (err) {
         console.error(err);
@@ -44,6 +46,11 @@ export async function getSettingsData({ query }: { query: string }) {
 
         const headerMenuItems = liveSettings?.menu;
         const footerSettings = liveSettings?.footer;
+
+        console.log({
+            headerMenuItems,
+            footerSettings
+        });
 
         return {
             headerMenuItems,
