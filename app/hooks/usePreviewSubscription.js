@@ -27,7 +27,7 @@ export function usePreviewSubscription(query, subscriptionOptions) {
                 documentLimit: 5000 // Will prevent streaming if this value is met: https://www.sanity.io/docs/attribute-limit
             });
 
-            store.subscribe(
+            sub = store.subscribe(
                 query,
                 params ?? {}, // Params
                 (err, result) => {
